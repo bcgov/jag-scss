@@ -34,8 +34,8 @@ jobs:
           echo "Release version is ${{ env.releaseVersion }}"
           echo "Release Environment: ${{ github.event.inputs.environment }}"
 
-        #Login to Openshift using OC SA and Token
-      - name: Authenticate and set context
+        #Login to Openshift using OC Tools SA and Token for image stream tagging changes
+      - name: Authenticate OC Tools SA
         uses: redhat-actions/oc-login@v1
         env:
           OPENSHIFT_NAMESPACE: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
@@ -56,7 +56,17 @@ jobs:
           releaseVersion: ${{ env.releaseVersion }}
         run: |
           oc tag ${openshiftIImageRegistry}/${openshiftToolsNamespace}/${appName}:${imageSourceEnv} ${appName}:${imageTargetEnv}
-          oc tag ${openshiftIImageRegistry}/${openshiftToolsNamespace}/${appName}:${imageSourceEnv} ${appName}:${releaseVersion}     
+          oc tag ${openshiftIImageRegistry}/${openshiftToolsNamespace}/${appName}:${imageSourceEnv} ${appName}:${releaseVersion}
+
+        #Login to Openshift using OC SA and Token of respective env. for Pod labelling
+      - name: Authenticate OC Env Specific SA
+        uses: redhat-actions/oc-login@v1
+        env:
+          OPENSHIFT_NAMESPACE: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.imageTargetEnv }}
+          OPENSHIFT_USER: ${{secrets.OPENSHIFT_SA_Env_DEPLOYER_NAME}}
+        with:
+          openshift_server_url: ${{secrets.OPENSHIFT_SERVER_URL}}
+          openshift_token: ${{secrets.OPENSHIFT_SA_ENV_DEPLOYER_TOKEN}}	  
         
         # Labels the pods with release version number for better identification.
       - name: Labelling Pod to release version
@@ -66,6 +76,3 @@ jobs:
           openshiftEnvNamespace: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.imageTargetEnv }}
         run: |
           oc label pods -l name=${appName} -n ${openshiftEnvNamespace} version=${releaseVersion} --overwrite
-
-
-         
