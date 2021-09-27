@@ -1,4 +1,4 @@
-## Templates to create niginx containers for reverse proxy & split traffic between old webmethods and new jag-scss api
+## Templates to create/update niginx containers for reverse proxy & split traffic between old webmethods and new jag-scss api
 
 ### Template for Nginx 1 - To reverse proxy and split traffic between new jag-scss api & the other Nginx 2 server container.
 * defaultNetworkPolicies.yaml (downloaded QuickStart.yaml from above link)

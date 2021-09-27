@@ -79,6 +79,22 @@ objects:
         proxy_pass_request_headers on;
         proxy_pass http://api/actuator/health;
       }
+      
+      location /api/ws {
+        client_max_body_size 100m;
+        proxy_read_timeout 240s;
+        proxy_send_timeout 80s;
+        proxy_redirect off;
+        port_in_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_pass_request_headers on;
+        proxy_pass http://api/ws;
+      }
 
       location /api/ws {
         client_max_body_size 100m;
@@ -100,19 +116,20 @@ objects:
   apiVersion: v1
   metadata:
     name: ${COMPONENT_NAME}-upstream
-    namespace: 17b24e-dev
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
   data:
     nginx-upstream.conf: |-
       upstream api {
         server jag-scss;
-#Tured off for now
-#        server nginx-jag-scss-oldwm;
+        # Tured off for now
+        # server nginx-jag-scss-oldwm;
       }
 
 - kind: ImageStream
   apiVersion: v1
   metadata:
     name: "${COMPONENT_NAME}"
+    namespace: ${OC_NAMESPACE}-tools
 
 - kind: BuildConfig
   apiVersion: v1
@@ -135,6 +152,8 @@ objects:
       to:
         kind: ImageStreamTag
         name: "${COMPONENT_NAME}:latest"
+        namespace: ${OC_NAMESPACE}-tools
+     
     triggers:
     - type: ImageChange
     - type: ConfigChange
@@ -171,7 +190,7 @@ objects:
             - ${COMPONENT_NAME}
           from:
             kind: ImageStreamTag
-            namespace: ${OC_NAMESPACE}-${OC_ENV}
+            namespace: ${OC_NAMESPACE}-tools
             name: '${COMPONENT_NAME}:latest'
       - type: ConfigChange
     replicas: 1
