@@ -33,10 +33,10 @@ jobs:
         
       # Runs build steps
       - name: Maven Package
-        run: mvn clean package
+        run: mvn -ntp clean package
         
       - name: Maven Verify
-        run: mvn clean verify
+        run: mvn -ntp clean verify
       
       #Login to OpenShift Container Repository
       - name: Login to OpenShift Container Repository
