@@ -73,10 +73,10 @@ jobs:
         if: env.GIT_BRANCH == 'refs/heads/main'
         
       - name: Run Maven Test
-        run: mvn test
+        run: mvn -ntp test
         
       - name: Run jacoco report
-        run: mvn jacoco:report
+        run: mvn -ntp jacoco:report
         
         # Formatting the Code Coverage Report
       - name: Format the coverage report

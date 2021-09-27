@@ -107,7 +107,7 @@ public class FileController {
             @RequestPayload FileNumbeSearchPublicAccess search) {
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "FileNumberSearchPublicAccess")
+                UriComponentsBuilder.fromHttpUrl(host + "FileNumberSearchPublic")
                         .queryParam(
                                 "courtFileNumber",
                                 search.getFilter() != null

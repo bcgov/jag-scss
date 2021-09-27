@@ -8,7 +8,7 @@ labels:
   app: ${APP_NAME}
   app.kubernetes.io/name: ${COMPONENT_NAME}
   app.openshift.io/runtime: ${RUNTIME}
-  
+
 parameters:
 
 - name: APP_NAME
@@ -20,12 +20,12 @@ parameters:
   description: The application name that each component is part of
   required: false
   value: nginx-jag-scss
-  
+
 - name: OC_NAMESPACE
   description: The OpenShift namespace prefix
   required: false
   value: 17b24e
-  
+
 - name: OC_ENV
   description: The OpenShift environment, ie dev, test or prod
   required: true
@@ -34,7 +34,7 @@ parameters:
   description: The application name that each component is part of
   required: false
   value: nginx
-  
+
 - name: ENDPOINT1
   description: The target endpoint
   required: false
@@ -44,7 +44,7 @@ parameters:
   description: The target endpoint
   required: false
   value: nginx
-  
+
 objects:
 
 - kind: ConfigMap
@@ -59,11 +59,11 @@ objects:
         return 200 "Application is healthy";
         access_log off;
       }
-      
+
       location = /api {
         return 302 /api/actuator/health;
       }
-      
+
       location /api/actuator/health {
         client_max_body_size 100m;
         proxy_read_timeout 240s;
@@ -80,6 +80,22 @@ objects:
         proxy_pass http://api/actuator/health;
       }
       
+      location /api/ws {
+        client_max_body_size 100m;
+        proxy_read_timeout 240s;
+        proxy_send_timeout 80s;
+        proxy_redirect off;
+        port_in_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_pass_request_headers on;
+        proxy_pass http://api/ws;
+      }
+
       location /api/ws {
         client_max_body_size 100m;
         proxy_read_timeout 240s;
@@ -154,7 +170,7 @@ objects:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-${OC_ENV}
     annotations:
-      app.openshift.io/connects-to: ${ENDPOINT1}, ${ENDPOINT2} 
+      app.openshift.io/connects-to: ${ENDPOINT1}, ${ENDPOINT2}
   spec:
     strategy:
       type: Rolling
@@ -238,7 +254,7 @@ objects:
       deploymentconfig: ${COMPONENT_NAME}
     type: ClusterIP
     sessionAffinity: None
-      
+
 - kind: Route
   apiVersion: route.openshift.io/v1
   metadata:
