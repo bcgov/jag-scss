@@ -87,6 +87,11 @@ objects:
                 secretKeyRef:
                   name: scss-application-secrets
                   key: BASIC_AUTH_PASS
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                secretKeyRef:
+                  name: scss-application-secrets
+                  key: SPRING_PROFILE
             - name: SPLUNK_HTTP_URL
               valueFrom:
                 secretKeyRef:
