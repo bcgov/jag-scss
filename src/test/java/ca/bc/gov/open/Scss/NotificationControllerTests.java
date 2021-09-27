@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -188,8 +189,9 @@ public class NotificationControllerTests {
         Notification inst = objectMapper.readValue(instantString, Notification.class);
 
         String strReqDelTime = "05-NOV-12 08.05.59.00000 AM";
-        Date d =
-                new SimpleDateFormat("dd-MMM-yy hh.mm.ss.SSSSSS a", Locale.US).parse(strReqDelTime);
+        var sdf = new SimpleDateFormat("dd-MMM-yy hh.mm.ss.SSSSSS a", Locale.US);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-7"));
+        Date d = sdf.parse(strReqDelTime);
         Instant reqInstant = d.toInstant();
 
         assert inst.getStatusDatetime().compareTo(reqInstant) == 0;

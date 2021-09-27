@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8" ?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ser-root:saveHearingResultsResponse xmlns:ser-root="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/></SOAP-ENV:Body></SOAP-ENV:Envelope>

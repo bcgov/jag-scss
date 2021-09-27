@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,9 +18,9 @@ public class InstantDeserializer extends JsonDeserializer<Instant> {
     public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws IOException {
         try {
-            Date d =
-                    new SimpleDateFormat("dd-MMM-yy hh.mm.ss.SSSSSS a", Locale.US)
-                            .parse(jsonParser.getText());
+            var sdf = new SimpleDateFormat("dd-MMM-yy hh.mm.ss.SSSSSS a", Locale.US);
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT-7"));
+            Date d = sdf.parse(jsonParser.getText());
             return d.toInstant();
         } catch (ParseException e) {
             log.error("Could not parse date " + jsonParser.getText());

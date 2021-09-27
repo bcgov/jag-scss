@@ -155,16 +155,22 @@ public class CourtController {
     @ResponsePayload
     public SaveHearingResultsResponse saveHearingResults(
             @RequestPayload SaveHearingResults search) {
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "SaveHearingResults")
-                        .queryParam("hearingResult", search.getHearingResult());
+
+        var inner =
+                search.getHearingResult() != null
+                                && search.getHearingResult().getHearingResult() != null
+                                && search.getHearingResult().getHearingResult().getCaseDetails()
+                                        != null
+                        ? search.getHearingResult().getHearingResult().getCaseDetails()
+                        : new CaseDetails();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "SaveHearingResult");
+
+        HttpEntity<CaseDetails> payload = new HttpEntity<>(inner, new HttpHeaders());
 
         HttpEntity<String> resp =
                 restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.POST,
-                        new HttpEntity<>(new HttpHeaders()),
-                        String.class);
+                        builder.toUriString(), HttpMethod.POST, payload, String.class);
 
         return new SaveHearingResultsResponse();
     }
