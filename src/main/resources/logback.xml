@@ -12,13 +12,6 @@
         </filter>
     </appender>
 
-    <appender name="SOCKET" class="com.splunk.logging.TcpAppender">
-        <RemoteHost>${SPLUNK_TCP_HOST}</RemoteHost>
-        <Port>15000</Port>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%msg</pattern>
-        </layout>
-    </appender>
 
     <appender name="SPLUNK" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
         <!--https://127.0.0.1:8088 for local-->
@@ -33,10 +26,18 @@
     </appender>
 
     <!-- Set the root level to trace. We'll filter on the appenders -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="SOCKET"/>
-        <appender-ref ref="SPLUNK"/>
-    </root>
+
+    <springProfile name="!test">
+        <root level="INFO">
+            <appender-ref ref="SPLUNK"/>
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="test">
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
 
 </configuration>
