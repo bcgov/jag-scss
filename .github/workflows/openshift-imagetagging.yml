@@ -27,17 +27,17 @@ jobs:
         env:
         
           OPENSHIFT_NAMESPACE: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
-          OPENSHIFT_USER: ${{secrets.OPENSHIFT_SA_TOOLS_BUILDER_NAME}}
+          OPENSHIFT_USER: ${{secrets.OPENSHIFT_SA_TOOLS_DEPLOYER_NAME}}
 
         with:
           # URL to your OpenShift cluster.
           openshift_server_url: ${{secrets.OPENSHIFT_SERVER_URL}}
 
           # Authentication Token.
-          openshift_token: ${{secrets.OPENSHIFT_SA_TOOLS_BUILDER_TOKEN}}
+          openshift_token: ${{secrets.OPENSHIFT_SA_TOOLS_DEPLOYER_TOKEN}}
 
           # Optional - this sets your Kubernetes context's current namespace after logging in.
-          namespace: s${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
+          namespace: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
       
       - name: Retag image to release env.
         env:
