@@ -35,6 +35,16 @@ parameters:
   description: The application name that each component is part of
   required: false
   value: java
+
+- name: API_NAME
+  description: The application name that each component is part of
+  required: false
+  value: jag-scss-api
+
+- name: DNS
+  description: The application name that each component is part of
+  required: false
+  value: apps.silver.devops.gov.bc.ca
   
 objects:
 
@@ -61,7 +71,7 @@ objects:
       spec:
         containers:
           - image: >-
-              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-dev/${COMPONENT_NAME}:${OC_ENV}
+              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/${COMPONENT_NAME}:${OC_ENV}
             name: ${COMPONENT_NAME} 
             imagePullPolicy: Always
             ports:
@@ -118,7 +128,7 @@ objects:
             - ${COMPONENT_NAME}
           from:
             kind: ImageStreamTag
-            namespace: ${OC_NAMESPACE}-dev
+            namespace: ${OC_NAMESPACE}-tools
             name: ${COMPONENT_NAME}:${OC_ENV}
   status: {}
 

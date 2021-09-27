@@ -75,6 +75,7 @@ objects:
   apiVersion: v1
   metadata:
     name: "${COMPONENT_NAME}"
+    namespace: ${OC_NAMESPACE}-tools
 
 - kind: BuildConfig
   apiVersion: v1
@@ -97,6 +98,8 @@ objects:
       to:
         kind: ImageStreamTag
         name: "${COMPONENT_NAME}:latest"
+        namespace: ${OC_NAMESPACE}-tools
+     
     triggers:
     - type: ImageChange
     - type: ConfigChange
@@ -112,8 +115,6 @@ objects:
   metadata:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-${OC_ENV}
-    annotations:
-      app.openshift.io/connects-to: ${ENDPOINT}
   spec:
     strategy:
       type: Rolling
@@ -133,7 +134,7 @@ objects:
             - ${COMPONENT_NAME}
           from:
             kind: ImageStreamTag
-            namespace: ${OC_NAMESPACE}-${OC_ENV}
+            namespace: ${OC_NAMESPACE}-tools
             name: '${COMPONENT_NAME}:latest'
       - type: ConfigChange
     replicas: 1

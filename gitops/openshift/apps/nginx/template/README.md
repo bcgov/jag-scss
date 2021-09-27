@@ -1,4 +1,4 @@
-## Templates to create niginx containers for reverse proxy & split traffic between old webmethods and new jag-scss api
+## Templates to create/update niginx containers for reverse proxy & split traffic between old webmethods and new jag-scss api
 
 ### Template for Nginx 1 - To reverse proxy and split traffic between new jag-scss api & the other Nginx 2 server container.
 * defaultNetworkPolicies.yaml (downloaded QuickStart.yaml from above link)
@@ -7,7 +7,7 @@
 ### Command to execute template
 1) Login to OC using login command
 2) Run below command in each env. namespace dev/test/prod/tools
-   ``oc process -f nginx_jag_scss.yaml --param-file=nginx_jag_scss.env | oc create -f -``
+   ``oc process -f nginx_jag_scss.yaml --param-file=nginx_jag_scss.env | oc apply -f -``
 
 ### Template for Nginx 2 - To reverse proxy the traffic from Nginx 1 to the old webmethods api.
 
@@ -15,5 +15,5 @@
 ### Command to execute template
 1) Login to OC using login command
 2) Run below command in each env. namespace dev/test/prod/tools
-   ``oc process -f nginx_jag_scss_oldwm.yaml --param-file=nginx_jag_scss_oldwm.env | oc create -f -``
+   ``oc process -f nginx_jag_scss_oldwm.yaml --param-file=nginx_jag_scss_oldwm.env | oc apply -f -``
 

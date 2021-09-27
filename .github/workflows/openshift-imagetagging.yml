@@ -1,0 +1,54 @@
+name: Trigger deployment to test/prod Openshift environnment by Image stream re-tagging
+
+on:        
+    workflow_dispatch:
+        inputs:
+            app:
+                description: 'App Name (jag-scss)'    
+                required: true
+            imageSourceEnv:
+                description: 'Image Source Env'     
+                required: true
+                default: 'dev'
+            imageTargetEnv:
+                description: 'Target Release Env'
+                required: true
+jobs:
+  oc-image-tagging:
+    runs-on: ubuntu-20.04
+    environment: ${{ github.event.inputs.imageTargetEnv }}
+    steps:
+
+      - name: Git Checkout
+        uses: actions/checkout@v2
+
+      - name: Authenticate and set context
+        uses: redhat-actions/oc-login@v1
+        env:
+        
+          OPENSHIFT_NAMESPACE: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
+          OPENSHIFT_USER: ${{secrets.OPENSHIFT_SA_TOOLS_BUILDER_NAME}}
+
+        with:
+          # URL to your OpenShift cluster.
+          openshift_server_url: ${{secrets.OPENSHIFT_SERVER_URL}}
+
+          # Authentication Token.
+          openshift_token: ${{secrets.OPENSHIFT_SA_TOOLS_BUILDER_TOKEN}}
+
+          # Optional - this sets your Kubernetes context's current namespace after logging in.
+          namespace: s${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
+      
+      - name: Retag image to release env.
+        env:
+          appName: ${{ github.event.inputs.app }}
+          imageSourceEnv: ${{ github.event.inputs.imageSourceEnv }}
+          imageTargetEnv: ${{ github.event.inputs.imageTargetEnv }}
+          openshiftToolsNamespace: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
+          openshiftIImageRegistry: ${{secrets.OPENSHIFT_INTERNAL_REPOSITORY}}
+          
+        run: |
+          oc tag ${openshiftIImageRegistry}/${openshiftToolsNamespace}/${appName}:${imageSourceEnv} ${appName}:${imageTargetEnv}
+
+
+         
