@@ -77,6 +77,21 @@ objects:
                 secretKeyRef:
                   name: scss-application-secrets
                   key: BASIC_AUTH_PASS
+            - name: SPLUNK_HTTP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: scss-splunk-config
+                  key: SPLUNK_HTTP_URL
+            - name: SPLUNK_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: scss-splunk-config
+                  key: SPLUNK_TOKEN
+            - name: SPLUNK_INDEX
+              valueFrom:
+                secretKeyRef:
+                  name: scss-splunk-config
+                  key: SPLUNK_INDEX
             - name: ORDS_HOST
               valueFrom:
                 secretKeyRef:
