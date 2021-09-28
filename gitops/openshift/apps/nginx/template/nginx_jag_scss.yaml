@@ -77,7 +77,7 @@ objects:
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Host $server_name;
         proxy_pass_request_headers on;
-        proxy_pass http://api/actuator/health;
+        proxy_pass http://splitter/actuator/health;
       }
       
       location /api/ws {
@@ -93,7 +93,7 @@ objects:
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Host $server_name;
         proxy_pass_request_headers on;
-        proxy_pass http://api/ws;
+        proxy_pass http://splitter/ws;
       }
 
 - kind: ConfigMap
@@ -103,7 +103,7 @@ objects:
     namespace: ${OC_NAMESPACE}-${OC_ENV}
   data:
     nginx-upstream.conf: |-
-      upstream api {
+      upstream splitter {
         server jag-scss;
         # Tured off for now
         # server nginx-jag-scss-oldwm;

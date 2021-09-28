@@ -54,8 +54,8 @@ objects:
         return 200 "Application is healthy";
         access_log off;
       }
-      
-      location /actuator/health {
+
+      location /ws {
         client_max_body_size 100m;
         proxy_read_timeout 240s;
         proxy_send_timeout 80s;
@@ -68,7 +68,7 @@ objects:
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Host $server_name;
         proxy_pass_request_headers on;
-        proxy_pass https://wsgw.dev.jag.gov.bc.ca/courts/CeisScss;
+        proxy_pass https://wsgw.dev.jag.gov.bc.ca/courts/ocp/CeisScss;
       }
 
 - kind: ImageStream
