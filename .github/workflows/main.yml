@@ -96,4 +96,6 @@ jobs:
           appName: ${{ github.event.inputs.app }}
           openshiftEnvNamespace: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.env }}
         run: |
+          sleep 30
           oc label pods -l name=${appName} -n ${openshiftEnvNamespace} version=${releaseVersion} --overwrite
+
