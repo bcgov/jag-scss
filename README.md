@@ -1,4 +1,4 @@
-## SCSS
+# SCSS
 
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](<Redirect-URL>)
 
@@ -8,6 +8,36 @@
 * Docker Compose
 * Maven
 * Java 11
+
+### Application Endpoints
+
+Local Host: http://127.0.0.1:8080
+
+Test Host: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca
+
+WSDL Endpoint Local: http://localhost:8080/ws/SCSS.Source.CeisScss.ws.provider:CeisScss?WSDL
+
+WSDL Endpoint Test: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/ws/SCSS.Source.CeisScss.ws.provider:CeisScss?WSDL
+
+Actuator Endpoint Local: http://localhost:8080/actuator/health
+
+Actuator Endpoint Test: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/actuator/health
+
+### Required Environmental Variables
+
+BASIC_AUTH_PASS: The password for the basic authentication. This can be any value for local.
+
+BASIC_AUTH_USER: The username for the basic authentication. This can be any value for local.
+
+ORDS_HOST: The url for ords rest package.
+
+SPLUNK_HTTP_URL: The url for the spluck hec. For local splunk this value should be 127.0.0.1:8088 for
+remote do not include /services/collector.
+
+SPLUNK_TOKEN: The bearer token to authenticate the application.
+
+SPLUNK_INDEX: The index that the application will push logs to. The index must be created in splunk
+before they can be pushed to.
 
 ### Building the Application
 1) Set intellij to use java 11 for the project modals and sdk
@@ -32,6 +62,26 @@ Option C) Docker
 Option D) Docker Compose
 1) Run ```mvn package```
 2) Run ```docker-compose up scss-api```
+
+Option D) Eclipse
+1) Clone the project into a local folder.
+2) Import the Maven project using the Maven Project Import Wizard.
+3) Set Variables either as Windows/Linux Environmental variables or POM goal Environment Variables:
+
+	BASIC_AUTH_PASS
+
+	BASIC_AUTH_USER
+
+	ORDS_HOST
+
+	SPLUNK_HTTP_URL
+
+	SPLUNK_TOKEN
+
+	SPLUNK_INDEX
+
+
+4) Create POM goals: clean install, spring-boot:run  (when running locally).
 
 ### Pre Commit
 1) Do not commit \CRLF use unix line enders
