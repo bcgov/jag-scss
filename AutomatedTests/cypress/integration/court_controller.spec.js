@@ -9,7 +9,6 @@ describe('Court Controller Tests', () => {
     </soapenv:Body>
  </soapenv:Envelope>`
 
-    cy.writeFile('url.txt', Cypress.env('scss_host') + 'ws/')
     cy.request({
       url: Cypress.env('scss_host') + 'ws/',
       body: payload,
@@ -79,6 +78,7 @@ describe('Court Controller Tests', () => {
             <agencyId>83.0001</agencyId>
             <courtLevel>P</courtLevel>
             <courtClass>M</courtClass>
+            <roleType></roleType>
             <page>1</page>
          </filter>
       </scss:partyNameSearch>
@@ -141,9 +141,9 @@ describe('Court Controller Tests', () => {
                             <ActivityStatus>NOT PROCEDING</ActivityStatus>
                             <CancellationStatus>Abandoned</CancellationStatus>
                             <TimeMeasureDetails>
-                               <MeasureText>?</MeasureText>
-                               <MeasureUnitText>?</MeasureUnitText>
-                               <MeasureEstimatedIndicator>?</MeasureEstimatedIndicator>
+                               <MeasureText>1</MeasureText>
+                               <MeasureUnitText>m</MeasureUnitText>
+                               <MeasureEstimatedIndicator>true</MeasureEstimatedIndicator>
                             </TimeMeasureDetails>
                          </CourtEventAppearance>
                       </CaseHearing>
