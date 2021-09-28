@@ -6,10 +6,15 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.soap.SOAPMessage;
+
+import org.apache.catalina.webresources.StandardRoot;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +48,17 @@ public class SoapConfig extends WsConfigurerAdapter {
     //        validatingInterceptor.setXsdSchema(schema3());
     //        interceptors.add(validatingInterceptor);
     //    }
+
+    @Bean
+    public WebServerFactoryCustomizer prodTomcatCustomizer() {
+        return (WebServerFactoryCustomizer<TomcatServletWebServerFactory>) factory -> factory.addContextCustomizers(
+                context -> {
+                    final int cacheSize = 100 * 1024;
+                    StandardRoot standardRoot = new StandardRoot(context);
+                    standardRoot.setCacheMaxSize(cacheSize);
+                    context.setResources(standardRoot);
+                });
+    }
 
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(
