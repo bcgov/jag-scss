@@ -98,3 +98,4 @@ jobs:
         run: |
           sleep 30
           oc label pods -l name=${appName} -n ${openshiftEnvNamespace} version=${releaseVersion} --overwrite
+
