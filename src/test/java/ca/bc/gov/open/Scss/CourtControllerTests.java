@@ -3,6 +3,7 @@ package ca.bc.gov.open.Scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.Scss.Controllers.CourtController;
+import ca.bc.gov.open.Scss.Exceptions.BadDateException;
 import com.example.demp.wsdl.*;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -251,7 +252,7 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void saveHearingResultTest() {
+    public void saveHearingResultTest() throws BadDateException {
         //  Init service under test
         courtController = new CourtController(restTemplate);
 
