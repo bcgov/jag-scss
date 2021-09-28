@@ -1,6 +1,7 @@
 package ca.bc.gov.open.Scss.Controllers;
 
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
+import ca.bc.gov.open.Scss.Exceptions.BadDateException;
 import com.example.demp.wsdl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -153,8 +154,8 @@ public class CourtController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "saveHearingResults")
     @ResponsePayload
-    public SaveHearingResultsResponse saveHearingResults(
-            @RequestPayload SaveHearingResults search) {
+    public SaveHearingResultsResponse saveHearingResults(@RequestPayload SaveHearingResults search)
+            throws BadDateException {
 
         var inner =
                 search.getHearingResult() != null
@@ -163,6 +164,14 @@ public class CourtController {
                                         != null
                         ? search.getHearingResult().getHearingResult().getCaseDetails()
                         : new CaseDetails();
+
+        if (inner.getCaseAugmentation()
+                        .getCaseHearing()
+                        .getCourtEventAppearance()
+                        .getCourtAppearanceDate()
+                == null) {
+            throw new BadDateException();
+        }
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "SaveHearingResult");
 
