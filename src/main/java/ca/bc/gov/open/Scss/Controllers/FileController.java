@@ -1,8 +1,10 @@
 package ca.bc.gov.open.Scss.Controllers;
 
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
+import ca.bc.gov.open.Scss.Exceptions.ORDSException;
 import com.example.demp.wsdl.*;
 import java.util.HashMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -16,6 +18,7 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
+@Slf4j
 public class FileController {
 
     @Value("${scss.host}")
@@ -54,15 +57,19 @@ public class FileController {
                                 search.getFilter() != null
                                         ? search.getFilter().getCourtClassCode()
                                         : null);
+        try {
+            HttpEntity<FileNumberSearchResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            FileNumberSearchResponse.class);
 
-        HttpEntity<FileNumberSearchResponse> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        FileNumberSearchResponse.class);
-
-        return resp.getBody();
+            return resp.getBody();
+        } catch (Exception ex) {
+            log.error("Error retrieving data from ords in method fileNumberSearch");
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "linkFile")
@@ -72,15 +79,19 @@ public class FileController {
                 UriComponentsBuilder.fromHttpUrl(host + "LinkFiles")
                         .queryParam("caseActionNumber", search.getCaseActionNumber())
                         .queryParam("physicalFileId", search.getPhysicalFileId());
+        try {
+            HttpEntity<LinkFileResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.POST,
+                            new HttpEntity<>(new HttpHeaders()),
+                            LinkFileResponse.class);
 
-        HttpEntity<LinkFileResponse> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.POST,
-                        new HttpEntity<>(new HttpHeaders()),
-                        LinkFileResponse.class);
-
-        return resp.getBody();
+            return resp.getBody();
+        } catch (Exception ex) {
+            log.error("Error retrieving data from ords in method linkFile");
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "unlinkFile")
@@ -91,13 +102,17 @@ public class FileController {
                         .queryParam("caseActionNumber", search.getCaseActionNumber())
                         .queryParam("physicalFileId", search.getPhysicalFileId());
 
-        HttpEntity<HashMap> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.PUT,
-                        new HttpEntity<>(new HttpHeaders()),
-                        HashMap.class);
-
+        try {
+            HttpEntity<HashMap> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.PUT,
+                            new HttpEntity<>(new HttpHeaders()),
+                            HashMap.class);
+        } catch (Exception ex) {
+            log.error("Error retrieving data from ords in method UnlinkFiles");
+            throw new ORDSException();
+        }
         return new UnlinkFileResponse();
     }
 
@@ -128,13 +143,17 @@ public class FileController {
                                 search.getFilter() != null
                                         ? search.getFilter().getCourtClassCode()
                                         : null);
-
-        HttpEntity<FileNumbeSearchPublicAccessResponse> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        FileNumbeSearchPublicAccessResponse.class);
-        return resp.getBody();
+        try {
+            HttpEntity<FileNumbeSearchPublicAccessResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            FileNumbeSearchPublicAccessResponse.class);
+            return resp.getBody();
+        } catch (Exception ex) {
+            log.error("Error retrieving data from ords in method FileNumberSearchPublic");
+            throw new ORDSException();
+        }
     }
 }
