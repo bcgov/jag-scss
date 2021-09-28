@@ -1,7 +1,7 @@
 package ca.bc.gov.open.Scss.Controllers;
 
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.scss.wsdl.*;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
