@@ -38,14 +38,14 @@ public class SoapConfig extends WsConfigurerAdapter {
             "http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss";
 
     //    This enable validation of request objects
-    @Override
-    public void addInterceptors(List<EndpointInterceptor> interceptors) {
-        PayloadValidatingInterceptor validatingInterceptor = new CustomPayloadInterceptor();
-        validatingInterceptor.setValidateRequest(true);
-        validatingInterceptor.setValidateResponse(true);
-        validatingInterceptor.setXsdSchema(schema3());
-        interceptors.add(validatingInterceptor);
-    }
+//    @Override
+//    public void addInterceptors(List<EndpointInterceptor> interceptors) {
+//        PayloadValidatingInterceptor validatingInterceptor = new CustomPayloadInterceptor();
+//        validatingInterceptor.setValidateRequest(true);
+//        validatingInterceptor.setValidateResponse(true);
+//        validatingInterceptor.setXsdSchema(schema3());
+//        interceptors.add(validatingInterceptor);
+//    }
 
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(
