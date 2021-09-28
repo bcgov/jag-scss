@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.xml.soap.SOAPMessage;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -20,8 +21,10 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.soap.SoapVersion;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
+import org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
@@ -33,6 +36,16 @@ public class SoapConfig extends WsConfigurerAdapter {
 
     public static final String SOAP_NAMESPACE =
             "http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss";
+
+    //    This enable validation of request objects
+//    @Override
+//    public void addInterceptors(List<EndpointInterceptor> interceptors) {
+//        PayloadValidatingInterceptor validatingInterceptor = new CustomPayloadInterceptor();
+//        validatingInterceptor.setValidateRequest(true);
+//        validatingInterceptor.setValidateResponse(true);
+//        validatingInterceptor.setXsdSchema(schema3());
+//        interceptors.add(validatingInterceptor);
+//    }
 
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(
