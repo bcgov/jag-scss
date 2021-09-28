@@ -1,4 +1,4 @@
-name: Trigger deployment to test/prod Openshift environnment by Image stream re-tagging
+name: Trigger deployment to test/prod Openshift environnment by Image stream re-tagging and labelling pod
 
 on:        
     workflow_dispatch:
@@ -21,34 +21,60 @@ jobs:
 
       - name: Git Checkout
         uses: actions/checkout@v2
+        
+        # Get the version number which is prefixed with the Github release branches in format release/{version}
+      - name: Get Release Version
+        run: |
+          branch=${GITHUB_REF##*/}
+          version=$(echo $branch | cut -d "/" -f2-)
+          echo "releaseVersion=$version" >> $GITHUB_ENV
+      
+      - name: Print Release Details
+        run: |
+          echo "Release version is ${{ env.releaseVersion }}"
+          echo "Release Environment: ${{ github.event.inputs.environment }}"
 
-      - name: Authenticate and set context
+        #Login to Openshift using OC Tools SA and Token for image stream tagging changes
+      - name: Authenticate OC Tools SA
         uses: redhat-actions/oc-login@v1
         env:
-        
           OPENSHIFT_NAMESPACE: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
           OPENSHIFT_USER: ${{secrets.OPENSHIFT_SA_TOOLS_DEPLOYER_NAME}}
-
         with:
-          # URL to your OpenShift cluster.
           openshift_server_url: ${{secrets.OPENSHIFT_SERVER_URL}}
-
-          # Authentication Token.
           openshift_token: ${{secrets.OPENSHIFT_SA_TOOLS_DEPLOYER_TOKEN}}
-
-          # Optional - this sets your Kubernetes context's current namespace after logging in.
           namespace: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
-      
-      - name: Retag image to release env.
+        
+        # Re-Tag latest dev (source) image to other env to trigger openshift deployment via DeploymentConfig
+        # It also creates a tag with release version number to use it in case of rollback.
+      - name: Retag image to release env and version.
         env:
           appName: ${{ github.event.inputs.app }}
           imageSourceEnv: ${{ github.event.inputs.imageSourceEnv }}
           imageTargetEnv: ${{ github.event.inputs.imageTargetEnv }}
           openshiftToolsNamespace: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
           openshiftIImageRegistry: ${{secrets.OPENSHIFT_INTERNAL_REPOSITORY}}
-          
+          releaseVersion: ${{ env.releaseVersion }}
         run: |
           oc tag ${openshiftIImageRegistry}/${openshiftToolsNamespace}/${appName}:${imageSourceEnv} ${appName}:${imageTargetEnv}
+          oc tag ${openshiftIImageRegistry}/${openshiftToolsNamespace}/${appName}:${imageSourceEnv} ${appName}:${releaseVersion}
 
-
-         
+        #Login to Openshift using OC SA and Token of respective env. for Pod labelling
+      - name: Authenticate OC Env Specific SA
+        uses: redhat-actions/oc-login@v1
+        env:
+          OPENSHIFT_NAMESPACE: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.imageTargetEnv }}
+          OPENSHIFT_USER: ${{secrets.OPENSHIFT_SA_Env_DEPLOYER_NAME}}
+        with:
+          openshift_server_url: ${{secrets.OPENSHIFT_SERVER_URL}}
+          openshift_token: ${{secrets.OPENSHIFT_SA_ENV_DEPLOYER_TOKEN}}
+          namespace: ${OPENSHIFT_NAMESPACE}
+        
+        # Labels the pods with release version number for better identification.
+      - name: Labelling Pod to release version
+        env:
+          releaseVersion: ${{ env.releaseVersion }}
+          appName: ${{ github.event.inputs.app }}
+          openshiftEnvNamespace: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.imageTargetEnv }}
+        run: |
+          oc label pods -l name=${appName} -n ${openshiftEnvNamespace} version=${releaseVersion} --overwrite
