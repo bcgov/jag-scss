@@ -1,6 +1,8 @@
 package ca.bc.gov.open.Scss.Controllers;
 
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
+import ca.bc.gov.open.Scss.Exceptions.ORDSException;
+import lombok.extern.slf4j.Slf4j;
 import ca.bc.gov.open.scss.wsdl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,7 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
+@Slf4j
 public class HealthController {
 
     @Value("${scss.host}")
@@ -32,14 +35,19 @@ public class HealthController {
     public GetHealthResponse getHealth(@RequestPayload GetHealth empty) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "health");
 
-        HttpEntity<GetHealthResponse> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        GetHealthResponse.class);
+        try {
+            HttpEntity<GetHealthResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            GetHealthResponse.class);
 
-        return resp.getBody();
+            return resp.getBody();
+        } catch (Exception ex) {
+            log.error("Error retrieving data from ords in method getHealth");
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getPing")
@@ -47,13 +55,18 @@ public class HealthController {
     public GetPingResponse getPing(@RequestPayload GetPing empty) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "ping");
 
-        HttpEntity<GetPingResponse> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        GetPingResponse.class);
+        try {
+            HttpEntity<GetPingResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            GetPingResponse.class);
 
-        return resp.getBody();
+            return resp.getBody();
+        } catch (Exception ex) {
+            log.error("Error retrieving data from ords in method getPing");
+            throw new ORDSException();
+        }
     }
 }
