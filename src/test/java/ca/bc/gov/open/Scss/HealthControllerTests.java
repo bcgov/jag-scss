@@ -3,7 +3,7 @@ package ca.bc.gov.open.Scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.Scss.Controllers.HealthController;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.scss.wsdl.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;

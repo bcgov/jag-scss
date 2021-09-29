@@ -114,11 +114,11 @@ objects:
                   key: ORDS_HOST
             resources:
               limits:
-                cpu: 150m
-                memory: 512Mi
+                cpu: 1000m
+                memory: 1000Mi
               requests:
-                cpu: 100m
-                memory: 256Mi
+                cpu: 500m
+                memory: 512Mi
               livenessProbe:
                 httpGet:
                   path: "/health"
