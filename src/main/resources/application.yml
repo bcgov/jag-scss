@@ -12,4 +12,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: httptrace,metrics,prometheus
+        include: httptrace,metrics,prometheus,health
