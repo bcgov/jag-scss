@@ -28,6 +28,7 @@ public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoi
             AuthenticationException authEx)
             throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.addHeader("WWW-Authenticate", "Basic realm=\"" + getRealmName() + "\"");
         response.setContentType("application/json");
         PrintWriter writer = response.getWriter();
         Map<String, Object> resp = new HashMap<>();
