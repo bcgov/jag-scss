@@ -8,7 +8,7 @@
 
     <jxb:bindings schemaLocation="../xsdSchemas/RequestAndResponseObjects.xsd">
         <jxb:schemaBindings>
-            <jxb:package name="com.example.demp.wsdl" />
+            <jxb:package name="ca.bc.gov.open.scss.wsdl" />
         </jxb:schemaBindings>
         <jxb:bindings>
             <namespace:prefix name="ser-root" />

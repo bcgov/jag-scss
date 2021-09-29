@@ -2,7 +2,6 @@ package ca.bc.gov.open.Scss.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.transform.TransformerException;
 import lombok.SneakyThrows;
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor;
@@ -13,7 +12,7 @@ public class CustomPayloadInterceptor extends PayloadValidatingInterceptor {
     @SneakyThrows
     @Override
     protected boolean handleRequestValidationErrors(
-            MessageContext messageContext, SAXParseException[] errors) throws TransformerException {
+            MessageContext messageContext, SAXParseException[] errors) {
 
         //        Remove date tie errors as date time parsing happens after this point
         List<SAXParseException> newErrors = new ArrayList<>();
