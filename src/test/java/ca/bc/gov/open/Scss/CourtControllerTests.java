@@ -4,7 +4,7 @@ import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.Scss.Controllers.CourtController;
 import ca.bc.gov.open.Scss.Exceptions.BadDateException;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.scss.wsdl.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Collections;

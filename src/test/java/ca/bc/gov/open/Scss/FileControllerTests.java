@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import ca.bc.gov.open.Scss.Controllers.FileController;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.scss.wsdl.*;
 import java.math.BigDecimal;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
