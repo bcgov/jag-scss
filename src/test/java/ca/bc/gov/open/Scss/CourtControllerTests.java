@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import ca.bc.gov.open.Scss.Controllers.CourtController;
 import ca.bc.gov.open.Scss.Exceptions.BadDateException;
 import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Collections;
@@ -29,9 +30,9 @@ public class CourtControllerTests {
     @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Test
-    public void getCourtFileTest() {
+    public void getCourtFileTest() throws JsonProcessingException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, null);
 
         //    Init request object
         var gcf = new GetCourtFile();
@@ -67,9 +68,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getCourtBasicsTest() {
+    public void getCourtBasicsTest() throws JsonProcessingException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, null);
 
         //    Init request object
         var gcb = new GetCourtBasics();
@@ -105,9 +106,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getCeisConnectInfoTest() {
+    public void getCeisConnectInfoTest() throws JsonProcessingException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, null);
 
         //    Init request object
         var ci = new GetCeisConnectInfo();
@@ -134,9 +135,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getPartiesTest() {
+    public void getPartiesTest() throws JsonProcessingException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, null);
 
         //    Init request object
         var gp = new GetParties();
@@ -182,9 +183,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void partNameSearchTest() {
+    public void partNameSearchTest() throws JsonProcessingException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, null);
 
         //    Init request object
         var pns = new PartyNameSearch();
@@ -224,9 +225,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void partNameSearchNullFilterTest() {
+    public void partNameSearchNullFilterTest() throws JsonProcessingException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, null);
 
         //    Init request object
         var pns = new PartyNameSearch();
@@ -252,9 +253,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void saveHearingResultTest() throws BadDateException {
+    public void saveHearingResultTest() throws BadDateException, JsonProcessingException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, null);
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
 
