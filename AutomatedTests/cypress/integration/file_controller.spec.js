@@ -109,7 +109,7 @@ describe('File Controller Tests', () => {
       cy.readFile('./cypress/ExampleRequests/fileNumberSearchPublicAccessV1.xml').should('eq', response.body)
     })
   })
-  
+
   it('tests the fileNumberSearchPublicAccess sealed record', () => {
     const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
     <soapenv:Header/>
