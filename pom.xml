@@ -231,8 +231,19 @@
                     <args>
                         <arg>-Xnamespace-prefix</arg>
                         <arg>-Xsetters</arg>
+                        <arg>-Xannotate</arg>
                     </args>
                     <plugins>
+                        <plugin>
+                            <groupId>com.github.jaxb-xew-plugin</groupId>
+                            <artifactId>jaxb-xew-plugin</artifactId>
+                            <version>1.11</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics-annotate</artifactId>
+                            <version>1.1.0</version>
+                        </plugin>
                         <plugin>
                             <groupId>org.jvnet.jaxb2_commons</groupId>
                             <artifactId>jaxb2-basics</artifactId>

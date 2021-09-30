@@ -4,6 +4,8 @@ import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.Scss.Controllers.HealthController;
 import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,7 +25,7 @@ public class HealthControllerTests {
 
     @Test
     public void getHealthTest() {
-        HealthController healthController = new HealthController(restTemplate);
+        HealthController healthController = new HealthController(restTemplate, null);
 
         var hr = new GetHealthResponse();
         hr.setAppid("A");
@@ -50,8 +52,9 @@ public class HealthControllerTests {
     }
 
     @Test
-    public void getPingTest() {
-        HealthController healthController = new HealthController(restTemplate);
+    public void getPingTest() throws JsonProcessingException {
+        //        Only needed for log test otherwise required refactor
+        HealthController healthController = new HealthController(restTemplate, new ObjectMapper());
 
         var pr = new GetPingResponse();
         pr.setStatus("A");

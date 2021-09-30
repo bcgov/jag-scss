@@ -2,7 +2,10 @@ package ca.bc.gov.open.Scss.Controllers;
 
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
 import ca.bc.gov.open.Scss.Exceptions.ORDSException;
+import ca.bc.gov.open.Scss.Models.Serializers.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +28,12 @@ public class HealthController {
 
     private final RestTemplate restTemplate;
 
+    private final ObjectMapper objectMapper;
+
     @Autowired
-    public HealthController(RestTemplate restTemplate) {
+    public HealthController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getHealth")
@@ -52,9 +58,9 @@ public class HealthController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getPing")
     @ResponsePayload
-    public GetPingResponse getPing(@RequestPayload GetPing empty) {
+    public GetPingResponse getPing(@RequestPayload GetPing empty) throws JsonProcessingException {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "ping");
-
+        log.error(objectMapper.writeValueAsString(new OrdsErrorLog("Request Received", "getPing")));
         try {
             HttpEntity<GetPingResponse> resp =
                     restTemplate.exchange(
@@ -65,7 +71,9 @@ public class HealthController {
 
             return resp.getBody();
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method getPing");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog("Error retrieving data from ords", "getPing")));
             throw new ORDSException();
         }
     }
