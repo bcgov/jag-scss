@@ -83,19 +83,19 @@ describe('File Controller Tests', () => {
   })
 
   it('tests the fileNumberSearchPublicAccess    successful response', () => {
-    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss" xmlns:tns="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
-      <soapenv:Header/>
-      <soapenv:Body>
-         <scss:fileNumbeSearchPublicAccess>
-            <filter>
-               <courtFileNumber>1017</courtFileNumber>
-               <locationId>16218.0026</locationId>
-               <courtLevelCode>P</courtLevelCode>
-               <courtClassCode>C</courtClassCode>
-            </filter>
-         </scss:fileNumbeSearchPublicAccess>
-      </soapenv:Body>
-   </soapenv:Envelope>`
+    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+    <soapenv:Header/>
+    <soapenv:Body>
+    <scss:fileNumbeSearchPublicAccess>
+    <filter>
+    <courtFileNumber>1017</courtFileNumber>
+    <locationId>16218.0026</locationId>
+    <courtLevelCode>P</courtLevelCode>
+    <courtClassCode>C</courtClassCode>
+    </filter>
+    </scss:fileNumbeSearchPublicAccess>
+    </soapenv:Body>
+    </soapenv:Envelope>`
 
     cy.request({
       url: Cypress.env('scss_host') + 'ws/',
@@ -109,6 +109,7 @@ describe('File Controller Tests', () => {
       cy.readFile('./cypress/ExampleRequests/fileNumberSearchPublicAccessV1.xml').should('eq', response.body)
     })
   })
+
   it('tests the fileNumberSearchPublicAccess sealed record', () => {
     const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
     <soapenv:Header/>
@@ -133,7 +134,7 @@ describe('File Controller Tests', () => {
       body: payload
     }).then((response) => {
       expect(response.status).to.eq(200)
-      cy.readFile('./cypress/ExampleRequests/fileNumberSearchPublicSealed.xml').should('eq', response.body)
+      cy.readFile('./cypress/ExampleRequests/fileNumberSearchSealed.xml').should('eq', response.body)
     })
   })
 })
