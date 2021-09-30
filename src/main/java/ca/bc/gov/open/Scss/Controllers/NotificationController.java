@@ -2,7 +2,10 @@ package ca.bc.gov.open.Scss.Controllers;
 
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
 import ca.bc.gov.open.Scss.Exceptions.ORDSException;
+import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +28,19 @@ public class NotificationController {
     private String host = "http://127.0.0.1/";
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public NotificationController(RestTemplate restTemplate) {
+    public NotificationController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getAllNotifications")
     @ResponsePayload
     public GetAllNotificationsResponse getAllNotifications(
-            @RequestPayload GetAllNotifications search) throws ORDSException {
+            @RequestPayload GetAllNotifications search)
+            throws ORDSException, JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetAllNotifications");
 
@@ -48,7 +54,12 @@ public class NotificationController {
 
             return resp.getBody();
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method GetAllNotifications");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error retrieving data from ords",
+                                    "GetAllNotifications",
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -56,7 +67,7 @@ public class NotificationController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getNotifications")
     @ResponsePayload
     public GetNotificationsResponse getNotification(@RequestPayload GetNotifications search)
-            throws ORDSException {
+            throws ORDSException, JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetNotifications")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
@@ -71,7 +82,12 @@ public class NotificationController {
 
             return resp.getBody();
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method GetNotifications");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error retrieving data from ords",
+                                    "GetNotifications",
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -79,7 +95,7 @@ public class NotificationController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "hasNotification")
     @ResponsePayload
     public HasNotificationResponse hasNotifications(@RequestPayload HasNotification search)
-            throws ORDSException {
+            throws ORDSException, JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "HasNotification")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
@@ -94,15 +110,18 @@ public class NotificationController {
 
             return resp.getBody();
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method HasNotification");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error retrieving data from ords", "HasNotification", search)));
             throw new ORDSException();
         }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "removeNotification")
     @ResponsePayload
-    public RemoveNotificationResponse removeNotification(
-            @RequestPayload RemoveNotification search) {
+    public RemoveNotificationResponse removeNotification(@RequestPayload RemoveNotification search)
+            throws JsonProcessingException {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "RemoveNotification")
@@ -116,7 +135,12 @@ public class NotificationController {
                             new HttpEntity<>(new HttpHeaders()),
                             HashMap.class);
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method RemoveNotification");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error retrieving data from ords",
+                                    "RemoveNotification",
+                                    search)));
             throw new ORDSException();
         }
         return new RemoveNotificationResponse();

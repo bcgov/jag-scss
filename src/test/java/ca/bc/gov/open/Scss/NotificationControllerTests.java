@@ -43,9 +43,9 @@ public class NotificationControllerTests {
     @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Test
-    public void getAllNotificationsTest() {
+    public void getAllNotificationsTest() throws JsonProcessingException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate);
+        notificationController = new NotificationController(restTemplate, null);
         //    Init request object
         var fs = new GetAllNotifications();
 
@@ -83,9 +83,9 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void getNotificationTest() {
+    public void getNotificationTest() throws JsonProcessingException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate);
+        notificationController = new NotificationController(restTemplate, null);
         //    Init request object
         var gn = new GetNotifications();
 
@@ -123,9 +123,9 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void hasNotificationTest() {
+    public void hasNotificationTest() throws JsonProcessingException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate);
+        notificationController = new NotificationController(restTemplate, null);
         //    Init request object
         var hn = new HasNotification();
         hn.setPhysicalFileId(BigDecimal.ONE);
@@ -154,9 +154,9 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void removeNotificationTest() {
+    public void removeNotificationTest() throws JsonProcessingException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate);
+        notificationController = new NotificationController(restTemplate, null);
         //    Init request object
         var rn = new RemoveNotification();
         rn.setNotificationId(BigDecimal.ONE);

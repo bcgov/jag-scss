@@ -1,4 +1,4 @@
-package ca.bc.gov.open.Scss.Models.Serializers;
+package ca.bc.gov.open.Scss.Models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,4 +9,5 @@ public class OrdsErrorLog {
 
     private String message;
     private String method;
+    private Object request;
 }

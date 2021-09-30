@@ -2,7 +2,7 @@ package ca.bc.gov.open.Scss.Controllers;
 
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
 import ca.bc.gov.open.Scss.Exceptions.ORDSException;
-import ca.bc.gov.open.Scss.Models.Serializers.OrdsErrorLog;
+import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +38,8 @@ public class HealthController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getHealth")
     @ResponsePayload
-    public GetHealthResponse getHealth(@RequestPayload GetHealth empty) {
+    public GetHealthResponse getHealth(@RequestPayload GetHealth empty)
+            throws JsonProcessingException {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "health");
 
         try {
@@ -51,7 +52,9 @@ public class HealthController {
 
             return resp.getBody();
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method getHealth");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog("Error retrieving data from ords", "getPing", empty)));
             throw new ORDSException();
         }
     }
@@ -60,7 +63,9 @@ public class HealthController {
     @ResponsePayload
     public GetPingResponse getPing(@RequestPayload GetPing empty) throws JsonProcessingException {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "ping");
-        log.error(objectMapper.writeValueAsString(new OrdsErrorLog("Request Received", "getPing")));
+        log.error(
+                objectMapper.writeValueAsString(
+                        new OrdsErrorLog("Request Received", "getPing", empty)));
         try {
             HttpEntity<GetPingResponse> resp =
                     restTemplate.exchange(
@@ -73,7 +78,7 @@ public class HealthController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error retrieving data from ords", "getPing")));
+                            new OrdsErrorLog("Error retrieving data from ords", "getPing", empty)));
             throw new ORDSException();
         }
     }

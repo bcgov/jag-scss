@@ -3,7 +3,10 @@ package ca.bc.gov.open.Scss.Controllers;
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
 import ca.bc.gov.open.Scss.Exceptions.BadDateException;
 import ca.bc.gov.open.Scss.Exceptions.ORDSException;
+import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,15 +28,18 @@ public class CourtController {
     private String host = "http://127.0.0.1/";
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public CourtController(RestTemplate restTemplate) {
+    public CourtController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCourtFile")
     @ResponsePayload
-    public GetCourtFileResponse getCourtFile(@RequestPayload GetCourtFile search) {
+    public GetCourtFileResponse getCourtFile(@RequestPayload GetCourtFile search)
+            throws JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCourtFile")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
@@ -48,14 +54,17 @@ public class CourtController {
 
             return resp.getBody();
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method getCourtFile");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog("Error received from ORDS", "GetCourtFile", search)));
             throw new ORDSException();
         }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCourtBasics")
     @ResponsePayload
-    public GetCourtBasicsResponse getCourtBasics(@RequestPayload GetCourtBasics search) {
+    public GetCourtBasicsResponse getCourtBasics(@RequestPayload GetCourtBasics search)
+            throws JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCourtBasics")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
@@ -70,15 +79,18 @@ public class CourtController {
             cbr.setCaseBasics(resp.getBody());
             return cbr;
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method getCourtBasics");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS", "GetCourtBasics", search)));
             throw new ORDSException();
         }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCeisConnectInfo")
     @ResponsePayload
-    public GetCeisConnectInfoResponse getCeisConnectInfo(
-            @RequestPayload GetCeisConnectInfo search) {
+    public GetCeisConnectInfoResponse getCeisConnectInfo(@RequestPayload GetCeisConnectInfo search)
+            throws JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCeisConnectInfo");
 
@@ -91,14 +103,18 @@ public class CourtController {
                             GetCeisConnectInfoResponse.class);
             return resp.getBody();
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method GetCeisConnectInfo");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS", "GetCeisConnectInfo", search)));
             throw new ORDSException();
         }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getParties")
     @ResponsePayload
-    public GetPartiesResponse getParties(@RequestPayload GetParties search) {
+    public GetPartiesResponse getParties(@RequestPayload GetParties search)
+            throws JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetParties")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
@@ -112,14 +128,17 @@ public class CourtController {
                             GetPartiesResponse.class);
             return resp.getBody();
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method GetParties");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog("Error received from ORDS", "GetParties", search)));
             throw new ORDSException();
         }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "partyNameSearch")
     @ResponsePayload
-    public PartyNameSearchResponse partyNameSearch(@RequestPayload PartyNameSearch search) {
+    public PartyNameSearchResponse partyNameSearch(@RequestPayload PartyNameSearch search)
+            throws JsonProcessingException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "PartyNameSearch")
                         .queryParam(
@@ -166,10 +185,18 @@ public class CourtController {
                             new HttpEntity<>(new HttpHeaders()),
                             SearchResults.class);
             PartyNameSearchResponse pns = new PartyNameSearchResponse();
-            pns.setSearchResults(resp.getBody() != null && resp.getBody().getResults().size() > 0 ? resp.getBody() : null);
+            pns.setSearchResults(
+                    resp.getBody() != null && resp.getBody().getResults().size() > 0
+                            ? resp.getBody()
+                            : null);
             return pns;
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method partyNameSearch");
+            search.getFilter().setName("");
+            search.getFilter().setFirstName("");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS", "PartyNameSearch", search)));
             throw new ORDSException();
         }
     }
@@ -177,7 +204,7 @@ public class CourtController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "saveHearingResults")
     @ResponsePayload
     public SaveHearingResultsResponse saveHearingResults(@RequestPayload SaveHearingResults search)
-            throws BadDateException {
+            throws BadDateException, JsonProcessingException {
 
         var inner =
                 search.getHearingResult() != null
@@ -204,7 +231,10 @@ public class CourtController {
                     restTemplate.exchange(
                             builder.toUriString(), HttpMethod.POST, payload, String.class);
         } catch (Exception ex) {
-            log.error("Error retrieving data from ords in method SaveHearingResult");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS", "SaveHearingResult", inner)));
             throw new ORDSException();
         }
         return new SaveHearingResultsResponse();

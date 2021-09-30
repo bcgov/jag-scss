@@ -24,7 +24,7 @@ public class HealthControllerTests {
     @Mock private RestTemplate restTemplate;
 
     @Test
-    public void getHealthTest() {
+    public void getHealthTest() throws JsonProcessingException {
         HealthController healthController = new HealthController(restTemplate, null);
 
         var hr = new GetHealthResponse();
