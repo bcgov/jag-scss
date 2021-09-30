@@ -149,7 +149,7 @@ public class FileController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             FileNumbeSearchPublicAccessResponse.class);
-            if(resp.getBody() != null && (resp.getBody().getCourtFiles() != null || resp.getBody().getCourtFiles().size() == 0)){
+            if(resp.getBody() != null && (resp.getBody().getCourtFiles() == null || resp.getBody().getCourtFiles().size() == 0)){
                 resp.getBody().setCourtFiles(null);
             }
             return resp.getBody();
