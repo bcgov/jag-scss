@@ -86,7 +86,6 @@ public class FileController {
                             HttpMethod.POST,
                             new HttpEntity<>(new HttpHeaders()),
                             LinkFileResponse.class);
-
             return resp.getBody();
         } catch (Exception ex) {
             log.error("Error retrieving data from ords in method linkFile");
@@ -150,6 +149,7 @@ public class FileController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             FileNumbeSearchPublicAccessResponse.class);
+            resp.getBody().setCourtFiles(resp.getBody().getCourtFiles().size() > 0 ? resp.getBody().getCourtFiles() : null);
             return resp.getBody();
         } catch (Exception ex) {
             log.error("Error retrieving data from ords in method FileNumberSearchPublic");
