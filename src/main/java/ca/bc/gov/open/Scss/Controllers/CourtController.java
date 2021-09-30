@@ -166,7 +166,7 @@ public class CourtController {
                             new HttpEntity<>(new HttpHeaders()),
                             SearchResults.class);
             PartyNameSearchResponse pns = new PartyNameSearchResponse();
-            pns.setSearchResults(resp.getBody().getResults().size() > 0 ? resp.getBody() : null);
+            pns.setSearchResults(resp.getBody() != null && resp.getBody().getResults().size() > 0 ? resp.getBody() : null);
             return pns;
         } catch (Exception ex) {
             log.error("Error retrieving data from ords in method partyNameSearch");
