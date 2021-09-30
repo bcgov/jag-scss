@@ -149,7 +149,9 @@ public class FileController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             FileNumbeSearchPublicAccessResponse.class);
-            resp.getBody().setCourtFiles(null);
+            if(resp.getBody() != null && (resp.getBody().getCourtFiles() != null || resp.getBody().getCourtFiles().size() == 0)){
+                resp.getBody().setCourtFiles(null);
+            }
             return resp.getBody();
         } catch (Exception ex) {
             log.error("Error retrieving data from ords in method FileNumberSearchPublic");
