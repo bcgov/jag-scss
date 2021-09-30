@@ -34,7 +34,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchTest() throws JsonProcessingException {
         //  Init service under test
-        fileController = new FileController(null, restTemplate);
+        fileController = new FileController(restTemplate, null);
 
         //    Init request object
         var fs = new FileNumberSearch();
@@ -76,7 +76,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchNullFilterTest() throws JsonProcessingException {
         //  Init service under test
-        fileController = new FileController(null, restTemplate);
+        fileController = new FileController(restTemplate, null);
 
         //    Init request object
         var fs = new FileNumberSearch();
@@ -113,7 +113,7 @@ public class FileControllerTests {
     @Test
     public void linkFileTest() throws JsonProcessingException {
         //  Init service under test
-        fileController = new FileController(null, restTemplate);
+        fileController = new FileController(restTemplate, null);
 
         //    Init request object
         var lf = new LinkFile();
@@ -143,7 +143,7 @@ public class FileControllerTests {
     @Test
     public void unlinkFileTest() throws JsonProcessingException {
         //  Init service under test
-        fileController = new FileController(null, restTemplate);
+        fileController = new FileController(restTemplate, null);
 
         //    Init request object
         var lf = new UnlinkFile();
@@ -173,7 +173,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchPublicAccessTest() throws JsonProcessingException {
         //  Init service under test
-        fileController = new FileController(null, restTemplate);
+        fileController = new FileController(restTemplate, null);
 
         //    Init request object
         var fs = new FileNumbeSearchPublicAccess();
@@ -217,7 +217,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchPublicAccessNullFilterTest() throws JsonProcessingException {
         //  Init service under test
-        fileController = new FileController(null, restTemplate);
+        fileController = new FileController(restTemplate, null);
 
         //    Init request object
         var fs = new FileNumbeSearchPublicAccess();
@@ -233,6 +233,34 @@ public class FileControllerTests {
 
         var fns = new FileNumbeSearchPublicAccessResponse();
         fns.setCourtFiles(Collections.singletonList(cf));
+
+        ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
+                new ResponseEntity<>(fns, HttpStatus.OK);
+
+        //     Set up to mock ords response
+        when(restTemplate.exchange(
+                        Mockito.any(String.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<FileNumbeSearchPublicAccessResponse>>any()))
+                .thenReturn(responseEntity);
+
+        //     Do request
+        var out = fileController.fileNumberSearchPublicAccess(fs);
+
+        //     Assert response is correct
+        assert (out.equals(fns));
+    }
+
+    @Test
+    public void fileNumberSearchPublicAccessSealedTest() throws JsonProcessingException {
+        //  Init service under test
+        fileController = new FileController(restTemplate, null);
+
+        //    Init request object
+        var fs = new FileNumbeSearchPublicAccess();
+
+        var fns = new FileNumbeSearchPublicAccessResponse();
 
         ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
                 new ResponseEntity<>(fns, HttpStatus.OK);

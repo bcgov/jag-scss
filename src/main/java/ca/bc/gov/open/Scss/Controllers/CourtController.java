@@ -214,11 +214,14 @@ public class CourtController {
                         ? search.getHearingResult().getHearingResult().getCaseDetails()
                         : new CaseDetails();
 
-        if (inner.getCaseAugmentation()
-                        .getCaseHearing()
-                        .getCourtEventAppearance()
-                        .getCourtAppearanceDate()
-                == null) {
+        if (inner.getCaseAugmentation() != null
+                && inner.getCaseAugmentation().getCaseHearing() != null
+                && inner.getCaseAugmentation().getCaseHearing().getCourtEventAppearance() != null
+                && inner.getCaseAugmentation()
+                                .getCaseHearing()
+                                .getCourtEventAppearance()
+                                .getCourtAppearanceDate()
+                        == null) {
             throw new BadDateException();
         }
 

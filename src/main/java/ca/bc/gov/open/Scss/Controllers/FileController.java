@@ -31,7 +31,7 @@ public class FileController {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public FileController(ObjectMapper objectMapper, RestTemplate restTemplate) {
+    public FileController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         this.restTemplate = restTemplate;
     }
