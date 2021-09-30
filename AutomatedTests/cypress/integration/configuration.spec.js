@@ -11,7 +11,7 @@ describe('Configuration Tests', () => {
     })
   })
 
-  it('Test Error security dsiabled', () => {
+  it('Test Error security disabled', () => {
     const payload = ''
     cy.request({
       url: Cypress.env('scss_host') + 'error',
