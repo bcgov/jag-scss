@@ -339,7 +339,9 @@ public class CourtControllerTests {
     @Test
     public void saveHearingResultTestBadDate() throws BadDateException, JsonProcessingException {
         //  Init service under test
-        courtController = new CourtController(restTemplate, null);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        courtController = new CourtController(restTemplate, objectMapper);
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
 
