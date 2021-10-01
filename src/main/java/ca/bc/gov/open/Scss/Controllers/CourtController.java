@@ -219,6 +219,12 @@ public class CourtController {
                         .getCourtEventAppearance()
                         .getCourtAppearanceDate()
                 == null) {
+            log.warn(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Bad date format or missing date received",
+                                    "SaveHearingResult",
+                                    null)));
             throw new BadDateException();
         }
 
