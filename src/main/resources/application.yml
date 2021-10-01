@@ -5,3 +5,11 @@ security:
 scss:
   host: ${ORDS_HOST}
   namespace: ${SCSS_NAMESPACE}
+management:
+  trace:
+    http:
+      include: TIME_TAKEN
+  endpoints:
+    web:
+      exposure:
+        include: httptrace,metrics,prometheus,health
