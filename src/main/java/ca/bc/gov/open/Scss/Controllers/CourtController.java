@@ -214,14 +214,18 @@ public class CourtController {
                         ? search.getHearingResult().getHearingResult().getCaseDetails()
                         : new CaseDetails();
 
-        if (inner.getCaseAugmentation() != null
-                && inner.getCaseAugmentation().getCaseHearing() != null
-                && inner.getCaseAugmentation().getCaseHearing().getCourtEventAppearance() != null
-                && inner.getCaseAugmentation()
-                                .getCaseHearing()
-                                .getCourtEventAppearance()
-                                .getCourtAppearanceDate()
-                        == null) {
+
+        if (inner.getCaseAugmentation()
+                        .getCaseHearing()
+                        .getCourtEventAppearance()
+                        .getCourtAppearanceDate()
+                == null) {
+            log.warn(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Bad date format or missing date received",
+                                    "SaveHearingResult",
+                                    null)));
             throw new BadDateException();
         }
 

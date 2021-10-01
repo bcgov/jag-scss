@@ -9,7 +9,6 @@ describe('Court Controller Tests', () => {
     </soapenv:Body>
  </soapenv:Envelope>`
 
-    cy.writeFile('url.txt', Cypress.env('scss_host') + 'ws/')
     cy.request({
       url: Cypress.env('scss_host') + 'ws/',
       body: payload,
