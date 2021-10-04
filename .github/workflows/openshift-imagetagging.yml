@@ -95,11 +95,12 @@ jobs:
         with:
           time: 120s
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js to run integration
         uses: actions/setup-node@v1
         env:
           WEB_METHODS_TOKEN: ${{secrets.SCSS_DEV_BASIC_AUTH}}
           WEB_METHODS_HOST: ${{secrets.WEB_METHODS_HOST}}
-        - run: cd AutomatedTests
-        - run: npm install --quiet
-        - run: npm test
+        - run: |
+          cd AutomatedTests
+          npm install --quiet
+          npm test
