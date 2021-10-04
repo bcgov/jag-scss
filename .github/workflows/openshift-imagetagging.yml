@@ -6,6 +6,7 @@ on:
             app:
                 description: 'App Name (jag-scss)'    
                 required: true
+                default: 'jag-scss'
             imageSourceEnv:
                 description: 'Image Source Env'     
                 required: true
@@ -16,6 +17,9 @@ on:
 jobs:
   oc-image-tagging:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [ 12.x, 14.x ]
     environment: ${{ github.event.inputs.imageTargetEnv }}
     steps:
 
@@ -90,3 +94,18 @@ jobs:
         run: |
           oc patch dc ${appName} -n ${openshiftEnvNamespace} --patch '{"spec":{"template":{"metadata":{"labels":{"version":"${{ env.releaseVersion }}.${{ env.gitsha }}"}}}}}'
 
+      - name: Sleep for 10s
+        uses: juliangruber/sleep-action@v1
+        with:
+          time: 120s
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        env:
+          WEB_METHODS_TOKEN: ${{secrets.SCSS_DEV_BASIC_AUTH}}
+          WEB_METHODS_HOST: ${{secrets.WEB_METHODS_HOST}}
+        with:
+          node-version: ${{ matrix.node-version }}
+        - run: cd AutomatedTests
+        - run: npm install --quiet
+        - run: npm test
