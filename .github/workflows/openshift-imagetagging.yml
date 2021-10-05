@@ -90,7 +90,7 @@ jobs:
         run: |
           oc patch dc ${appName} -n ${openshiftEnvNamespace} --patch '{"spec":{"template":{"metadata":{"labels":{"version":"${{ env.releaseVersion }}.${{ env.gitsha }}"}}}}}'
 
-      - name: Sleep for 10s
+      - name: Sleep for 120s
         uses: juliangruber/sleep-action@v1
         with:
           time: 120s
