@@ -1,0 +1,1 @@
+FROM cloudssky/jmeter-slave
