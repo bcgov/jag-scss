@@ -6,6 +6,7 @@ on:
             app:
                 description: 'App Name (jag-scss)'    
                 required: true
+                default: 'jag-scss'
             imageSourceEnv:
                 description: 'Image Source Env'     
                 required: true
@@ -18,7 +19,6 @@ jobs:
     runs-on: ubuntu-20.04
     environment: ${{ github.event.inputs.imageTargetEnv }}
     steps:
-
       - name: Git Checkout
         uses: actions/checkout@v2
         
@@ -90,3 +90,18 @@ jobs:
         run: |
           oc patch dc ${appName} -n ${openshiftEnvNamespace} --patch '{"spec":{"template":{"metadata":{"labels":{"version":"${{ env.releaseVersion }}.${{ env.gitsha }}"}}}}}'
 
+      - name: Sleep for 120s
+        uses: juliangruber/sleep-action@v1
+        with:
+          time: 120s
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+        env:
+          WEB_METHODS_TOKEN: ${{secrets.SCSS_DEV_BASIC_AUTH}}
+          WEB_METHODS_HOST: ${{secrets.WEB_METHODS_HOST}}
+      - run: cd AutomatedTests
+      - run: npm install --quiet
+      - run: npm test

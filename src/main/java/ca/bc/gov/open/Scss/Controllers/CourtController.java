@@ -214,7 +214,6 @@ public class CourtController {
                         ? search.getHearingResult().getHearingResult().getCaseDetails()
                         : new CaseDetails();
 
-
         if (inner.getCaseAugmentation()
                         .getCaseHearing()
                         .getCourtEventAppearance()
