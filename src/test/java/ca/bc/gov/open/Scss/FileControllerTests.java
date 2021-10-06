@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import ca.bc.gov.open.Scss.Controllers.FileController;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class FileControllerTests {
     @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Test
-    public void fileNumberSearchTest() throws JsonProcessingException {
+    public void fileNumberSearchTest() throws IOException {
         //  Init service under test
         fileController = new FileController(restTemplate, null);
 
@@ -74,7 +74,7 @@ public class FileControllerTests {
     }
 
     @Test
-    public void fileNumberSearchNullFilterTest() throws JsonProcessingException {
+    public void fileNumberSearchNullFilterTest() throws IOException {
         //  Init service under test
         fileController = new FileController(restTemplate, null);
 
@@ -111,7 +111,7 @@ public class FileControllerTests {
     }
 
     @Test
-    public void linkFileTest() throws JsonProcessingException {
+    public void linkFileTest() throws IOException {
         //  Init service under test
         fileController = new FileController(restTemplate, null);
 
@@ -141,7 +141,7 @@ public class FileControllerTests {
     }
 
     @Test
-    public void unlinkFileTest() throws JsonProcessingException {
+    public void unlinkFileTest() throws IOException {
         //  Init service under test
         fileController = new FileController(restTemplate, null);
 
@@ -171,7 +171,7 @@ public class FileControllerTests {
     }
 
     @Test
-    public void fileNumberSearchPublicAccessTest() throws JsonProcessingException {
+    public void fileNumberSearchPublicAccessTest() throws IOException {
         //  Init service under test
         fileController = new FileController(restTemplate, null);
 
@@ -215,7 +215,7 @@ public class FileControllerTests {
     }
 
     @Test
-    public void fileNumberSearchPublicAccessNullFilterTest() throws JsonProcessingException {
+    public void fileNumberSearchPublicAccessNullFilterTest() throws IOException {
         //  Init service under test
         fileController = new FileController(restTemplate, null);
 
@@ -253,7 +253,7 @@ public class FileControllerTests {
     }
 
     @Test
-    public void fileNumberSearchPublicAccessSealedTest() throws JsonProcessingException {
+    public void fileNumberSearchPublicAccessSealedTest() throws IOException {
         //  Init service under test
         fileController = new FileController(restTemplate, null);
 

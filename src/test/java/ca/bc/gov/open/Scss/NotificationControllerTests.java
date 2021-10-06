@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,7 +44,7 @@ public class NotificationControllerTests {
     @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Test
-    public void getAllNotificationsTest() throws JsonProcessingException {
+    public void getAllNotificationsTest() throws IOException {
         //  Init service under test
         notificationController = new NotificationController(restTemplate, null);
         //    Init request object
@@ -83,7 +84,7 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void getNotificationTest() throws JsonProcessingException {
+    public void getNotificationTest() throws IOException {
         //  Init service under test
         notificationController = new NotificationController(restTemplate, null);
         //    Init request object
@@ -123,7 +124,7 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void hasNotificationTest() throws JsonProcessingException {
+    public void hasNotificationTest() throws IOException {
         //  Init service under test
         notificationController = new NotificationController(restTemplate, null);
         //    Init request object
@@ -154,7 +155,7 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void removeNotificationTest() throws JsonProcessingException {
+    public void removeNotificationTest() throws IOException {
         //  Init service under test
         notificationController = new NotificationController(restTemplate, null);
         //    Init request object
@@ -221,7 +222,7 @@ public class NotificationControllerTests {
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
         nr.setNotifications(Collections.singletonList(not));
-        String out = "";
+        String out;
         var baos = new ByteArrayOutputStream();
         jaxbMarshaller.marshal(nr, baos);
         out = baos.toString();

@@ -8,7 +8,7 @@ scss:
 management:
   trace:
     http:
-      include: TIME_TAKEN
+      include: TIME_TAKEN,RESPONSE_HEADERS
   endpoints:
     web:
       exposure:

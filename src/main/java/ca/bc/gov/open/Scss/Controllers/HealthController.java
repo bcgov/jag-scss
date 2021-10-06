@@ -4,8 +4,9 @@ import ca.bc.gov.open.Scss.Configuration.SoapConfig;
 import ca.bc.gov.open.Scss.Exceptions.ORDSException;
 import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,13 +19,16 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.transport.context.TransportContext;
+import org.springframework.ws.transport.context.TransportContextHolder;
+import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
 @Slf4j
 public class HealthController {
 
     @Value("${scss.host}")
-    private String host = "https://127.0.0.1/";
+    private final String host = "https://127.0.0.1/";
 
     private final RestTemplate restTemplate;
 
@@ -38,10 +42,9 @@ public class HealthController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getHealth")
     @ResponsePayload
-    public GetHealthResponse getHealth(@RequestPayload GetHealth empty)
-            throws JsonProcessingException {
+    public GetHealthResponse getHealth(@RequestPayload GetHealth empty) throws IOException {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "health");
-
+        addEndpointHeader("getHealth");
         try {
             HttpEntity<GetHealthResponse> resp =
                     restTemplate.exchange(
@@ -59,10 +62,12 @@ public class HealthController {
         }
     }
 
+    @SneakyThrows
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getPing")
     @ResponsePayload
-    public GetPingResponse getPing(@RequestPayload GetPing empty) throws JsonProcessingException {
+    public GetPingResponse getPing(@RequestPayload GetPing empty) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "ping");
+        addEndpointHeader("getPing");
         log.error(
                 objectMapper.writeValueAsString(
                         new OrdsErrorLog("Request Received", "getPing", empty)));
@@ -81,5 +86,11 @@ public class HealthController {
                             new OrdsErrorLog("Error retrieving data from ords", "getPing", empty)));
             throw new ORDSException();
         }
+    }
+
+    private void addEndpointHeader(String endpoint) throws IOException {
+        TransportContext context = TransportContextHolder.getTransportContext();
+        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+        connection.addResponseHeader("Endpoint", endpoint);
     }
 }

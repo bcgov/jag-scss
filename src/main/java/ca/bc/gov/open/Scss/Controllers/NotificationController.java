@@ -4,8 +4,8 @@ import ca.bc.gov.open.Scss.Configuration.SoapConfig;
 import ca.bc.gov.open.Scss.Exceptions.ORDSException;
 import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,16 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.transport.context.TransportContext;
+import org.springframework.ws.transport.context.TransportContextHolder;
+import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
 @Slf4j
 public class NotificationController {
 
     @Value("${scss.host}")
-    private String host = "http://127.0.0.1/";
+    private final String host = "http://127.0.0.1/";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -39,11 +42,10 @@ public class NotificationController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getAllNotifications")
     @ResponsePayload
     public GetAllNotificationsResponse getAllNotifications(
-            @RequestPayload GetAllNotifications search)
-            throws ORDSException, JsonProcessingException {
+            @RequestPayload GetAllNotifications search) throws ORDSException, IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetAllNotifications");
-
+        addEndpointHeader("GetAllNotifications");
         try {
             HttpEntity<GetAllNotificationsResponse> resp =
                     restTemplate.exchange(
@@ -67,11 +69,11 @@ public class NotificationController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getNotifications")
     @ResponsePayload
     public GetNotificationsResponse getNotification(@RequestPayload GetNotifications search)
-            throws ORDSException, JsonProcessingException {
+            throws ORDSException, IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetNotifications")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
-
+        addEndpointHeader("GetNotifications");
         try {
             HttpEntity<GetNotificationsResponse> resp =
                     restTemplate.exchange(
@@ -95,10 +97,11 @@ public class NotificationController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "hasNotification")
     @ResponsePayload
     public HasNotificationResponse hasNotifications(@RequestPayload HasNotification search)
-            throws ORDSException, JsonProcessingException {
+            throws ORDSException, IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "HasNotification")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
+        addEndpointHeader("hasNotification");
 
         try {
             HttpEntity<HasNotificationResponse> resp =
@@ -121,11 +124,12 @@ public class NotificationController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "removeNotification")
     @ResponsePayload
     public RemoveNotificationResponse removeNotification(@RequestPayload RemoveNotification search)
-            throws JsonProcessingException {
+            throws IOException {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "RemoveNotification")
                         .queryParam("NotificationId", search.getNotificationId());
+        addEndpointHeader("removeNotification");
 
         try {
             HttpEntity<HashMap> resp =
@@ -144,5 +148,11 @@ public class NotificationController {
             throw new ORDSException();
         }
         return new RemoveNotificationResponse();
+    }
+
+    private void addEndpointHeader(String endpoint) throws IOException {
+        TransportContext context = TransportContextHolder.getTransportContext();
+        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+        connection.addResponseHeader("Endpoint", endpoint);
     }
 }

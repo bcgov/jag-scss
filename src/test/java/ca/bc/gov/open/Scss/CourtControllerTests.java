@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -39,7 +40,7 @@ public class CourtControllerTests {
     @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Test
-    public void getCourtFileTest() throws JsonProcessingException {
+    public void getCourtFileTest() throws IOException {
         //  Init service under test
         courtController = new CourtController(restTemplate, null);
 
@@ -77,7 +78,7 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getCourtBasicsTest() throws JsonProcessingException {
+    public void getCourtBasicsTest() throws IOException {
         //  Init service under test
         courtController = new CourtController(restTemplate, null);
 
@@ -138,7 +139,7 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getCeisConnectInfoTest() throws JsonProcessingException {
+    public void getCeisConnectInfoTest() throws IOException {
         //  Init service under test
         courtController = new CourtController(restTemplate, null);
 
@@ -167,7 +168,7 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getPartiesTest() throws JsonProcessingException {
+    public void getPartiesTest() throws IOException {
         //  Init service under test
         courtController = new CourtController(restTemplate, null);
 
@@ -215,7 +216,7 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void partNameSearchTest() throws JsonProcessingException {
+    public void partNameSearchTest() throws IOException {
         //  Init service under test
         courtController = new CourtController(restTemplate, null);
 
@@ -257,7 +258,7 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void partNameSearchNullFilterTest() throws JsonProcessingException {
+    public void partNameSearchNullFilterTest() throws IOException {
         //  Init service under test
         courtController = new CourtController(restTemplate, null);
 
@@ -285,7 +286,7 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void saveHearingResultTest() throws BadDateException, JsonProcessingException {
+    public void saveHearingResultTest() throws BadDateException, IOException {
         //  Init service under test
         courtController = new CourtController(restTemplate, null);
 
@@ -337,7 +338,7 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void saveHearingResultTestBadDate() throws BadDateException, JsonProcessingException {
+    public void saveHearingResultTestBadDate() {
         //  Init service under test
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -387,7 +388,7 @@ public class CourtControllerTests {
         //     Do request
         try {
             var out = courtController.saveHearingResults(hr);
-        } catch (BadDateException ex) {
+        } catch (BadDateException | IOException ex) {
             // Expect Failure of the request
             assert true;
             return;
