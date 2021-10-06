@@ -4,8 +4,8 @@ import ca.bc.gov.open.Scss.Configuration.SoapConfig;
 import ca.bc.gov.open.Scss.Exceptions.ORDSException;
 import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,16 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.transport.context.TransportContext;
+import org.springframework.ws.transport.context.TransportContextHolder;
+import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
 @Slf4j
 public class FileController {
 
     @Value("${scss.host}")
-    private String host = "https://127.0.0.1/";
+    private final String host = "https://127.0.0.1/";
 
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
@@ -39,7 +42,7 @@ public class FileController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "fileNumberSearch")
     @ResponsePayload
     public FileNumberSearchResponse fileNumberSearch(@RequestPayload FileNumberSearch search)
-            throws JsonProcessingException {
+            throws IOException {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "FileNumberSearch")
@@ -63,6 +66,7 @@ public class FileController {
                                 search.getFilter() != null
                                         ? search.getFilter().getCourtClassCode()
                                         : null);
+        addEndpointHeader("FileNumberSearch");
         try {
             HttpEntity<FileNumberSearchResponse> resp =
                     restTemplate.exchange(
@@ -83,12 +87,12 @@ public class FileController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "linkFile")
     @ResponsePayload
-    public LinkFileResponse linkFile(@RequestPayload LinkFile search)
-            throws JsonProcessingException {
+    public LinkFileResponse linkFile(@RequestPayload LinkFile search) throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "LinkFiles")
                         .queryParam("caseActionNumber", search.getCaseActionNumber())
                         .queryParam("physicalFileId", search.getPhysicalFileId());
+        addEndpointHeader("linkFile");
         try {
             HttpEntity<LinkFileResponse> resp =
                     restTemplate.exchange(
@@ -107,13 +111,12 @@ public class FileController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "unlinkFile")
     @ResponsePayload
-    public UnlinkFileResponse unlinkFile(@RequestPayload UnlinkFile search)
-            throws JsonProcessingException {
+    public UnlinkFileResponse unlinkFile(@RequestPayload UnlinkFile search) throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "UnlinkFiles")
                         .queryParam("caseActionNumber", search.getCaseActionNumber())
                         .queryParam("physicalFileId", search.getPhysicalFileId());
-
+        addEndpointHeader("UnlinkFiles");
         try {
             HttpEntity<HashMap> resp =
                     restTemplate.exchange(
@@ -133,7 +136,7 @@ public class FileController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "fileNumbeSearchPublicAccess")
     @ResponsePayload
     public FileNumbeSearchPublicAccessResponse fileNumberSearchPublicAccess(
-            @RequestPayload FileNumbeSearchPublicAccess search) throws JsonProcessingException {
+            @RequestPayload FileNumbeSearchPublicAccess search) throws IOException {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "FileNumberSearchPublic")
@@ -157,6 +160,7 @@ public class FileController {
                                 search.getFilter() != null
                                         ? search.getFilter().getCourtClassCode()
                                         : null);
+        addEndpointHeader("fileNumbeSearchPublicAccess");
         try {
             HttpEntity<FileNumbeSearchPublicAccessResponse> resp =
                     restTemplate.exchange(
@@ -179,5 +183,11 @@ public class FileController {
                                     "Error received from ORDS", "FileNumberSearchPublic", search)));
             throw new ORDSException();
         }
+    }
+
+    private void addEndpointHeader(String endpoint) throws IOException {
+        TransportContext context = TransportContextHolder.getTransportContext();
+        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+        connection.addResponseHeader("Endpoint", endpoint);
     }
 }

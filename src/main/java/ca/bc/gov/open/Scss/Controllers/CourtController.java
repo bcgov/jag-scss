@@ -5,8 +5,8 @@ import ca.bc.gov.open.Scss.Exceptions.BadDateException;
 import ca.bc.gov.open.Scss.Exceptions.ORDSException;
 import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,13 +19,16 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.transport.context.TransportContext;
+import org.springframework.ws.transport.context.TransportContextHolder;
+import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
 @Slf4j
 public class CourtController {
 
     @Value("${scss.host}")
-    private String host = "http://127.0.0.1/";
+    private final String host = "http://127.0.0.1/";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -39,11 +42,11 @@ public class CourtController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCourtFile")
     @ResponsePayload
     public GetCourtFileResponse getCourtFile(@RequestPayload GetCourtFile search)
-            throws JsonProcessingException {
+            throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCourtFile")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
-
+        addEndpointHeader("GetCourtFile");
         try {
             HttpEntity<GetCourtFileResponse> resp =
                     restTemplate.exchange(
@@ -64,10 +67,11 @@ public class CourtController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCourtBasics")
     @ResponsePayload
     public GetCourtBasicsResponse getCourtBasics(@RequestPayload GetCourtBasics search)
-            throws JsonProcessingException {
+            throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCourtBasics")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
+        addEndpointHeader("GetCourtBasics");
         try {
             HttpEntity<CaseBasics> resp =
                     restTemplate.exchange(
@@ -90,10 +94,10 @@ public class CourtController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCeisConnectInfo")
     @ResponsePayload
     public GetCeisConnectInfoResponse getCeisConnectInfo(@RequestPayload GetCeisConnectInfo search)
-            throws JsonProcessingException {
+            throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCeisConnectInfo");
-
+        addEndpointHeader("getCeisConnectInfo");
         try {
             HttpEntity<GetCeisConnectInfoResponse> resp =
                     restTemplate.exchange(
@@ -113,12 +117,11 @@ public class CourtController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getParties")
     @ResponsePayload
-    public GetPartiesResponse getParties(@RequestPayload GetParties search)
-            throws JsonProcessingException {
+    public GetPartiesResponse getParties(@RequestPayload GetParties search) throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetParties")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
-
+        addEndpointHeader("GetParties");
         try {
             HttpEntity<GetPartiesResponse> resp =
                     restTemplate.exchange(
@@ -138,7 +141,7 @@ public class CourtController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "partyNameSearch")
     @ResponsePayload
     public PartyNameSearchResponse partyNameSearch(@RequestPayload PartyNameSearch search)
-            throws JsonProcessingException {
+            throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "PartyNameSearch")
                         .queryParam(
@@ -177,6 +180,7 @@ public class CourtController {
                                 search.getFilter() != null
                                         ? search.getFilter().getRoleType()
                                         : null);
+        addEndpointHeader("PartyNameSearch");
         try {
             HttpEntity<SearchResults> resp =
                     restTemplate.exchange(
@@ -204,7 +208,7 @@ public class CourtController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "saveHearingResults")
     @ResponsePayload
     public SaveHearingResultsResponse saveHearingResults(@RequestPayload SaveHearingResults search)
-            throws BadDateException, JsonProcessingException {
+            throws BadDateException, IOException {
 
         var inner =
                 search.getHearingResult() != null
@@ -213,6 +217,7 @@ public class CourtController {
                                         != null
                         ? search.getHearingResult().getHearingResult().getCaseDetails()
                         : new CaseDetails();
+        addEndpointHeader("saveHearingResults");
 
         if (inner.getCaseAugmentation()
                         .getCaseHearing()
@@ -244,5 +249,11 @@ public class CourtController {
             throw new ORDSException();
         }
         return new SaveHearingResultsResponse();
+    }
+
+    private void addEndpointHeader(String endpoint) throws IOException {
+        TransportContext context = TransportContextHolder.getTransportContext();
+        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+        connection.addResponseHeader("Endpoint", endpoint);
     }
 }

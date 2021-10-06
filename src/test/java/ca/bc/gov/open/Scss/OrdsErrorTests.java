@@ -24,7 +24,7 @@ public class OrdsErrorTests {
 
     @Mock private RestTemplate restTemplate;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void testHealthPingOrdsFail() {
