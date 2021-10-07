@@ -37,16 +37,6 @@ public class SoapConfig extends WsConfigurerAdapter {
     public static final String SOAP_NAMESPACE =
             "http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss";
 
-    //    This enable validation of request objects
-    //    @Override
-    //    public void addInterceptors(List<EndpointInterceptor> interceptors) {
-    //        PayloadValidatingInterceptor validatingInterceptor = new CustomPayloadInterceptor();
-    //        validatingInterceptor.setValidateRequest(true);
-    //        validatingInterceptor.setValidateResponse(true);
-    //        validatingInterceptor.setXsdSchema(schema3());
-    //        interceptors.add(validatingInterceptor);
-    //    }
-
     @Bean
     public WebServerFactoryCustomizer prodTomcatCustomizer() {
         return (WebServerFactoryCustomizer<TomcatServletWebServerFactory>)

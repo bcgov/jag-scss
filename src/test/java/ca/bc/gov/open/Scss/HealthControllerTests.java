@@ -22,10 +22,11 @@ import org.springframework.web.client.RestTemplate;
 public class HealthControllerTests {
 
     @Mock private RestTemplate restTemplate;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void getHealthTest() throws IOException {
-        HealthController healthController = new HealthController(restTemplate, null);
+        HealthController healthController = new HealthController(restTemplate, objectMapper);
 
         var hr = new GetHealthResponse();
         hr.setAppid("A");
@@ -52,9 +53,9 @@ public class HealthControllerTests {
     }
 
     @Test
-    public void getPingTest() throws IOException {
+    public void getPingTest() {
         //        Only needed for log test otherwise required refactor
-        HealthController healthController = new HealthController(restTemplate, new ObjectMapper());
+        HealthController healthController = new HealthController(restTemplate, objectMapper);
 
         var pr = new GetPingResponse();
         pr.setStatus("A");

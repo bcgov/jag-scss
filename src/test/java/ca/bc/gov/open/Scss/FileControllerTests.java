@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import ca.bc.gov.open.Scss.Controllers.FileController;
 import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -30,11 +31,12 @@ public class FileControllerTests {
     @Autowired private MockMvc mockMvc;
 
     @Mock private RestTemplate restTemplate = new RestTemplate();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void fileNumberSearchTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, null);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumberSearch();
@@ -76,7 +78,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchNullFilterTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, null);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumberSearch();
@@ -113,7 +115,7 @@ public class FileControllerTests {
     @Test
     public void linkFileTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, null);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var lf = new LinkFile();
@@ -143,7 +145,7 @@ public class FileControllerTests {
     @Test
     public void unlinkFileTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, null);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var lf = new UnlinkFile();
@@ -173,7 +175,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchPublicAccessTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, null);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumbeSearchPublicAccess();
@@ -217,7 +219,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchPublicAccessNullFilterTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, null);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumbeSearchPublicAccess();
@@ -255,7 +257,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchPublicAccessSealedTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, null);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumbeSearchPublicAccess();

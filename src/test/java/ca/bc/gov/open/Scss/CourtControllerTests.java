@@ -38,11 +38,12 @@ public class CourtControllerTests {
     @Autowired private CourtController courtController;
 
     @Mock private RestTemplate restTemplate = new RestTemplate();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void getCourtFileTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate, null);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var gcf = new GetCourtFile();
@@ -80,7 +81,7 @@ public class CourtControllerTests {
     @Test
     public void getCourtBasicsTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate, null);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var gcb = new GetCourtBasics();
@@ -141,7 +142,7 @@ public class CourtControllerTests {
     @Test
     public void getCeisConnectInfoTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate, null);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var ci = new GetCeisConnectInfo();
@@ -170,7 +171,7 @@ public class CourtControllerTests {
     @Test
     public void getPartiesTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate, null);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var gp = new GetParties();
@@ -218,7 +219,7 @@ public class CourtControllerTests {
     @Test
     public void partNameSearchTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate, null);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var pns = new PartyNameSearch();
@@ -260,7 +261,7 @@ public class CourtControllerTests {
     @Test
     public void partNameSearchNullFilterTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate, null);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var pns = new PartyNameSearch();
@@ -288,7 +289,7 @@ public class CourtControllerTests {
     @Test
     public void saveHearingResultTest() throws BadDateException, IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate, null);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
 
