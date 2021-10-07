@@ -105,5 +105,5 @@ jobs:
           WEB_METHODS_HOST: ${{secrets.WEB_METHODS_HOST}}
         working-directory: ./AutomatedTests
         run: |
-        npm install --quiet
-        npm test
+          npm install --quiet
+          npm test
