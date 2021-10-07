@@ -59,7 +59,11 @@ public class CourtController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error received from ORDS", "GetCourtFile", search)));
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "GetCourtFile",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -86,7 +90,10 @@ public class CourtController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "GetCourtBasics", search)));
+                                    "Error received from ORDS",
+                                    "GetCourtBasics",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -110,7 +117,10 @@ public class CourtController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "GetCeisConnectInfo", search)));
+                                    "Error received from ORDS",
+                                    "GetCeisConnectInfo",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -133,7 +143,11 @@ public class CourtController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error received from ORDS", "GetParties", search)));
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "GetParties",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -200,7 +214,10 @@ public class CourtController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "PartyNameSearch", search)));
+                                    "Error received from ORDS",
+                                    "PartyNameSearch",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -229,6 +246,7 @@ public class CourtController {
                             new OrdsErrorLog(
                                     "Bad date format or missing date received",
                                     "SaveHearingResult",
+                                    "",
                                     null)));
             throw new BadDateException();
         }
@@ -245,7 +263,10 @@ public class CourtController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "SaveHearingResult", inner)));
+                                    "Error received from ORDS",
+                                    "SaveHearingResult",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
         return new SaveHearingResultsResponse();

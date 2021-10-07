@@ -80,7 +80,10 @@ public class FileController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "FileNumberSearch", search)));
+                                    "Error received from ORDS",
+                                    "FileNumberSearch",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -104,7 +107,11 @@ public class FileController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error received from ORDS", "LinkFiles", search)));
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "LinkFiles",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -127,7 +134,11 @@ public class FileController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error received from ORDS", "UnlinkFiles", search)));
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "UnlinkFiles",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
         return new UnlinkFileResponse();
@@ -180,7 +191,10 @@ public class FileController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "FileNumberSearchPublic", search)));
+                                    "Error received from ORDS",
+                                    "FileNumberSearchPublic",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
