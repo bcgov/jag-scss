@@ -103,6 +103,7 @@ jobs:
         env:
           WEB_METHODS_TOKEN: ${{secrets.SCSS_DEV_BASIC_AUTH}}
           WEB_METHODS_HOST: ${{secrets.WEB_METHODS_HOST}}
-      working-directory: ./AutomatedTests
-      - run: npm install --quiet
-      - run: npm test
+        working-directory: ./AutomatedTests
+        run: |
+        npm install --quiet
+        npm test
