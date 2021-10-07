@@ -185,9 +185,13 @@ public class FileController {
         }
     }
 
-    private void addEndpointHeader(String endpoint) throws IOException {
-        TransportContext context = TransportContextHolder.getTransportContext();
-        HttpServletConnection connection = (HttpServletConnection) context.getConnection();
-        connection.addResponseHeader("Endpoint", endpoint);
+    private void addEndpointHeader(String endpoint) {
+        try {
+            TransportContext context = TransportContextHolder.getTransportContext();
+            HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+            connection.addResponseHeader("Endpoint", endpoint);
+        } catch (Exception ex) {
+            log.warn("Failed to add endpoint response header");
+        }
     }
 }

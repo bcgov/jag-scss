@@ -46,7 +46,7 @@ public class NotificationControllerTests {
     @Test
     public void getAllNotificationsTest() throws IOException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate, null);
+        notificationController = new NotificationController(restTemplate, objectMapper);
         //    Init request object
         var fs = new GetAllNotifications();
 
@@ -86,7 +86,7 @@ public class NotificationControllerTests {
     @Test
     public void getNotificationTest() throws IOException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate, null);
+        notificationController = new NotificationController(restTemplate, objectMapper);
         //    Init request object
         var gn = new GetNotifications();
 
@@ -126,7 +126,7 @@ public class NotificationControllerTests {
     @Test
     public void hasNotificationTest() throws IOException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate, null);
+        notificationController = new NotificationController(restTemplate, objectMapper);
         //    Init request object
         var hn = new HasNotification();
         hn.setPhysicalFileId(BigDecimal.ONE);
@@ -157,7 +157,7 @@ public class NotificationControllerTests {
     @Test
     public void removeNotificationTest() throws IOException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate, null);
+        notificationController = new NotificationController(restTemplate, objectMapper);
         //    Init request object
         var rn = new RemoveNotification();
         rn.setNotificationId(BigDecimal.ONE);
