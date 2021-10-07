@@ -10,6 +10,7 @@ on:
         app:
             description: 'App Name (jag-scss)'    
             required: true
+            default: jag-scss
         env:
             description: 'Image Target Env'     
             required: true
