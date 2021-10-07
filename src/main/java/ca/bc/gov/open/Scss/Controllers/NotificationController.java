@@ -61,6 +61,7 @@ public class NotificationController {
                             new OrdsErrorLog(
                                     "Error retrieving data from ords",
                                     "GetAllNotifications",
+                                    ex.getMessage(),
                                     search)));
             throw new ORDSException();
         }
@@ -89,6 +90,7 @@ public class NotificationController {
                             new OrdsErrorLog(
                                     "Error retrieving data from ords",
                                     "GetNotifications",
+                                    ex.getMessage(),
                                     search)));
             throw new ORDSException();
         }
@@ -116,7 +118,10 @@ public class NotificationController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error retrieving data from ords", "HasNotification", search)));
+                                    "Error retrieving data from ords",
+                                    "HasNotification",
+                                    ex.getMessage(),
+                                    search)));
             throw new ORDSException();
         }
     }
@@ -144,6 +149,7 @@ public class NotificationController {
                             new OrdsErrorLog(
                                     "Error retrieving data from ords",
                                     "RemoveNotification",
+                                    ex.getMessage(),
                                     search)));
             throw new ORDSException();
         }

@@ -57,7 +57,11 @@ public class HealthController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error retrieving data from ords", "getPing", empty)));
+                            new OrdsErrorLog(
+                                    "Error retrieving data from ords",
+                                    "getPing",
+                                    ex.getMessage(),
+                                    empty)));
             throw new ORDSException();
         }
     }
@@ -68,9 +72,7 @@ public class HealthController {
     public GetPingResponse getPing(@RequestPayload GetPing empty) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "ping");
         addEndpointHeader("getPing");
-        log.error(
-                objectMapper.writeValueAsString(
-                        new OrdsErrorLog("Request Received", "getPing", empty)));
+
         try {
             HttpEntity<GetPingResponse> resp =
                     restTemplate.exchange(
@@ -83,7 +85,11 @@ public class HealthController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error retrieving data from ords", "getPing", empty)));
+                            new OrdsErrorLog(
+                                    "Error retrieving data from ords",
+                                    "getPing",
+                                    ex.getMessage(),
+                                    empty)));
             throw new ORDSException();
         }
     }
