@@ -108,3 +108,23 @@ jobs:
         run: |
           oc patch dc ${appName} -n ${openshiftEnvNamespace} --patch '{"spec":{"template":{"metadata":{"labels":{"version":"${{ env.releaseVersion }}.${{ env.gitsha }}"}}}}}'
 
+      - name: Sleep for 120s
+        uses: juliangruber/sleep-action@v1
+        with:
+          time: 120s
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Run Integration Tests
+        env:
+          WEB_METHODS_TOKEN: ${{secrets.SCSS_DEV_BASIC_AUTH}}
+          WEB_METHODS_HOST: ${{secrets.WEB_METHODS_HOST}}
+        working-directory: ./AutomatedTests
+        run: |
+          npm install --quiet
+          npm test
+
+
