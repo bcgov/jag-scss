@@ -28,7 +28,7 @@ import org.springframework.ws.transport.http.HttpServletConnection;
 public class HealthController {
 
     @Value("${scss.host}")
-    private final String host = "https://127.0.0.1/";
+    private String host = "https://127.0.0.1/";
 
     private final RestTemplate restTemplate;
 

@@ -28,7 +28,7 @@ import org.springframework.ws.transport.http.HttpServletConnection;
 public class NotificationController {
 
     @Value("${scss.host}")
-    private final String host = "http://127.0.0.1/";
+    private String host = "http://127.0.0.1/";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
