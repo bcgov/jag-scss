@@ -55,6 +55,9 @@ public class CourtController {
                             new HttpEntity<>(new HttpHeaders()),
                             GetCourtFileResponse.class);
 
+            if (resp.getBody().getCourtFile() == null) {
+                return null;
+            }
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
