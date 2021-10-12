@@ -79,6 +79,9 @@ public class FileController {
             if (resp.getBody().getCourtFiles().isEmpty()) {
                 resp.getBody().setCourtFiles(null);
             }
+            if(resp.getBody().getCourtFiles().size() >= 1){
+                resp.getBody().getCourtFiles().add(null);
+            }
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
