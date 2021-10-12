@@ -5,8 +5,10 @@ import ca.bc.gov.open.Scss.Exceptions.ORDSException;
 import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.util.HashMap;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -74,8 +76,8 @@ public class FileController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             FileNumberSearchResponse.class);
-            if( resp.getBody().getCourtFiles() == null || resp.getBody().getCourtFiles().isEmpty()){
-                return null;
+            if (resp.getBody().getCourtFiles().isEmpty()) {
+                resp.getBody().setCourtFiles(null);
             }
             return resp.getBody();
         } catch (Exception ex) {
@@ -184,7 +186,7 @@ public class FileController {
 
             if (resp.getBody() != null
                     && (resp.getBody().getCourtFiles() == null
-                            || resp.getBody().getCourtFiles().size() == 0)) {
+                    || resp.getBody().getCourtFiles().size() == 0)) {
                 resp.getBody().setCourtFiles(null);
             }
 
