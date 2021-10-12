@@ -74,7 +74,9 @@ public class FileController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             FileNumberSearchResponse.class);
-
+            if( resp.getBody().getCourtFiles() == null || resp.getBody().getCourtFiles().isEmpty()){
+                return null;
+            }
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
