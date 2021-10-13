@@ -3,11 +3,12 @@ package ca.bc.gov.open.Scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.Scss.Controllers.NotificationController;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,9 +44,9 @@ public class NotificationControllerTests {
     @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Test
-    public void getAllNotificationsTest() {
+    public void getAllNotificationsTest() throws IOException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate);
+        notificationController = new NotificationController(restTemplate, objectMapper);
         //    Init request object
         var fs = new GetAllNotifications();
 
@@ -83,9 +84,9 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void getNotificationTest() {
+    public void getNotificationTest() throws IOException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate);
+        notificationController = new NotificationController(restTemplate, objectMapper);
         //    Init request object
         var gn = new GetNotifications();
 
@@ -123,9 +124,9 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void hasNotificationTest() {
+    public void hasNotificationTest() throws IOException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate);
+        notificationController = new NotificationController(restTemplate, objectMapper);
         //    Init request object
         var hn = new HasNotification();
         hn.setPhysicalFileId(BigDecimal.ONE);
@@ -154,9 +155,9 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void removeNotificationTest() {
+    public void removeNotificationTest() throws IOException {
         //  Init service under test
-        notificationController = new NotificationController(restTemplate);
+        notificationController = new NotificationController(restTemplate, objectMapper);
         //    Init request object
         var rn = new RemoveNotification();
         rn.setNotificationId(BigDecimal.ONE);
@@ -221,7 +222,7 @@ public class NotificationControllerTests {
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
         nr.setNotifications(Collections.singletonList(not));
-        String out = "";
+        String out;
         var baos = new ByteArrayOutputStream();
         jaxbMarshaller.marshal(nr, baos);
         out = baos.toString();

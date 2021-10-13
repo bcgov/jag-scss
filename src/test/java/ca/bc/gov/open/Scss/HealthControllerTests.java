@@ -3,7 +3,9 @@ package ca.bc.gov.open.Scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.Scss.Controllers.HealthController;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -20,10 +22,11 @@ import org.springframework.web.client.RestTemplate;
 public class HealthControllerTests {
 
     @Mock private RestTemplate restTemplate;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    public void getHealthTest() {
-        HealthController healthController = new HealthController(restTemplate);
+    public void getHealthTest() throws IOException {
+        HealthController healthController = new HealthController(restTemplate, objectMapper);
 
         var hr = new GetHealthResponse();
         hr.setAppid("A");
@@ -51,7 +54,8 @@ public class HealthControllerTests {
 
     @Test
     public void getPingTest() {
-        HealthController healthController = new HealthController(restTemplate);
+        //        Only needed for log test otherwise required refactor
+        HealthController healthController = new HealthController(restTemplate, objectMapper);
 
         var pr = new GetPingResponse();
         pr.setStatus("A");

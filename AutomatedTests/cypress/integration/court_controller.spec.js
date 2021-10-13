@@ -1,7 +1,6 @@
 describe('Court Controller Tests', () => {
-
   it('Test Get Court File Api', () => {
-    var payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
     <soapenv:Header/>
     <soapenv:Body>
        <scss:getCourtFile>
@@ -11,20 +10,20 @@ describe('Court Controller Tests', () => {
  </soapenv:Envelope>`
 
     cy.request({
-      url: Cypress.env("scss_host") + 'ws/',
+      url: Cypress.env('scss_host') + 'ws/',
       body: payload,
       method: 'POST',
       headers: {
-        authorization: Cypress.env("scss_token")
+        authorization: Cypress.env('scss_token')
       }
     }).then((response) => {
       expect(response.status).to.eq(200)
-      cy.readFile("./cypress/ExampleRequests/getCourtFileV1.xml").should("eq", response.body)
+      cy.readFile('./cypress/ExampleRequests/getCourtFileV1.xml').should('eq', response.body)
     })
   })
 
   it('Test Get Court Basics Api', () => {
-    var payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
     <soapenv:Header/>
     <soapenv:Body>
        <scss:getCourtBasics>
@@ -34,20 +33,20 @@ describe('Court Controller Tests', () => {
  </soapenv:Envelope>`
 
     cy.request({
-      url: Cypress.env("scss_host") + 'ws/',
+      url: Cypress.env('scss_host') + 'ws/',
       body: payload,
       method: 'POST',
       headers: {
-        authorization: Cypress.env("scss_token")
+        authorization: Cypress.env('scss_token')
       }
     }).then((response) => {
       expect(response.status).to.eq(200)
-      cy.readFile("./cypress/ExampleRequests/getCourtBasicsV1.xml").should("eq", response.body)
+      cy.readFile('./cypress/ExampleRequests/getCourtBasicsV1.xml').should('eq', response.body)
     })
   })
 
   it('Test Get Ceis Connect Info Api', () => {
-    var payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
     <soapenv:Header/>
     <soapenv:Body>
        <scss:getCeisConnectInfo/>
@@ -55,20 +54,20 @@ describe('Court Controller Tests', () => {
  </soapenv:Envelope>`
 
     cy.request({
-      url: Cypress.env("scss_host") + 'ws/',
+      url: Cypress.env('scss_host') + 'ws/',
       body: payload,
       method: 'POST',
       headers: {
-        authorization: Cypress.env("scss_token")
+        authorization: Cypress.env('scss_token')
       }
     }).then((response) => {
       expect(response.status).to.eq(200)
-      cy.readFile("./cypress/ExampleRequests/getCeisConnectInfoV1.xml").should("eq", response.body)
+      cy.readFile('./cypress/ExampleRequests/getCeisConnectInfoV1.xml').should('eq', response.body)
     })
   })
 
   it('Test Party Name Search Api', () => {
-   var payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
    <soapenv:Header/>
    <soapenv:Body>
       <scss:partyNameSearch>
@@ -79,27 +78,28 @@ describe('Court Controller Tests', () => {
             <agencyId>83.0001</agencyId>
             <courtLevel>P</courtLevel>
             <courtClass>M</courtClass>
+            <roleType></roleType>
             <page>1</page>
          </filter>
       </scss:partyNameSearch>
    </soapenv:Body>
 </soapenv:Envelope>`
 
-   cy.request({
-     url: Cypress.env("scss_host") + 'ws/',
-     body: payload,
-     method: 'POST',
-     headers: {
-       authorization: Cypress.env("scss_token")
-     }
-   }).then((response) => {
-     expect(response.status).to.eq(200)
-     cy.readFile("./cypress/ExampleRequests/partyNameSearchV1.xml").should("eq", response.body)
-   })
- })
+    cy.request({
+      url: Cypress.env('scss_host') + 'ws/',
+      body: payload,
+      method: 'POST',
+      headers: {
+        authorization: Cypress.env('scss_token')
+      }
+    }).then((response) => {
+      expect(response.status).to.eq(200)
+      cy.readFile('./cypress/ExampleRequests/partyNameSearchV1.xml').should('eq', response.body)
+    })
+  })
 
- it('Test Get Party Api', () => {
-   var payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+  it('Test Get Party Api', () => {
+    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
    <soapenv:Header/>
    <soapenv:Body>
       <scss:getParties>
@@ -108,24 +108,21 @@ describe('Court Controller Tests', () => {
    </soapenv:Body>
 </soapenv:Envelope>`
 
-   cy.request({
-     url: Cypress.env("scss_host") + 'ws/',
-     body: payload,
-     method: 'POST',
-     headers: {
-       authorization: Cypress.env("scss_token")
-     }
-   }).then((response) => {
-     expect(response.status).to.eq(200)
-     cy.readFile("./cypress/ExampleRequests/getPartiesV1.xml").should("eq", response.body)
-   })
- })
-
-
-
+    cy.request({
+      url: Cypress.env('scss_host') + 'ws/',
+      body: payload,
+      method: 'POST',
+      headers: {
+        authorization: Cypress.env('scss_token')
+      }
+    }).then((response) => {
+      expect(response.status).to.eq(200)
+      cy.readFile('./cypress/ExampleRequests/getPartiesV1.xml').should('eq', response.body)
+    })
+  })
 
   it('Test Save Hearing Result Api', () => {
-    var payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
     <soapenv:Header/>
     <soapenv:Body>
        <scss:saveHearingResults>
@@ -144,9 +141,9 @@ describe('Court Controller Tests', () => {
                             <ActivityStatus>NOT PROCEDING</ActivityStatus>
                             <CancellationStatus>Abandoned</CancellationStatus>
                             <TimeMeasureDetails>
-                               <MeasureText>?</MeasureText>
-                               <MeasureUnitText>?</MeasureUnitText>
-                               <MeasureEstimatedIndicator>?</MeasureEstimatedIndicator>
+                               <MeasureText>1</MeasureText>
+                               <MeasureUnitText>m</MeasureUnitText>
+                               <MeasureEstimatedIndicator>true</MeasureEstimatedIndicator>
                             </TimeMeasureDetails>
                          </CourtEventAppearance>
                       </CaseHearing>
@@ -159,16 +156,15 @@ describe('Court Controller Tests', () => {
  </soapenv:Envelope>`
 
     cy.request({
-      url: Cypress.env("scss_host") + 'ws/',
+      url: Cypress.env('scss_host') + 'ws/',
       body: payload,
       method: 'POST',
       headers: {
-        authorization: Cypress.env("scss_token")
+        authorization: Cypress.env('scss_token')
       }
     }).then((response) => {
       expect(response.status).to.eq(200)
-      cy.readFile("./cypress/ExampleRequests/saveHearingResultV1.xml").should("eq", response.body)
+      cy.readFile('./cypress/ExampleRequests/saveHearingResultV1.xml').should('eq', response.body)
     })
   })
-
 })

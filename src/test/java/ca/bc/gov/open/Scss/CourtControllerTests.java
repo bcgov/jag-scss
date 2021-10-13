@@ -3,10 +3,22 @@ package ca.bc.gov.open.Scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.Scss.Controllers.CourtController;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.Scss.Exceptions.BadDateException;
+import ca.bc.gov.open.Scss.Models.Serializers.InstantDeserializer;
+import ca.bc.gov.open.Scss.Models.Serializers.InstantSerializer;
+import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.Locale;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -26,11 +38,12 @@ public class CourtControllerTests {
     @Autowired private CourtController courtController;
 
     @Mock private RestTemplate restTemplate = new RestTemplate();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    public void getCourtFileTest() {
+    public void getCourtFileTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var gcf = new GetCourtFile();
@@ -66,9 +79,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getCourtBasicsTest() {
+    public void getCourtBasicsTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var gcb = new GetCourtBasics();
@@ -104,9 +117,32 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getCeisConnectInfoTest() {
+    public void testInstantSerializer() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        objectMapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Instant.class, new InstantDeserializer());
+        module.addSerializer(Instant.class, new InstantSerializer());
+        objectMapper.registerModule(module);
+
+        var time = Instant.now();
+        String out = objectMapper.writeValueAsString(time);
+
+        String expected =
+                DateTimeFormatter.ofPattern("dd-MMM-yyyy")
+                        .withZone(ZoneId.of("GMT-7"))
+                        .withLocale(Locale.US)
+                        .format(time);
+
+        out = out.replace("\"", "");
+        assert out.equals(expected);
+    }
+
+    @Test
+    public void getCeisConnectInfoTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var ci = new GetCeisConnectInfo();
@@ -133,9 +169,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void getPartiesTest() {
+    public void getPartiesTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var gp = new GetParties();
@@ -181,9 +217,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void partNameSearchTest() {
+    public void partNameSearchTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var pns = new PartyNameSearch();
@@ -223,9 +259,9 @@ public class CourtControllerTests {
     }
 
     @Test
-    public void partNameSearchNullFilterTest() {
+    public void partNameSearchNullFilterTest() throws IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         //    Init request object
         var pns = new PartyNameSearch();
@@ -247,13 +283,13 @@ public class CourtControllerTests {
         var out = courtController.partyNameSearch(pns);
 
         //     Assert response is correct
-        assert (out.getSearchResults().equals(res));
+        assert (out != null);
     }
 
     @Test
-    public void saveHearingResultTest() {
+    public void saveHearingResultTest() throws BadDateException, IOException {
         //  Init service under test
-        courtController = new CourtController(restTemplate);
+        courtController = new CourtController(restTemplate, objectMapper);
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
 
@@ -300,5 +336,65 @@ public class CourtControllerTests {
         var out = courtController.saveHearingResults(hr);
 
         assert out != null;
+    }
+
+    @Test
+    public void saveHearingResultTestBadDate() {
+        //  Init service under test
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        courtController = new CourtController(restTemplate, objectMapper);
+
+        ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+
+        var hr = new SaveHearingResults();
+        var res = new HearingResult();
+        var res2 = new HearingResult2();
+        var cd = new CaseDetails();
+        cd.setCaseFiling("A");
+        cd.setCaseTrackingID(BigDecimal.ONE);
+
+        var ca = new CaseAugmentation();
+        var ch = new CaseHearing();
+        var ea = new CourtEventAppearance();
+        ea.setActivityStatus("A");
+        ea.setCourtAppearanceCourt("A");
+        ea.setActivityStatus("A");
+        ea.setCancellationStatus("A");
+        ea.setCourtAppearanceDate(null);
+        ea.setCourtAppearanceCategoryText("A");
+        ea.setCourtEventSequenceID("A");
+
+        var tm = new TimeMeasureDetails();
+        tm.setMeasureText(BigDecimal.ONE);
+        tm.setMeasureEstimatedIndicator(true);
+        tm.setMeasureUnitText("A");
+
+        ea.setTimeMeasureDetails(tm);
+        ch.setCourtEventAppearance(ea);
+        ca.setCaseHearing(ch);
+        cd.setCaseAugmentation(ca);
+        res2.setCaseDetails(cd);
+        res.setHearingResult(res2);
+        hr.setHearingResult(res);
+
+        //     Set up to mock ords response
+        when(restTemplate.exchange(
+                        Mockito.any(String.class),
+                        Mockito.eq(HttpMethod.POST),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<String>>any()))
+                .thenReturn(responseEntity);
+
+        //     Do request
+        try {
+            var out = courtController.saveHearingResults(hr);
+        } catch (BadDateException | IOException ex) {
+            // Expect Failure of the request
+            assert true;
+            return;
+        }
+
+        assert false;
     }
 }
