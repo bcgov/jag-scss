@@ -7,6 +7,7 @@ import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -169,6 +170,9 @@ public class CourtController {
                         .queryParam(
                                 "agencyId",
                                 search.getFilter() != null
+                                                && !search.getFilter()
+                                                        .getAgencyId()
+                                                        .equals(BigDecimal.valueOf(-1))
                                         ? search.getFilter().getAgencyId()
                                         : null)
                         .queryParam(
