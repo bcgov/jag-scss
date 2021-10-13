@@ -165,6 +165,7 @@ public class FileController {
                         .queryParam(
                                 "locationId",
                                 search.getFilter() != null
+                                                && search.getFilter().getLocationId() != null
                                                 && !search.getFilter()
                                                         .getLocationId()
                                                         .equals(BigDecimal.valueOf(-1))
