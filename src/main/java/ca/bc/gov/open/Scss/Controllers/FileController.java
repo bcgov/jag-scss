@@ -5,10 +5,9 @@ import ca.bc.gov.open.Scss.Exceptions.ORDSException;
 import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,6 +55,9 @@ public class FileController {
                         .queryParam(
                                 "locationId",
                                 search.getFilter() != null
+                                                && !search.getFilter()
+                                                        .getLocationId()
+                                                        .equals(BigDecimal.valueOf(-1))
                                         ? search.getFilter().getLocationId()
                                         : null)
                         .queryParam(
@@ -163,6 +165,9 @@ public class FileController {
                         .queryParam(
                                 "locationId",
                                 search.getFilter() != null
+                                                && !search.getFilter()
+                                                        .getLocationId()
+                                                        .equals(BigDecimal.valueOf(-1))
                                         ? search.getFilter().getLocationId()
                                         : null)
                         .queryParam(
@@ -186,7 +191,7 @@ public class FileController {
 
             if (resp.getBody() != null
                     && (resp.getBody().getCourtFiles() == null
-                    || resp.getBody().getCourtFiles().size() == 0)) {
+                            || resp.getBody().getCourtFiles().size() == 0)) {
                 resp.getBody().setCourtFiles(null);
             }
 
