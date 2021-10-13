@@ -35,3 +35,6 @@ build/
 /AutomatedTests/node_modules/
 /AutomatedTests/cypress/videos/
 /AutomatedTests/cypress/screenshots/
+mvnw
+mvnw.bat
+./mvn/

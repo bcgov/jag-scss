@@ -2,7 +2,13 @@ package ca.bc.gov.open.Scss.Controllers;
 
 import ca.bc.gov.open.Scss.Configuration.SoapConfig;
 import ca.bc.gov.open.Scss.Exceptions.BadDateException;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.Scss.Exceptions.ORDSException;
+import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
+import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.math.BigDecimal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -14,93 +20,146 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.transport.context.TransportContext;
+import org.springframework.ws.transport.context.TransportContextHolder;
+import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
+@Slf4j
 public class CourtController {
 
     @Value("${scss.host}")
     private String host = "http://127.0.0.1/";
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public CourtController(RestTemplate restTemplate) {
+    public CourtController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCourtFile")
     @ResponsePayload
-    public GetCourtFileResponse getCourtFile(@RequestPayload GetCourtFile search) {
+    public GetCourtFileResponse getCourtFile(@RequestPayload GetCourtFile search)
+            throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCourtFile")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
+        addEndpointHeader("GetCourtFile");
+        try {
+            HttpEntity<GetCourtFileResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            GetCourtFileResponse.class);
 
-        HttpEntity<GetCourtFileResponse> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        GetCourtFileResponse.class);
-
-        return resp.getBody();
+            if (resp.getBody().getCourtFile() == null) {
+                return null;
+            }
+            return resp.getBody();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "GetCourtFile",
+                                    ex.getMessage(),
+                                    search)));
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCourtBasics")
     @ResponsePayload
-    public GetCourtBasicsResponse getCourtBasics(@RequestPayload GetCourtBasics search) {
+    public GetCourtBasicsResponse getCourtBasics(@RequestPayload GetCourtBasics search)
+            throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCourtBasics")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
-
-        HttpEntity<CaseBasics> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        CaseBasics.class);
-
-        GetCourtBasicsResponse cbr = new GetCourtBasicsResponse();
-        cbr.setCaseBasics(resp.getBody());
-        return cbr;
+        addEndpointHeader("GetCourtBasics");
+        try {
+            HttpEntity<CaseBasics> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            CaseBasics.class);
+            GetCourtBasicsResponse cbr = new GetCourtBasicsResponse();
+            cbr.setCaseBasics(resp.getBody());
+            return cbr;
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "GetCourtBasics",
+                                    ex.getMessage(),
+                                    search)));
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCeisConnectInfo")
     @ResponsePayload
-    public GetCeisConnectInfoResponse getCeisConnectInfo(
-            @RequestPayload GetCeisConnectInfo search) {
+    public GetCeisConnectInfoResponse getCeisConnectInfo(@RequestPayload GetCeisConnectInfo search)
+            throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetCeisConnectInfo");
-
-        HttpEntity<GetCeisConnectInfoResponse> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        GetCeisConnectInfoResponse.class);
-
-        return resp.getBody();
+        addEndpointHeader("getCeisConnectInfo");
+        try {
+            HttpEntity<GetCeisConnectInfoResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            GetCeisConnectInfoResponse.class);
+            return resp.getBody();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "GetCeisConnectInfo",
+                                    ex.getMessage(),
+                                    search)));
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getParties")
     @ResponsePayload
-    public GetPartiesResponse getParties(@RequestPayload GetParties search) {
+    public GetPartiesResponse getParties(@RequestPayload GetParties search) throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "GetParties")
                         .queryParam("physicalFileId", search.getPhysicalFileId());
-
-        HttpEntity<GetPartiesResponse> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        GetPartiesResponse.class);
-
-        return resp.getBody();
+        addEndpointHeader("GetParties");
+        try {
+            HttpEntity<GetPartiesResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            GetPartiesResponse.class);
+            return resp.getBody();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "GetParties",
+                                    ex.getMessage(),
+                                    search)));
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "partyNameSearch")
     @ResponsePayload
-    public PartyNameSearchResponse partyNameSearch(@RequestPayload PartyNameSearch search) {
+    public PartyNameSearchResponse partyNameSearch(@RequestPayload PartyNameSearch search)
+            throws IOException {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "PartyNameSearch")
                         .queryParam(
@@ -111,6 +170,9 @@ public class CourtController {
                         .queryParam(
                                 "agencyId",
                                 search.getFilter() != null
+                                                && !search.getFilter()
+                                                        .getAgencyId()
+                                                        .equals(BigDecimal.valueOf(-1))
                                         ? search.getFilter().getAgencyId()
                                         : null)
                         .queryParam(
@@ -139,23 +201,38 @@ public class CourtController {
                                 search.getFilter() != null
                                         ? search.getFilter().getRoleType()
                                         : null);
-
-        HttpEntity<SearchResults> resp =
-                restTemplate.exchange(
-                        builder.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(new HttpHeaders()),
-                        SearchResults.class);
-
-        PartyNameSearchResponse pns = new PartyNameSearchResponse();
-        pns.setSearchResults(resp.getBody());
-        return pns;
+        addEndpointHeader("PartyNameSearch");
+        try {
+            HttpEntity<SearchResults> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            SearchResults.class);
+            PartyNameSearchResponse pns = new PartyNameSearchResponse();
+            pns.setSearchResults(
+                    resp.getBody() != null && resp.getBody().getResults().size() > 0
+                            ? resp.getBody()
+                            : null);
+            return pns;
+        } catch (Exception ex) {
+            search.getFilter().setName("");
+            search.getFilter().setFirstName("");
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "PartyNameSearch",
+                                    ex.getMessage(),
+                                    search)));
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "saveHearingResults")
     @ResponsePayload
     public SaveHearingResultsResponse saveHearingResults(@RequestPayload SaveHearingResults search)
-            throws BadDateException {
+            throws BadDateException, IOException {
 
         var inner =
                 search.getHearingResult() != null
@@ -164,12 +241,20 @@ public class CourtController {
                                         != null
                         ? search.getHearingResult().getHearingResult().getCaseDetails()
                         : new CaseDetails();
+        addEndpointHeader("saveHearingResults");
 
         if (inner.getCaseAugmentation()
                         .getCaseHearing()
                         .getCourtEventAppearance()
                         .getCourtAppearanceDate()
                 == null) {
+            log.warn(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Bad date format or missing date received",
+                                    "SaveHearingResult",
+                                    "",
+                                    null)));
             throw new BadDateException();
         }
 
@@ -177,10 +262,30 @@ public class CourtController {
 
         HttpEntity<CaseDetails> payload = new HttpEntity<>(inner, new HttpHeaders());
 
-        HttpEntity<String> resp =
-                restTemplate.exchange(
-                        builder.toUriString(), HttpMethod.POST, payload, String.class);
-
+        try {
+            HttpEntity<String> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(), HttpMethod.POST, payload, String.class);
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "SaveHearingResult",
+                                    ex.getMessage(),
+                                    inner)));
+            throw new ORDSException();
+        }
         return new SaveHearingResultsResponse();
+    }
+
+    private void addEndpointHeader(String endpoint) {
+        try {
+            TransportContext context = TransportContextHolder.getTransportContext();
+            HttpServletConnection connection = (HttpServletConnection) context.getConnection();
+            connection.addResponseHeader("Endpoint", endpoint);
+        } catch (Exception ex) {
+            log.warn("Failed to add endpoint response header");
+        }
     }
 }

@@ -5,7 +5,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import ca.bc.gov.open.Scss.Controllers.FileController;
-import com.example.demp.wsdl.*;
+import ca.bc.gov.open.scss.wsdl.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -29,11 +31,12 @@ public class FileControllerTests {
     @Autowired private MockMvc mockMvc;
 
     @Mock private RestTemplate restTemplate = new RestTemplate();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    public void fileNumberSearchTest() {
+    public void fileNumberSearchTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumberSearch();
@@ -73,9 +76,9 @@ public class FileControllerTests {
     }
 
     @Test
-    public void fileNumberSearchNullFilterTest() {
+    public void fileNumberSearchNullFilterTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumberSearch();
@@ -110,9 +113,9 @@ public class FileControllerTests {
     }
 
     @Test
-    public void linkFileTest() {
+    public void linkFileTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var lf = new LinkFile();
@@ -140,9 +143,9 @@ public class FileControllerTests {
     }
 
     @Test
-    public void unlinkFileTest() {
+    public void unlinkFileTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var lf = new UnlinkFile();
@@ -170,9 +173,9 @@ public class FileControllerTests {
     }
 
     @Test
-    public void fileNumberSearchPublicAccessTest() {
+    public void fileNumberSearchPublicAccessTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumbeSearchPublicAccess();
@@ -214,9 +217,9 @@ public class FileControllerTests {
     }
 
     @Test
-    public void fileNumberSearchPublicAccessNullFilterTest() {
+    public void fileNumberSearchPublicAccessNullFilterTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate);
+        fileController = new FileController(restTemplate, objectMapper);
 
         //    Init request object
         var fs = new FileNumbeSearchPublicAccess();
@@ -232,6 +235,34 @@ public class FileControllerTests {
 
         var fns = new FileNumbeSearchPublicAccessResponse();
         fns.setCourtFiles(Collections.singletonList(cf));
+
+        ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
+                new ResponseEntity<>(fns, HttpStatus.OK);
+
+        //     Set up to mock ords response
+        when(restTemplate.exchange(
+                        Mockito.any(String.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<FileNumbeSearchPublicAccessResponse>>any()))
+                .thenReturn(responseEntity);
+
+        //     Do request
+        var out = fileController.fileNumberSearchPublicAccess(fs);
+
+        //     Assert response is correct
+        assert (out.equals(fns));
+    }
+
+    @Test
+    public void fileNumberSearchPublicAccessSealedTest() throws IOException {
+        //  Init service under test
+        fileController = new FileController(restTemplate, objectMapper);
+
+        //    Init request object
+        var fs = new FileNumbeSearchPublicAccess();
+
+        var fns = new FileNumbeSearchPublicAccessResponse();
 
         ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
                 new ResponseEntity<>(fns, HttpStatus.OK);

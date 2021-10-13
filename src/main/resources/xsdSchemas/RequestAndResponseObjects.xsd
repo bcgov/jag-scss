@@ -1,6 +1,6 @@
 <xsd:schema targetNamespace="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss"
             xmlns:tns="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss"
-            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:annox="http://annox.dev.java.net">
 
     <xsd:element name="unlinkFile">
         <xsd:complexType>
@@ -147,7 +147,7 @@
     <xsd:element name="fileNumberSearchResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element maxOccurs="unbounded" name="courtFiles" nillable="true" type="tns:CourtFile"/>
+                <xsd:element maxOccurs="unbounded" name="courtFiles" nillable="true" type="tns:CourtFile" />
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

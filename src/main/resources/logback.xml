@@ -24,7 +24,7 @@
         <batch_size_count>1</batch_size_count>
         <connectTimeout>5000</connectTimeout>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-50(%-5level %logger:) %msg%n</pattern>
+            <pattern>%msg</pattern>
         </layout>
     </appender>
 
