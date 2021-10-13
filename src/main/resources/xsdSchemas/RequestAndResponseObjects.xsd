@@ -394,13 +394,7 @@
     <xsd:element name="fileNumbeSearchPublicAccessResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="courtFiles" nillable="true" type="tns:CourtFile" maxOccurs="unbounded">
-                    <xsd:annotation>
-                        <xsd:appinfo>
-                            <annox:annotate target="field">@javax.xml.bind.annotation.XmlElementWrapper(nillable=true)</annox:annotate>
-                        </xsd:appinfo>
-                    </xsd:annotation>
-                </xsd:element>
+                <xsd:element name="courtFiles" nillable="true" type="tns:CourtFile" maxOccurs="unbounded"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
