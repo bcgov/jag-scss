@@ -55,7 +55,7 @@ objects:
           from:
             kind: ImageStreamTag
             namespace: ${OC_NAMESPACE}-tools
-            name: jmeter-workers:5.3
+            name: jmeter-worker:5.3
     replicas: 3
     revisionHistoryLimit: 10
     test: false
@@ -70,6 +70,7 @@ objects:
           - name: jmeter-worker
             image: >-
               image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-workers:5.3
+              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-worker:5.3
             ports:
               - containerPort: 1099
                 protocol: TCP
