@@ -13,7 +13,7 @@ parameters:
 - name: COMPONENT_NAME
   description: The application name that each component is part of
   required: false
-  value: jmeter-slaves
+  value: jmeter-manager
 
 - name: OC_NAMESPACE
   description: The OpenShift namespace prefix
@@ -31,9 +31,12 @@ objects:
   metadata:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-tools
+    annotations:
+      app.openshift.io/connects-to: 'jmeter-worker, influxdb'
     labels:
       app.kubernetes.io/part-of: jmeter
-      jmeter_mode: slaves
+      jmeter_mode: manager
+      run: ${COMPONENT_NAME}
   spec:
     strategy:
       type: Rolling
@@ -51,63 +54,42 @@ objects:
         imageChangeParams:
           automatic: true
           containerNames:
-            - jmeter-slave
+            - ${COMPONENT_NAME}
           from:
             kind: ImageStreamTag
             namespace: ${OC_NAMESPACE}-tools
-            name: jmeter-slave:5.3
-    replicas: 3
+            name: jmeter-manager:5.3
+    replicas: 1
     revisionHistoryLimit: 10
     test: false
     selector:
-      jmeter_mode: slaves
+      run: ${COMPONENT_NAME}
     template:
       metadata:
         labels:
-          jmeter_mode: slaves
+          run: ${COMPONENT_NAME}
       spec:
         containers:
-          - name: jmeter-slave
-            image: >-
-              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-slave:5.3
-            ports:
-              - containerPort: 1099
-                protocol: TCP
-              - containerPort: 50000
-                protocol: TCP
-            resources: {}
+          - resources: {}
             terminationMessagePath: /dev/termination-log
+            name: ${COMPONENT_NAME}
+            command:
+              - /bin/bash
+              - '-c'
+              - '--'
+            args:
+              - while true; do sleep 30; done;
+            ports:
+              - containerPort: 60000
+                protocol: TCP
+            imagePullPolicy: Always
             terminationMessagePolicy: File
-            imagePullPolicy: IfNotPresent
+            image: >-
+              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-manager:5.3
         restartPolicy: Always
         terminationGracePeriodSeconds: 30
         dnsPolicy: ClusterFirst
         securityContext: {}
         schedulerName: default-scheduler
-
-- kind: Service
-  apiVersion: v1
-  metadata:
-    name: ${COMPONENT_NAME}
-    namespace: ${OC_NAMESPACE}-tools
-    labels:
-      jmeter_mode: slaves
-  spec:
-    ports:
-      - name: first
-        protocol: TCP
-        port: 1099
-        targetPort: 1099
-      - name: second
-        protocol: TCP
-        port: 50000
-        targetPort: 50000
-    selector:
-      jmeter_mode: slaves
-    clusterIP: None
-    clusterIPs:
-      - None
-    type: ClusterIP
-    sessionAffinity: None
 
 

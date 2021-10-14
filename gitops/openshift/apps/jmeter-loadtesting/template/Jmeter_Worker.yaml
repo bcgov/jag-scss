@@ -13,7 +13,7 @@ parameters:
 - name: COMPONENT_NAME
   description: The application name that each component is part of
   required: false
-  value: jmeter-master
+  value: jmeter-workers
 
 - name: OC_NAMESPACE
   description: The OpenShift namespace prefix
@@ -31,12 +31,9 @@ objects:
   metadata:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-tools
-    annotations:
-      app.openshift.io/connects-to: 'jmeter-slaves, influxdb'
     labels:
       app.kubernetes.io/part-of: jmeter
-      jmeter_mode: master
-      run: ${COMPONENT_NAME}
+      jmeter_mode: workers
   spec:
     strategy:
       type: Rolling
@@ -54,42 +51,63 @@ objects:
         imageChangeParams:
           automatic: true
           containerNames:
-            - ${COMPONENT_NAME}
+            - jmeter-worker
           from:
             kind: ImageStreamTag
             namespace: ${OC_NAMESPACE}-tools
-            name: jmeter-master:5.3
-    replicas: 1
+            name: jmeter-workers:5.3
+    replicas: 3
     revisionHistoryLimit: 10
     test: false
     selector:
-      run: ${COMPONENT_NAME}
+      jmeter_mode: workers
     template:
       metadata:
         labels:
-          run: ${COMPONENT_NAME}
+          jmeter_mode: workers
       spec:
         containers:
-          - resources: {}
-            terminationMessagePath: /dev/termination-log
-            name: ${COMPONENT_NAME}
-            command:
-              - /bin/bash
-              - '-c'
-              - '--'
-            args:
-              - while true; do sleep 30; done;
-            ports:
-              - containerPort: 60000
-                protocol: TCP
-            imagePullPolicy: Always
-            terminationMessagePolicy: File
+          - name: jmeter-worker
             image: >-
-              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-master:5.3
+              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-workers:5.3
+            ports:
+              - containerPort: 1099
+                protocol: TCP
+              - containerPort: 50000
+                protocol: TCP
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            imagePullPolicy: IfNotPresent
         restartPolicy: Always
         terminationGracePeriodSeconds: 30
         dnsPolicy: ClusterFirst
         securityContext: {}
         schedulerName: default-scheduler
+
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-tools
+    labels:
+      jmeter_mode: workers
+  spec:
+    ports:
+      - name: first
+        protocol: TCP
+        port: 1099
+        targetPort: 1099
+      - name: second
+        protocol: TCP
+        port: 50000
+        targetPort: 50000
+    selector:
+      jmeter_mode: workers
+    clusterIP: None
+    clusterIPs:
+      - None
+    type: ClusterIP
+    sessionAffinity: None
 
 

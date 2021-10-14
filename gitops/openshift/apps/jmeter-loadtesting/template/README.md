@@ -7,12 +7,12 @@ https://blog.kubernauts.io/load-testing-as-a-service-with-jmeter-on-kubernetes-f
 ### Command to execute template to create/update Jmeter Master
 1) Login to OC using login command
 2) Run below command in each env. namespace dev/test/prod/tools
-   ``oc process -f Jmeter_Master.yaml --param-file=Jmeter.env | oc apply -f -``
+   ``oc process -f Jmeter_Manager.yaml --param-file=Jmeter.env | oc apply -f -``
 
 ### Command to execute template to create/update Jmeter Slaves
 1) Login to OC using login command
 2) Run below command in each env. namespace dev/test/prod/tools
-   ``oc process -f Jmeter_Slave.yaml --param-file=Jmeter.env | oc apply -f -``
+   ``oc process -f Jmeter_Worker.yaml --param-file=Jmeter.env | oc apply -f -``
 
 ### Command to execute template to create/update InfluxDB
 1) Login to OC using login command
