@@ -14,15 +14,15 @@
 
 Local Host: http://127.0.0.1:8080
 
-Test Host: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca
+Dev Host: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca
 
 WSDL Endpoint Local: http://localhost:8080/ws/SCSS.Source.CeisScss.ws.provider:CeisScss?WSDL
 
-WSDL Endpoint Test: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/ws/SCSS.Source.CeisScss.ws.provider:CeisScss?WSDL
+WSDL Endpoint Dev: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/ws/SCSS.Source.CeisScss.ws.provider:CeisScss?WSDL
 
 Actuator Endpoint Local: http://localhost:8080/actuator/health
 
-Actuator Endpoint Test: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/actuator/health
+Actuator Endpoint Dev: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/actuator/health
 
 Code Climate: https://codeclimate.com/github/bcgov/jag-coa-scss-integration
 
