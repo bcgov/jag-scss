@@ -24,6 +24,8 @@ Actuator Endpoint Local: http://localhost:8080/actuator/health
 
 Actuator Endpoint Test: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/actuator/health
 
+Code Climate: https://codeclimate.com/github/bcgov/jag-coa-scss-integration
+
 ### Required Environmental Variables
 
 BASIC_AUTH_PASS: The password for the basic authentication. This can be any value for local.
