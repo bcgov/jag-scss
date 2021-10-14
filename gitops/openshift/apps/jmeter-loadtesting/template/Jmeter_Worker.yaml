@@ -88,7 +88,7 @@ objects:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: ${COMPONENT_NAME}
+    name: ${COMPONENT_NAME}-svc
     namespace: ${OC_NAMESPACE}-tools
     labels:
       jmeter_mode: workers
