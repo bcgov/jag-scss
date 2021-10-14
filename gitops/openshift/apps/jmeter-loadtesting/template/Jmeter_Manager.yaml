@@ -32,7 +32,7 @@ objects:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-tools
     annotations:
-      app.openshift.io/connects-to: 'jmeter-worker, influxdb'
+      app.openshift.io/connects-to: 'jmeter-workers, influxdb'
     labels:
       app.kubernetes.io/part-of: jmeter
       jmeter_mode: manager
