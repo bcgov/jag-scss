@@ -69,7 +69,6 @@ objects:
         containers:
           - name: jmeter-worker
             image: >-
-              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-workers:5.3
               image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-worker:5.3
             ports:
               - containerPort: 1099
