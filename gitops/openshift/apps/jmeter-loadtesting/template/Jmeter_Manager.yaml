@@ -13,7 +13,7 @@ parameters:
 - name: COMPONENT_NAME
   description: The application name that each component is part of
   required: false
-  value: jmeter-master
+  value: jmeter-manager
 
 - name: OC_NAMESPACE
   description: The OpenShift namespace prefix
@@ -32,10 +32,10 @@ objects:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-tools
     annotations:
-      app.openshift.io/connects-to: 'jmeter-slaves, influxdb'
+      app.openshift.io/connects-to: 'jmeter-workers, influxdb'
     labels:
       app.kubernetes.io/part-of: jmeter
-      jmeter_mode: master
+      jmeter_mode: manager
       run: ${COMPONENT_NAME}
   spec:
     strategy:
@@ -58,7 +58,7 @@ objects:
           from:
             kind: ImageStreamTag
             namespace: ${OC_NAMESPACE}-tools
-            name: jmeter-master:5.3
+            name: jmeter-manager:5.3
     replicas: 1
     revisionHistoryLimit: 10
     test: false
@@ -85,7 +85,7 @@ objects:
             imagePullPolicy: Always
             terminationMessagePolicy: File
             image: >-
-              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-master:5.3
+              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/jmeter-manager:5.3
         restartPolicy: Always
         terminationGracePeriodSeconds: 30
         dnsPolicy: ClusterFirst

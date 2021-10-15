@@ -170,6 +170,7 @@ public class CourtController {
                         .queryParam(
                                 "agencyId",
                                 search.getFilter() != null
+                                                && search.getFilter().getAgencyId() != null
                                                 && !search.getFilter()
                                                         .getAgencyId()
                                                         .equals(BigDecimal.valueOf(-1))

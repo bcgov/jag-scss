@@ -2,8 +2,8 @@
 
 ## Creating the Openshift resources
 
-1) Apply the jmeter master deployment file
-2) Apply the jmeter slaves yml
+1) Apply the jmeter manager deployment file
+2) Apply the jmeter worker yml
 3) Apply the influx yml
    1) On the influx pod run ```influx``` to open the influx cli. This can take a few minutes to complete
    2) Run ```Create Database jmeter```

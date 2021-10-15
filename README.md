@@ -1,7 +1,8 @@
 # SCSS
 
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](<Redirect-URL>)
-
+[![Maintainability](https://api.codeclimate.com/v1/badges/5a7027d5cc5800eeb2fe/maintainability)](https://codeclimate.com/github/bcgov/jag-coa-scss-integration/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/5a7027d5cc5800eeb2fe/test_coverage)](https://codeclimate.com/github/bcgov/jag-coa-scss-integration/test_coverage)
 ### Recommended Tools
 * Intellij
 * Docker
@@ -13,15 +14,17 @@
 
 Local Host: http://127.0.0.1:8080
 
-Test Host: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca
+Dev Host: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca
 
 WSDL Endpoint Local: http://localhost:8080/ws/SCSS.Source.CeisScss.ws.provider:CeisScss?WSDL
 
-WSDL Endpoint Test: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/ws/SCSS.Source.CeisScss.ws.provider:CeisScss?WSDL
+WSDL Endpoint Dev: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/ws/SCSS.Source.CeisScss.ws.provider:CeisScss?WSDL
 
 Actuator Endpoint Local: http://localhost:8080/actuator/health
 
-Actuator Endpoint Test: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/actuator/health
+Actuator Endpoint Dev: https://jag-scss-api-17b24e-dev.apps.silver.devops.gov.bc.ca/actuator/health
+
+Code Climate: https://codeclimate.com/github/bcgov/jag-coa-scss-integration
 
 ### Required Environmental Variables
 
