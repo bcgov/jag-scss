@@ -137,4 +137,32 @@ describe('File Controller Tests', () => {
       cy.readFile('./cypress/ExampleRequests/fileNumberSearchSealed.xml').should('eq', response.body)
     })
   })
+
+  it('tests file search with -1 parameter', () => {
+    const payload = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <scss:fileNumberSearch>
+            <filter>
+                <courtFileNumber>9950</courtFileNumber>
+                <locationId>-1</locationId>
+                <courtLevelCode>P</courtLevelCode>
+                <courtClassCode>F</courtClassCode>
+            </filter>
+        </scss:fileNumberSearch>
+    </soapenv:Body>
+</soapenv:Envelope>`
+
+    cy.request({
+      url: Cypress.env('scss_host') + 'ws/',
+      method: 'POST',
+      headers: {
+        authorization: Cypress.env('scss_token')
+      },
+      body: payload
+    }).then((response) => {
+      expect(response.status).to.eq(200)
+      cy.readFile('./cypress/ExampleRequests/fileSearch-1.xml').should('eq', response.body)
+    })
+  })
 })
