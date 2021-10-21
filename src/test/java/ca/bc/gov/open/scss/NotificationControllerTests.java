@@ -1,8 +1,8 @@
-package ca.bc.gov.open.Scss;
+package ca.bc.gov.open.scss;
 
 import static org.mockito.Mockito.when;
 
-import ca.bc.gov.open.Scss.Controllers.NotificationController;
+import ca.bc.gov.open.scss.Controllers.NotificationController;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

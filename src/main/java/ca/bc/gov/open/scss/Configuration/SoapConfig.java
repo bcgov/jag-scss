@@ -1,7 +1,7 @@
-package ca.bc.gov.open.Scss.Configuration;
+package ca.bc.gov.open.scss.Configuration;
 
-import ca.bc.gov.open.Scss.Models.Serializers.InstantDeserializer;
-import ca.bc.gov.open.Scss.Models.Serializers.InstantSerializer;
+import ca.bc.gov.open.scss.Models.Serializers.InstantDeserializer;
+import ca.bc.gov.open.scss.Models.Serializers.InstantSerializer;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

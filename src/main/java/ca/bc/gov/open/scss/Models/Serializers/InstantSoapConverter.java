@@ -1,4 +1,4 @@
-package ca.bc.gov.open.Scss.Models.Serializers;
+package ca.bc.gov.open.scss.Models.Serializers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

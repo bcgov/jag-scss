@@ -1,4 +1,4 @@
-package ca.bc.gov.open.Scss;
+package ca.bc.gov.open.scss;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

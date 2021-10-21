@@ -1,4 +1,4 @@
-package ca.bc.gov.open.Scss.Configuration;
+package ca.bc.gov.open.scss.Configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
