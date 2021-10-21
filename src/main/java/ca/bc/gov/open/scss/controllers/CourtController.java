@@ -255,7 +255,10 @@ public class CourtController {
                                     "Bad date format or missing date received",
                                     "SaveHearingResult",
                                     "",
-                                    null)));
+                                    inner.getCaseAugmentation()
+                                            .getCaseHearing()
+                                            .getCourtEventAppearance()
+                                            .getCourtAppearanceDate())));
             throw new BadDateException();
         }
 
