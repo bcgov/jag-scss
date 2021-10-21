@@ -1,4 +1,4 @@
-package ca.bc.gov.open.Scss.Configuration;
+package ca.bc.gov.open.scss.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

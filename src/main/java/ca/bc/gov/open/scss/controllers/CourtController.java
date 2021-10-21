@@ -1,9 +1,9 @@
-package ca.bc.gov.open.Scss.Controllers;
+package ca.bc.gov.open.scss.controllers;
 
-import ca.bc.gov.open.Scss.Configuration.SoapConfig;
-import ca.bc.gov.open.Scss.Exceptions.BadDateException;
-import ca.bc.gov.open.Scss.Exceptions.ORDSException;
-import ca.bc.gov.open.Scss.Models.OrdsErrorLog;
+import ca.bc.gov.open.scss.configuration.SoapConfig;
+import ca.bc.gov.open.scss.exceptions.BadDateException;
+import ca.bc.gov.open.scss.exceptions.ORDSException;
+import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;

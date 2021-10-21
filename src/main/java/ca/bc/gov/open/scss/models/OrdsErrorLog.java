@@ -1,4 +1,4 @@
-package ca.bc.gov.open.Scss.Models;
+package ca.bc.gov.open.scss.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

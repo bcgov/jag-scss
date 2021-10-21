@@ -1,4 +1,4 @@
-package ca.bc.gov.open.Scss.Exceptions;
+package ca.bc.gov.open.scss.exceptions;
 
 import org.springframework.ws.soap.server.endpoint.annotation.FaultCode;
 import org.springframework.ws.soap.server.endpoint.annotation.SoapFault;
@@ -6,9 +6,9 @@ import org.springframework.ws.soap.server.endpoint.annotation.SoapFault;
 @SoapFault(
         faultCode = FaultCode.CLIENT,
         faultStringOrReason =
-                "An error response was received from ORDS please check that your request is of valid form")
-public class ORDSException extends RuntimeException {
-    public ORDSException() {
+                "Unparsable date must be of form dd-MMM-yy hh.mm.ss.SSSSSS a or dd-MMM-yy")
+public class BadDateException extends Exception {
+    public BadDateException() {
         super();
     }
 }

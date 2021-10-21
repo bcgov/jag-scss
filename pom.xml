@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ca.bc.gov.open</groupId>
-    <artifactId>Scss</artifactId>
+    <artifactId>scss</artifactId>
     <version>1.0</version>
     <name>scss</name>
     <description>Proxy Service to replace Webmethods with ords</description>
@@ -261,7 +261,7 @@
                 <version>0.8.7</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/Configuration/*</exclude>
+                        <exclude>**/configuration/*</exclude>
                         <exclude>**/ScssApplication.class</exclude>
                     </excludes>
                 </configuration>
