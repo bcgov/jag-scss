@@ -261,7 +261,7 @@
                 <version>0.8.7</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/Configuration/*</exclude>
+                        <exclude>**/configuration/*</exclude>
                         <exclude>**/ScssApplication.class</exclude>
                     </excludes>
                 </configuration>
