@@ -1,5 +1,7 @@
 package ca.bc.gov.open.scss.models.serializers;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -7,6 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+@Slf4j
 public final class InstantSoapConverter {
 
     private InstantSoapConverter() {}
@@ -33,6 +36,7 @@ public final class InstantSoapConverter {
             }
             return d.toInstant();
         } catch (Exception ex) {
+            log.warn("Bad date received from soap request: " + value);
             return null;
         }
     }
