@@ -2,10 +2,10 @@ package ca.bc.gov.open.scss;
 
 import static org.mockito.Mockito.when;
 
-import ca.bc.gov.open.scss.Controllers.CourtController;
-import ca.bc.gov.open.scss.Controllers.FileController;
-import ca.bc.gov.open.scss.Controllers.HealthController;
-import ca.bc.gov.open.scss.Controllers.NotificationController;
+import ca.bc.gov.open.scss.controllers.CourtController;
+import ca.bc.gov.open.scss.controllers.FileController;
+import ca.bc.gov.open.scss.controllers.HealthController;
+import ca.bc.gov.open.scss.controllers.NotificationController;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;

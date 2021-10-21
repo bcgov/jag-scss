@@ -1,4 +1,4 @@
-package ca.bc.gov.open.scss.Exceptions;
+package ca.bc.gov.open.scss.exceptions;
 
 import org.springframework.ws.soap.server.endpoint.annotation.FaultCode;
 import org.springframework.ws.soap.server.endpoint.annotation.SoapFault;

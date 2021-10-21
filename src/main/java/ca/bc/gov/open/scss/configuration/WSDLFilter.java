@@ -1,4 +1,4 @@
-package ca.bc.gov.open.scss.Configuration;
+package ca.bc.gov.open.scss.configuration;
 
 import java.io.IOException;
 import javax.servlet.*;

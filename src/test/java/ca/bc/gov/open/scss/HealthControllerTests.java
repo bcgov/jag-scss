@@ -2,7 +2,7 @@ package ca.bc.gov.open.scss;
 
 import static org.mockito.Mockito.when;
 
-import ca.bc.gov.open.scss.Controllers.HealthController;
+import ca.bc.gov.open.scss.controllers.HealthController;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;

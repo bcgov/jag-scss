@@ -2,10 +2,10 @@ package ca.bc.gov.open.scss;
 
 import static org.mockito.Mockito.when;
 
-import ca.bc.gov.open.scss.Controllers.CourtController;
-import ca.bc.gov.open.scss.Exceptions.BadDateException;
-import ca.bc.gov.open.scss.Models.Serializers.InstantDeserializer;
-import ca.bc.gov.open.scss.Models.Serializers.InstantSerializer;
+import ca.bc.gov.open.scss.controllers.CourtController;
+import ca.bc.gov.open.scss.exceptions.BadDateException;
+import ca.bc.gov.open.scss.models.serializers.InstantDeserializer;
+import ca.bc.gov.open.scss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
