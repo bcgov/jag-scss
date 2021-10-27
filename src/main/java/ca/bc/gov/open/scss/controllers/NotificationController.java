@@ -142,7 +142,7 @@ public class NotificationController {
             throws IOException {
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "")
+                UriComponentsBuilder.fromHttpUrl(host + "removeNotification")
                         .queryParam("NotificationId", search.getNotificationId());
         addEndpointHeader("removeNotification");
 

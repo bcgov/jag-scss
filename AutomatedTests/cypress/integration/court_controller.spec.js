@@ -135,7 +135,7 @@ describe('Court Controller Tests', () => {
                       <CaseHearing>
                          <CourtEventAppearance>
                             <CourtAppearanceCourt>11</CourtAppearanceCourt>
-                            <CourtAppearanceDate>03-SEP-11</CourtAppearanceDate>
+                            <CourtAppearanceDate>2003-07-11</CourtAppearanceDate>
                             <CourtAppearanceCategoryText>APN</CourtAppearanceCategoryText>
                             <CourtEventSequenceID>?</CourtEventSequenceID>
                             <ActivityStatus>NOT PROCEDING</ActivityStatus>
