@@ -112,7 +112,7 @@ objects:
         targetPort: 3000
     selector:
       app: ${COMPONENT_NAME}
-    type: NodePort
+    type: ClusterIP
 
 - kind: Route
   apiVersion: route.openshift.io/v1
