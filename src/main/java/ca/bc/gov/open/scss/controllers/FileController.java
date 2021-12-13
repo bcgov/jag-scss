@@ -65,11 +65,15 @@ public class FileController {
                         .queryParam(
                                 "courtLevelCode",
                                 search.getFilter() != null
+                                                && search.getFilter().getCourtLevelCode().length()
+                                                        > 0
                                         ? search.getFilter().getCourtLevelCode()
                                         : null)
                         .queryParam(
                                 "courtClassCode",
                                 search.getFilter() != null
+                                                && search.getFilter().getCourtClassCode().length()
+                                                        > 0
                                         ? search.getFilter().getCourtClassCode()
                                         : null);
         addEndpointHeader("FileNumberSearch");
