@@ -65,6 +65,8 @@ public class FileController {
                         .queryParam(
                                 "courtLevelCode",
                                 search.getFilter() != null
+                                                && search.getFilter().getCourtLevelCode().length()
+                                                        > 0
                                         ? search.getFilter().getCourtLevelCode()
                                         : null)
                         .queryParam(
