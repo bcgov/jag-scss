@@ -121,7 +121,7 @@ objects:
                 memory: 512Mi
               livenessProbe:
                 httpGet:
-                  path: "/health"
+                  path: "/actuator/health"
                   port: 8080
                   scheme: HTTP
                 initialDelaySeconds: 30
@@ -131,7 +131,7 @@ objects:
                 failureThreshold: 3
               readinessProbe:
                 httpGet:
-                  path: "/health"
+                  path: "/actuator/health"
                   port: 8080
                   scheme: HTTP
                 initialDelaySeconds: 10
