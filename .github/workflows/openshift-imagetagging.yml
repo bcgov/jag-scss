@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
         inputs:
             app:
-                description: 'App Name (jag-scss)'    
+                description: 'App Name (jag-scss/jag-scss-tests)'
                 required: true
                 default: 'jag-scss'
             imageSourceEnv:
