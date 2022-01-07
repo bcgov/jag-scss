@@ -38,3 +38,5 @@ build/
 mvnw
 mvnw.bat
 ./mvn/
+/scss-soapui-project.xml
+**/TestSuite_SCSS*
