@@ -79,7 +79,7 @@ jobs:
         env:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
-          CONTEXT: /AutomatedTest
+          CONTEXT: ./AutomatedTest
           IMAGE: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY}}/${{secrets.OPENSHIFT_LICENSE_PLATE}}-tools/jag-scss-tests:${{secrets.OPENSHIFT_ENV_TAG}}
         run: |
           docker build \
