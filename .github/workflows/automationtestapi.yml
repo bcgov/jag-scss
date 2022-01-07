@@ -60,7 +60,7 @@ jobs:
 
       # Runs build steps
       - name: Maven Package
-        working-directory: ./AutomatedTest
+        working-directory: AutomatedTest
         run: mvn -ntp clean package
       
       - name: Maven Spotless Check
