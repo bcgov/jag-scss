@@ -261,7 +261,8 @@
                 <version>0.8.7</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/configuration/*</exclude>
+                        <exclude>**/configuration/WSDLFilter*</exclude>
+                        <exclude>**/ObjectFactory.class</exclude>
                         <exclude>**/ScssApplication.class</exclude>
                     </excludes>
                 </configuration>
