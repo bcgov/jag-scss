@@ -57,11 +57,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-        
-      - name: Change to Automated Tests Directory 
-        run: cd AutomatedTest
+
       # Runs build steps
       - name: Maven Package
+        working-directory: ./AutomatedTest
         run: mvn -ntp clean package
       
       - name: Maven Spotless Check
