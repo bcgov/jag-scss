@@ -1,8 +1,8 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
-  name: ${APP_NAME}
-  description: Deployment template for the JAG-SCSS
+  name: ${COMPONENT_NAME}
+  description: Deployment template for the JAG-SCSS-TESTS
   
 labels:
   app: ${APP_NAME}
@@ -20,11 +20,12 @@ parameters:
 - name: COMPONENT_NAME
   description: The application name that each component is part of
   required: false
-  value: jag-scss
+  value: jag-scss-tests
   
 - name: OC_NAMESPACE
   description: The OpenShift namespace prefix
   required: false
+  # Below value must be changed as per gold cluster oc nameplate
   value: 17b24e
   
 - name: OC_ENV
@@ -32,28 +33,19 @@ parameters:
   required: true
 
 - name: RUNTIME
-  description: The application name that each component is part of
+  description: The run time of the application
   required: false
   value: java
 
-- name: API_NAME
-  description: The application name that each component is part of
-  required: false
-  value: jag-scss-api
-
 - name: DNS
-  description: The application name that each component is part of
+  description: The application DNS for route url
   required: false
+  # Below value must be changed as per gold & dr cluster certificate/DNS
   value: apps.silver.devops.gov.bc.ca
-
-- name: AUTH_HEADER
-  description: The http Authorization header required for performing livenessProbe & readinessProbe in deployment config during container start.
-  required: true
-  value: ''
   
 objects:
 
-### JAG-SCSS Deployment Config ###
+### JAG-SCSS-TESTS Deployment Config ###
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
@@ -97,26 +89,11 @@ objects:
                 secretKeyRef:
                   name: scss-application-secrets
                   key: SPRING_PROFILE
-            - name: SPLUNK_HTTP_URL
-              valueFrom:
-                secretKeyRef:
-                  name: scss-splunk-config
-                  key: SPLUNK_HTTP_URL
-            - name: SPLUNK_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: scss-splunk-config
-                  key: SPLUNK_TOKEN
-            - name: SPLUNK_INDEX
-              valueFrom:
-                secretKeyRef:
-                  name: scss-splunk-config
-                  key: SPLUNK_INDEX
-            - name: ORDS_HOST
+            - name: API_HOST
               valueFrom:
                 secretKeyRef:
                   name: scss-application-secrets
-                  key: ORDS_HOST
+                  key: API_HOST
             resources:
               limits:
                 cpu: 500m
@@ -129,9 +106,6 @@ objects:
                 path: "/actuator/health"
                 port: 8080
                 scheme: HTTP
-                httpHeaders:
-                - name: Authorization
-                  value: ${AUTH_HEADER}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
@@ -142,9 +116,6 @@ objects:
                 path: "/actuator/health"
                 port: 8080
                 scheme: HTTP
-                httpHeaders:
-                - name: Authorization
-                  value: ${AUTH_HEADER}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
@@ -161,9 +132,8 @@ objects:
             kind: ImageStreamTag
             namespace: ${OC_NAMESPACE}-tools
             name: ${COMPONENT_NAME}:${OC_ENV}
-  status: {}
 
-### JAG-SCSS Service ###
+### JAG-SCSS-TESTS Service ###
 - apiVersion: v1
   kind: Service
   metadata:
@@ -180,7 +150,7 @@ objects:
     sessionAffinity: None
     type: ClusterIP
 
-### JAG-SCSS Route ###
+### JAG-SCSS-TESTS Route ###
 - apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
@@ -192,7 +162,7 @@ objects:
     # balance algorithm
     haproxy.router.openshift.io/balance: roundrobin
   spec:
-    host: ${API_NAME}-${OC_NAMESPACE}-${OC_ENV}.${DNS}
+    host: ${COMPONENT_NAME}-${OC_NAMESPACE}-${OC_ENV}.${DNS}
     to:
       kind: Service
       name: ${COMPONENT_NAME}
