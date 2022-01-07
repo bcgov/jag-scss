@@ -58,6 +58,8 @@ jobs:
         with:
           java-version: 11
         
+      - name: Change to Automated Tests Directory 
+        run: cd AutomatedTest
       # Runs build steps
       - name: Maven Package
         run: mvn -ntp clean package
