@@ -1,5 +1,3 @@
-server:
-  port: 9500
 security:
   basic-auth:
     password: ${BASIC_AUTH_PASS}
