@@ -3,6 +3,7 @@ package ca.bc.gov.open.scss.controllers;
 import ca.bc.gov.open.scss.configuration.SoapConfig;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
+import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -64,11 +65,17 @@ public class FileController {
                         .queryParam(
                                 "courtLevelCode",
                                 search.getFilter() != null
+                                                && search.getFilter().getCourtLevelCode() != null
+                                                && search.getFilter().getCourtLevelCode().length()
+                                                        > 0
                                         ? search.getFilter().getCourtLevelCode()
                                         : null)
                         .queryParam(
                                 "courtClassCode",
                                 search.getFilter() != null
+                                                && search.getFilter().getCourtClassCode() != null
+                                                && search.getFilter().getCourtClassCode().length()
+                                                        > 0
                                         ? search.getFilter().getCourtClassCode()
                                         : null);
         addEndpointHeader("FileNumberSearch");
@@ -82,6 +89,9 @@ public class FileController {
             if (resp.getBody().getCourtFiles().isEmpty()) {
                 resp.getBody().setCourtFiles(null);
             }
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "FileNumberSearch")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -110,6 +120,9 @@ public class FileController {
                             HttpMethod.POST,
                             new HttpEntity<>(new HttpHeaders()),
                             LinkFileResponse.class);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "linkFile")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -148,6 +161,9 @@ public class FileController {
                                     search)));
             throw new ORDSException();
         }
+        log.info(
+                objectMapper.writeValueAsString(
+                        new RequestSuccessLog("Request Success", "unlinkFile")));
         return new UnlinkFileResponse();
     }
 
@@ -196,7 +212,10 @@ public class FileController {
                             || resp.getBody().getCourtFiles().size() == 0)) {
                 resp.getBody().setCourtFiles(null);
             }
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success", "fileNumbeSearchPublicAccess")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(

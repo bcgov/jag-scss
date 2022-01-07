@@ -3,6 +3,7 @@ package ca.bc.gov.open.scss.controllers;
 import ca.bc.gov.open.scss.configuration.SoapConfig;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
+import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -55,6 +56,9 @@ public class CourtController {
                             new HttpEntity<>(new HttpHeaders()),
                             GetCourtFileResponse.class);
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getCourtFile")));
             if (resp.getBody().getCourtFile() == null) {
                 return null;
             }
@@ -88,6 +92,9 @@ public class CourtController {
                             CaseBasics.class);
             GetCourtBasicsResponse cbr = new GetCourtBasicsResponse();
             cbr.setCaseBasics(resp.getBody());
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "GetCourtBasics")));
             return cbr;
         } catch (Exception ex) {
             log.error(
@@ -115,6 +122,9 @@ public class CourtController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             GetCeisConnectInfoResponse.class);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getCeisConnectInfo")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -142,6 +152,9 @@ public class CourtController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             GetPartiesResponse.class);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getParties")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -214,6 +227,9 @@ public class CourtController {
                     resp.getBody() != null && resp.getBody().getResults().size() > 0
                             ? resp.getBody()
                             : null);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "PartyNameSearch")));
             return pns;
         } catch (Exception ex) {
             if (search.getFilter() != null) {
@@ -273,6 +289,9 @@ public class CourtController {
                                     inner)));
             throw new ORDSException();
         }
+        log.info(
+                objectMapper.writeValueAsString(
+                        new RequestSuccessLog("Request Success", "SaveHearingResult")));
         return new SaveHearingResultsResponse();
     }
 

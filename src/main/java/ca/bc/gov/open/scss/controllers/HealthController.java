@@ -3,6 +3,7 @@ package ca.bc.gov.open.scss.controllers;
 import ca.bc.gov.open.scss.configuration.SoapConfig;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
+import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -53,6 +54,9 @@ public class HealthController {
                             new HttpEntity<>(new HttpHeaders()),
                             GetHealthResponse.class);
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getHealth")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -81,6 +85,9 @@ public class HealthController {
                             new HttpEntity<>(new HttpHeaders()),
                             GetPingResponse.class);
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getPing")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(

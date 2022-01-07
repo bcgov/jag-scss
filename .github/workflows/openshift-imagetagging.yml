@@ -92,10 +92,13 @@ jobs:
         run: |
           oc patch dc ${appName} -n ${openshiftEnvNamespace} --patch '{"spec":{"template":{"metadata":{"labels":{"version":"${{ env.releaseVersion }}.${{ env.gitsha }}"}}}}}'
 
-      - name: Sleep for 120s
-        uses: juliangruber/sleep-action@v1
-        with:
-          time: 120s
+      # Wait to DC rollout to get completed before proceeding next stage
+      - name: Wait for DC rollout
+        env:
+          appName: ${{ github.event.inputs.app }}
+          openshiftEnvNamespace: ${{secrets.OPENSHIFT_LICENSE_PLATE}}-${{ github.event.inputs.imageTargetEnv }}
+        run: |
+          oc rollout status -n ${openshiftEnvNamespace} dc/${appName} --watch
 
       - name: Setup Node
         uses: actions/setup-node@v2

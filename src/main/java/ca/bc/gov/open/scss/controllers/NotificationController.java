@@ -3,6 +3,7 @@ package ca.bc.gov.open.scss.controllers;
 import ca.bc.gov.open.scss.configuration.SoapConfig;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
+import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -54,6 +55,9 @@ public class NotificationController {
                             new HttpEntity<>(new HttpHeaders()),
                             GetAllNotificationsResponse.class);
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "GetAllNotifications")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -83,6 +87,9 @@ public class NotificationController {
                             new HttpEntity<>(new HttpHeaders()),
                             GetNotificationsResponse.class);
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "GetNotifications")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -113,6 +120,9 @@ public class NotificationController {
                             new HttpEntity<>(new HttpHeaders()),
                             HasNotificationResponse.class);
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "hasNotification")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -153,6 +163,9 @@ public class NotificationController {
                                     search)));
             throw new ORDSException();
         }
+        log.info(
+                objectMapper.writeValueAsString(
+                        new RequestSuccessLog("Request Success", "RemoveNotification")));
         return new RemoveNotificationResponse();
     }
 
