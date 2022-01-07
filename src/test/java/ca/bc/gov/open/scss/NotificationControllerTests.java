@@ -21,6 +21,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -45,15 +46,15 @@ public class NotificationControllerTests {
 
     @Test
     public void getAllNotificationsTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         notificationController = new NotificationController(restTemplate, objectMapper);
-        //    Init request object
-        var fs = new GetAllNotifications();
 
-        //    Init response
-        var nr = new GetAllNotificationsResponse();
+        // Init request object
+        var req = new GetAllNotifications();
 
-        var not = new Notification();
+        // Init response
+        var resp = new GetAllNotificationsResponse();
+        Notification not = new Notification();
         not.setNotificationId(BigDecimal.ONE);
         not.setLinkId(BigDecimal.ONE);
         not.setPhysicalFileId(BigDecimal.ONE);
@@ -63,12 +64,12 @@ public class NotificationControllerTests {
         Instant now = Instant.now();
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
+        resp.setNotifications(Collections.singletonList(not));
 
-        nr.setNotifications(Collections.singletonList(not));
         ResponseEntity<GetAllNotificationsResponse> responseEntity =
-                new ResponseEntity<>(nr, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -76,24 +77,24 @@ public class NotificationControllerTests {
                         Mockito.<Class<GetAllNotificationsResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = notificationController.getAllNotifications(fs);
+        // Do request
+        var out = notificationController.getAllNotifications(req);
 
-        //     Assert response is correct
-        assert (out.equals(nr));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
     public void getNotificationTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         notificationController = new NotificationController(restTemplate, objectMapper);
-        //    Init request object
-        var gn = new GetNotifications();
 
-        //    Init response
-        var nr = new GetNotificationsResponse();
+        // Init request object
+        var req = new GetNotifications();
 
-        var not = new Notification();
+        // Init response
+        var resp = new GetNotificationsResponse();
+        Notification not = new Notification();
         not.setNotificationId(BigDecimal.ONE);
         not.setLinkId(BigDecimal.ONE);
         not.setPhysicalFileId(BigDecimal.ONE);
@@ -103,12 +104,12 @@ public class NotificationControllerTests {
         Instant now = Instant.now();
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
+        resp.setNotifications(Collections.singletonList(not));
 
-        nr.setNotifications(Collections.singletonList(not));
         ResponseEntity<GetNotificationsResponse> responseEntity =
-                new ResponseEntity<>(nr, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -116,30 +117,29 @@ public class NotificationControllerTests {
                         Mockito.<Class<GetNotificationsResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = notificationController.getNotification(gn);
+        // Do request
+        var out = notificationController.getNotification(req);
 
-        //     Assert response is correct
-        assert (out.equals(nr));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
     public void hasNotificationTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         notificationController = new NotificationController(restTemplate, objectMapper);
-        //    Init request object
-        var hn = new HasNotification();
-        hn.setPhysicalFileId(BigDecimal.ONE);
+        // Init request object
+        var req = new HasNotification();
+        req.setPhysicalFileId(BigDecimal.ONE);
 
-        //    Init response
-        var nr = new HasNotificationResponse();
-
-        nr.setBoolean(true);
+        // Init response
+        var resp = new HasNotificationResponse();
+        resp.setBoolean(true);
 
         ResponseEntity<HasNotificationResponse> responseEntity =
-                new ResponseEntity<>(nr, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -147,28 +147,28 @@ public class NotificationControllerTests {
                         Mockito.<Class<HasNotificationResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = notificationController.hasNotifications(hn);
+        // Do request
+        var out = notificationController.hasNotifications(req);
 
-        //     Assert response is correct
-        assert (out.equals(nr));
+        // Assert response is correct
+        assert (out.equals(resp));
     }
 
     @Test
     public void removeNotificationTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         notificationController = new NotificationController(restTemplate, objectMapper);
-        //    Init request object
-        var rn = new RemoveNotification();
-        rn.setNotificationId(BigDecimal.ONE);
+        // Init request object
+        var req = new RemoveNotification();
+        req.setNotificationId(BigDecimal.ONE);
 
-        //    Init response
-        var nr = new RemoveNotificationResponse();
+        // Init response
+        var resp = new RemoveNotificationResponse();
 
         ResponseEntity<RemoveNotificationResponse> responseEntity =
-                new ResponseEntity<>(nr, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.DELETE),
@@ -176,11 +176,11 @@ public class NotificationControllerTests {
                         Mockito.<Class<RemoveNotificationResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = notificationController.removeNotification(rn);
+        // Do request
+        var out = notificationController.removeNotification(req);
 
-        //     Assert response is correct
-        assert out != null;
+        // Assert response is correct
+        Assertions.assertNotNull(out);
     }
 
     @Test
@@ -201,7 +201,7 @@ public class NotificationControllerTests {
 
         inst = objectMapper.readValue(instantString, Notification.class);
 
-        assert inst.getStatusDatetime() == null;
+        Assertions.assertNull(inst.getStatusDatetime());
     }
 
     @Test
@@ -227,7 +227,8 @@ public class NotificationControllerTests {
         jaxbMarshaller.marshal(nr, baos);
         out = baos.toString();
 
-        assert out.contains(nowStr.substring(0, nowStr.length() - 1)) && !out.contains(nowStr);
+        Assertions.assertTrue(
+                out.contains(nowStr.substring(0, nowStr.length() - 1)) && !out.contains(nowStr));
     }
 
     @Test
@@ -268,7 +269,7 @@ public class NotificationControllerTests {
                 (SaveHearingResults)
                         jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(in.getBytes()));
 
-        assert out != null;
+        Assertions.assertNotNull(out);
 
         in =
                 "<scss:saveHearingResults xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:scss=\"http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss\">\n"
@@ -303,14 +304,14 @@ public class NotificationControllerTests {
                 (SaveHearingResults)
                         jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(in.getBytes()));
 
-        assert out.getHearingResult()
+        Assertions.assertNotNull(
+                out.getHearingResult()
                         .getHearingResult()
                         .getCaseDetails()
                         .getCaseAugmentation()
                         .getCaseHearing()
                         .getCourtEventAppearance()
-                        .getCourtAppearanceDate()
-                != null;
+                        .getCourtAppearanceDate());
 
         in =
                 "<scss:saveHearingResults xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:scss=\"http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss\">\n"
@@ -345,13 +346,13 @@ public class NotificationControllerTests {
                 (SaveHearingResults)
                         jaxbUnmarshaller.unmarshal(new ByteArrayInputStream(in.getBytes()));
 
-        assert out.getHearingResult()
+        Assertions.assertNull(
+                out.getHearingResult()
                         .getHearingResult()
                         .getCaseDetails()
                         .getCaseAugmentation()
                         .getCaseHearing()
                         .getCourtEventAppearance()
-                        .getCourtAppearanceDate()
-                == null;
+                        .getCourtAppearanceDate());
     }
 }

@@ -1,8 +1,6 @@
 package ca.bc.gov.open.scss;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import ca.bc.gov.open.scss.controllers.FileController;
 import ca.bc.gov.open.scss.wsdl.*;
@@ -10,43 +8,41 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
 public class FileControllerTests {
 
-    @Autowired private FileController fileController;
+    private FileController fileController;
 
-    @Autowired private MockMvc mockMvc;
+    @Autowired private ObjectMapper objectMapper;
 
     @Mock private RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void fileNumberSearchTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         fileController = new FileController(restTemplate, objectMapper);
 
-        //    Init request object
-        var fs = new FileNumberSearch();
-        fs.setFilter(new FileNumberSearchFilter());
-        fs.getFilter().setCourtClassCode("C");
-        fs.getFilter().setCourtFileNumber("V");
-        fs.getFilter().setCourtLevelCode("S");
-        fs.getFilter().setLocationId(new BigDecimal(1));
+        // Init request object
+        var req = new FileNumberSearch();
+        req.setFilter(new FileNumberSearchFilter());
+        req.getFilter().setCourtClassCode("C");
+        req.getFilter().setCourtFileNumber("V");
+        req.getFilter().setCourtLevelCode("S");
+        req.getFilter().setLocationId(new BigDecimal(1));
 
-        //    Init response
+        // Init response
+        var resp = new FileNumberSearchResponse();
         CourtFile cf = new CourtFile();
         cf.setCourtClassCode("A");
         cf.setCourtLevelCode("A");
@@ -54,13 +50,12 @@ public class FileControllerTests {
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
+        resp.setCourtFiles(Collections.singletonList(cf));
 
-        var fns = new FileNumberSearchResponse();
-        fns.setCourtFiles(Collections.singletonList(cf));
         ResponseEntity<FileNumberSearchResponse> responseEntity =
-                new ResponseEntity<>(fns, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -68,11 +63,11 @@ public class FileControllerTests {
                         Mockito.<Class<FileNumberSearchResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = fileController.fileNumberSearch(fs);
+        // Do request
+        var out = fileController.fileNumberSearch(req);
 
-        //     Assert response is correct
-        assert (out.equals(fns));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
@@ -80,10 +75,11 @@ public class FileControllerTests {
         //  Init service under test
         fileController = new FileController(restTemplate, objectMapper);
 
-        //    Init request object
-        var fs = new FileNumberSearch();
+        // Init request object
+        var req = new FileNumberSearch();
 
-        //    Init response
+        // Init response
+        var resp = new FileNumberSearchResponse();
         CourtFile cf = new CourtFile();
         cf.setCourtClassCode("A");
         cf.setCourtLevelCode("A");
@@ -91,13 +87,12 @@ public class FileControllerTests {
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
+        resp.setCourtFiles(Collections.singletonList(cf));
 
-        var fns = new FileNumberSearchResponse();
-        fns.setCourtFiles(Collections.singletonList(cf));
         ResponseEntity<FileNumberSearchResponse> responseEntity =
-                new ResponseEntity<>(fns, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -105,29 +100,30 @@ public class FileControllerTests {
                         Mockito.<Class<FileNumberSearchResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = fileController.fileNumberSearch(fs);
+        // Do request
+        var out = fileController.fileNumberSearch(req);
 
-        //     Assert response is correct
-        assert (out.equals(fns));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
     public void linkFileTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         fileController = new FileController(restTemplate, objectMapper);
 
-        //    Init request object
-        var lf = new LinkFile();
-        lf.setPhysicalFileId(BigDecimal.ONE);
-        lf.setCaseActionNumber("A");
-        //    Init response
-        var lfr = new LinkFileResponse();
-        lfr.setLinkId(BigDecimal.ONE);
+        // Init request object
+        var req = new LinkFile();
+        req.setPhysicalFileId(BigDecimal.ONE);
+        req.setCaseActionNumber("A");
 
-        ResponseEntity<LinkFileResponse> responseEntity = new ResponseEntity<>(lfr, HttpStatus.OK);
+        // Init response
+        var resp = new LinkFileResponse();
+        resp.setLinkId(BigDecimal.ONE);
 
-        //     Set up to mock ords response
+        ResponseEntity<LinkFileResponse> responseEntity = new ResponseEntity<>(resp, HttpStatus.OK);
+
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
@@ -135,29 +131,30 @@ public class FileControllerTests {
                         Mockito.<Class<LinkFileResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = fileController.linkFile(lf);
+        // Do request
+        var out = fileController.linkFile(req);
 
-        //     Assert response is correct
-        assert (out.equals(lfr));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
     public void unlinkFileTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         fileController = new FileController(restTemplate, objectMapper);
 
-        //    Init request object
-        var lf = new UnlinkFile();
-        lf.setPhysicalFileId(BigDecimal.ONE);
-        lf.setCaseActionNumber("A");
-        //    Init response
-        var lfr = new UnlinkFileResponse();
+        // Init request object
+        var req = new UnlinkFile();
+        req.setPhysicalFileId(BigDecimal.ONE);
+        req.setCaseActionNumber("A");
+
+        // Init response
+        var resp = new UnlinkFileResponse();
 
         ResponseEntity<UnlinkFileResponse> responseEntity =
-                new ResponseEntity<>(lfr, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.PUT),
@@ -165,43 +162,42 @@ public class FileControllerTests {
                         Mockito.<Class<UnlinkFileResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = fileController.unlinkFile(lf);
+        // Do request
+        var out = fileController.unlinkFile(req);
 
-        //     Assert response is correct
-        assert out != null;
+        // Assert response is correct
+        Assertions.assertNotNull(out);
     }
 
     @Test
     public void fileNumberSearchPublicAccessTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         fileController = new FileController(restTemplate, objectMapper);
 
-        //    Init request object
-        var fs = new FileNumbeSearchPublicAccess();
+        // Init request object
+        var req = new FileNumbeSearchPublicAccess();
         var fil = new FileNumberSearchFilter();
         fil.setCourtFileNumber("A");
         fil.setLocationId(BigDecimal.ONE);
         fil.setLocationId(BigDecimal.ONE);
         fil.setCourtClassCode("A");
-        fs.setFilter(fil);
+        req.setFilter(fil);
 
-        //    Init response
-        var cf = new CourtFile();
+        // Init response
+        var resp = new FileNumbeSearchPublicAccessResponse();
+        CourtFile cf = new CourtFile();
         cf.setCourtClassCode("A");
         cf.setCourtLevelCode("A");
         cf.setCourtFileNumber("A");
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
-
-        var fns = new FileNumbeSearchPublicAccessResponse();
-        fns.setCourtFiles(Collections.singletonList(cf));
+        resp.setCourtFiles(Collections.singletonList(cf));
 
         ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
-                new ResponseEntity<>(fns, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -209,11 +205,11 @@ public class FileControllerTests {
                         Mockito.<Class<FileNumbeSearchPublicAccessResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = fileController.fileNumberSearchPublicAccess(fs);
+        // Do request
+        var out = fileController.fileNumberSearchPublicAccess(req);
 
-        //     Assert response is correct
-        assert (out.equals(fns));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
@@ -221,10 +217,11 @@ public class FileControllerTests {
         //  Init service under test
         fileController = new FileController(restTemplate, objectMapper);
 
-        //    Init request object
-        var fs = new FileNumbeSearchPublicAccess();
+        // Init request object
+        var req = new FileNumbeSearchPublicAccess();
 
-        //    Init response
+        // Init response
+        var resp = new FileNumbeSearchPublicAccessResponse();
         var cf = new CourtFile();
         cf.setCourtClassCode("A");
         cf.setCourtLevelCode("A");
@@ -232,14 +229,12 @@ public class FileControllerTests {
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
-
-        var fns = new FileNumbeSearchPublicAccessResponse();
-        fns.setCourtFiles(Collections.singletonList(cf));
+        resp.setCourtFiles(Collections.singletonList(cf));
 
         ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
-                new ResponseEntity<>(fns, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -247,27 +242,28 @@ public class FileControllerTests {
                         Mockito.<Class<FileNumbeSearchPublicAccessResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = fileController.fileNumberSearchPublicAccess(fs);
+        // Do request
+        var out = fileController.fileNumberSearchPublicAccess(req);
 
-        //     Assert response is correct
-        assert (out.equals(fns));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
     public void fileNumberSearchPublicAccessSealedTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         fileController = new FileController(restTemplate, objectMapper);
 
-        //    Init request object
-        var fs = new FileNumbeSearchPublicAccess();
+        // Init request object
+        var req = new FileNumbeSearchPublicAccess();
 
-        var fns = new FileNumbeSearchPublicAccessResponse();
+        // Init response
+        var resp = new FileNumbeSearchPublicAccessResponse();
 
         ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
-                new ResponseEntity<>(fns, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -275,19 +271,10 @@ public class FileControllerTests {
                         Mockito.<Class<FileNumbeSearchPublicAccessResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = fileController.fileNumberSearchPublicAccess(fs);
+        // Do request
+        var out = fileController.fileNumberSearchPublicAccess(req);
 
-        //     Assert response is correct
-        assert (out.equals(fns));
-    }
-
-    @Test
-    public void securityTestFail_Then403() throws Exception {
-        var response =
-                mockMvc.perform(post("/ws").contentType(MediaType.TEXT_XML))
-                        .andExpect(status().is4xxClientError())
-                        .andReturn();
-        assert response.getResponse().getStatus() == 401;
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 }

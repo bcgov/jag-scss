@@ -6,6 +6,7 @@ import ca.bc.gov.open.scss.controllers.HealthController;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -28,18 +29,19 @@ public class HealthControllerTests {
     public void getHealthTest() throws IOException {
         HealthController healthController = new HealthController(restTemplate, objectMapper);
 
-        var hr = new GetHealthResponse();
-        hr.setAppid("A");
-        hr.setCompatibility("A");
-        hr.setHost("A");
-        hr.setMethod("A");
-        hr.setVersion("A");
-        hr.setInstance("A");
-        hr.setStatus("A");
+        var resp = new GetHealthResponse();
+        resp.setAppid("A");
+        resp.setCompatibility("A");
+        resp.setHost("A");
+        resp.setMethod("A");
+        resp.setVersion("A");
+        resp.setInstance("A");
+        resp.setStatus("A");
 
-        ResponseEntity<GetHealthResponse> responseEntity = new ResponseEntity<>(hr, HttpStatus.OK);
+        ResponseEntity<GetHealthResponse> responseEntity =
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -49,20 +51,20 @@ public class HealthControllerTests {
 
         GetHealthResponse out = healthController.getHealth(new GetHealth());
 
-        assert out != null;
+        Assertions.assertNotNull(out);
     }
 
     @Test
     public void getPingTest() {
-        //        Only needed for log test otherwise required refactor
+        // Only needed for log test otherwise required refactor
         HealthController healthController = new HealthController(restTemplate, objectMapper);
 
-        var pr = new GetPingResponse();
-        pr.setStatus("A");
+        var resp = new GetPingResponse();
+        resp.setStatus("A");
 
-        ResponseEntity<GetPingResponse> responseEntity = new ResponseEntity<>(pr, HttpStatus.OK);
+        ResponseEntity<GetPingResponse> responseEntity = new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -72,6 +74,6 @@ public class HealthControllerTests {
 
         GetPingResponse out = healthController.getPing(new GetPing());
 
-        assert out != null;
+        Assertions.assertNotNull(out);
     }
 }

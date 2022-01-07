@@ -1,7 +1,6 @@
 package ca.bc.gov.open.scss.controllers;
 
 import ca.bc.gov.open.scss.configuration.SoapConfig;
-import ca.bc.gov.open.scss.exceptions.BadDateException;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.wsdl.*;
@@ -217,8 +216,10 @@ public class CourtController {
                             : null);
             return pns;
         } catch (Exception ex) {
-            search.getFilter().setName("");
-            search.getFilter().setFirstName("");
+            if (search.getFilter() != null) {
+                search.getFilter().setName("");
+                search.getFilter().setFirstName("");
+            }
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
@@ -233,7 +234,7 @@ public class CourtController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "saveHearingResults")
     @ResponsePayload
     public SaveHearingResultsResponse saveHearingResults(@RequestPayload SaveHearingResults search)
-            throws BadDateException, IOException {
+            throws IOException {
 
         var inner =
                 search.getHearingResult() != null
@@ -244,19 +245,14 @@ public class CourtController {
                         : new CaseDetails();
         addEndpointHeader("saveHearingResults");
 
-        if (inner.getCaseAugmentation()
-                        .getCaseHearing()
-                        .getCourtEventAppearance()
-                        .getCourtAppearanceDate()
-                == null) {
+        if (inner.getCaseAugmentation() == null
+                || inner.getCaseAugmentation().getCaseHearing() == null
+                || inner.getCaseAugmentation().getCaseHearing().getCourtEventAppearance() == null) {
             log.warn(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Bad date format or missing date received",
-                                    "SaveHearingResult",
-                                    "",
-                                    null)));
-            throw new BadDateException();
+                                    "Empty Search Request", "SaveHearingResult", "", null)));
+            throw new ORDSException();
         }
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "SaveHearingResult");
