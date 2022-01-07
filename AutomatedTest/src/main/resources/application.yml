@@ -1,0 +1,7 @@
+server:
+  port: 8083
+
+test:
+  password: ${BASIC_AUTH_PASS}
+  username: ${BASIC_AUTH_USER}
+  api-host: ${API_HOST}
