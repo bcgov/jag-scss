@@ -151,7 +151,7 @@ public class NotificationControllerTests {
         var out = notificationController.hasNotifications(req);
 
         // Assert response is correct
-        assert (out.equals(resp));
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
