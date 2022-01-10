@@ -1,6 +1,6 @@
 FROM openjdk:11-jre-slim
 
-WORKDIR app/
+WORKDIR /app
 RUN chgrp -R 0 /app && \
     chmod -R g=u /app
 
