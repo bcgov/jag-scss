@@ -41,3 +41,4 @@ mvnw.bat
 set_env.sh
 /scss-soapui-project.xml
 **/TestSuite_SCSS*
+/TestErrors.zip
