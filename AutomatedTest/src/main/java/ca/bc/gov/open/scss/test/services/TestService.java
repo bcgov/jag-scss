@@ -3,7 +3,6 @@ package ca.bc.gov.open.scss.test.services;
 import com.eviware.soapui.tools.SoapUITestCaseRunner;
 import java.io.*;
 import java.util.Scanner;
-
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
@@ -59,14 +58,14 @@ public class TestService {
         ZipOutputStream zipOut = new ZipOutputStream(fos);
         File fOut = new File("TestErrors.zip");
 
-        for (var fileToZip : files){
+        for (var fileToZip : files) {
             FileInputStream fis = new FileInputStream(fileToZip);
             ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
             zipOut.putNextEntry(zipEntry);
 
             byte[] bytes = new byte[1024];
             int length;
-            while((length = fis.read(bytes)) >= 0) {
+            while ((length = fis.read(bytes)) >= 0) {
                 zipOut.write(bytes, 0, length);
             }
             fis.close();
