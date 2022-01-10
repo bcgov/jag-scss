@@ -36,15 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/error")
-                .permitAll().antMatchers("/swagger*","/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
+                .permitAll().antMatchers(
+                        "/swagger-resources*",
+                        "/v3/api-docs/**",
+                        "/swagger-config/**",
                         "/swagger-ui.html",
-                        "/swagger-ui/*",
-                        "/webjars/**",
-                        "/csrf",
-                        "/").permitAll()
+                        "/swagger-ui/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
