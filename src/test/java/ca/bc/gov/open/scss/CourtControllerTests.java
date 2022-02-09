@@ -3,11 +3,9 @@ package ca.bc.gov.open.scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.scss.controllers.CourtController;
-import ca.bc.gov.open.scss.exceptions.BadDateException;
 import ca.bc.gov.open.scss.models.serializers.InstantDeserializer;
 import ca.bc.gov.open.scss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -19,6 +17,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Locale;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,22 +34,23 @@ import org.springframework.web.client.RestTemplate;
 @ActiveProfiles("test")
 public class CourtControllerTests {
 
-    @Autowired private CourtController courtController;
+    private CourtController courtController;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired private ObjectMapper objectMapper;
+
+    @Mock private RestTemplate restTemplate;
 
     @Test
     public void getCourtFileTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         courtController = new CourtController(restTemplate, objectMapper);
 
-        //    Init request object
-        var gcf = new GetCourtFile();
-        gcf.setPhysicalFileId(BigDecimal.ONE);
+        // Init request object
+        var req = new GetCourtFile();
+        req.setPhysicalFileId(BigDecimal.ONE);
 
-        //    Init response
-        var cfr = new GetCourtFileResponse();
+        // Init response
+        var resp = new GetCourtFileResponse();
         CourtFile cf = new CourtFile();
         cf.setCourtClassCode("A");
         cf.setCourtLevelCode("A");
@@ -58,12 +58,12 @@ public class CourtControllerTests {
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
-        cfr.setCourtFile(cf);
+        resp.setCourtFile(cf);
 
         ResponseEntity<GetCourtFileResponse> responseEntity =
-                new ResponseEntity<>(cfr, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -71,23 +71,24 @@ public class CourtControllerTests {
                         Mockito.<Class<GetCourtFileResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = courtController.getCourtFile(gcf);
+        // Do request
+        var out = courtController.getCourtFile(req);
 
-        //     Assert response is correct
-        assert (out.equals(cfr));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
+        // Assertions.assertNotNull(out);
     }
 
     @Test
     public void getCourtBasicsTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         courtController = new CourtController(restTemplate, objectMapper);
 
-        //    Init request object
-        var gcb = new GetCourtBasics();
-        gcb.setPhysicalFileId(BigDecimal.ONE);
+        // Init request object
+        var req = new GetCourtBasics();
+        req.setPhysicalFileId(BigDecimal.ONE);
 
-        //    Init response
+        // Init response
         CaseBasics cb = new CaseBasics();
         cb.setCourtClassCode("A");
         cb.setCourtLevelCode("A");
@@ -101,7 +102,7 @@ public class CourtControllerTests {
 
         ResponseEntity<CaseBasics> responseEntity = new ResponseEntity<>(cb, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -109,51 +110,28 @@ public class CourtControllerTests {
                         Mockito.<Class<CaseBasics>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = courtController.getCourtBasics(gcb);
+        // Do request
+        var out = courtController.getCourtBasics(req);
 
-        //     Assert response is correct
-        assert (out.getCaseBasics().equals(cb));
-    }
-
-    @Test
-    public void testInstantSerializer() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Instant.class, new InstantDeserializer());
-        module.addSerializer(Instant.class, new InstantSerializer());
-        objectMapper.registerModule(module);
-
-        var time = Instant.now();
-        String out = objectMapper.writeValueAsString(time);
-
-        String expected =
-                DateTimeFormatter.ofPattern("dd-MMM-yyyy")
-                        .withZone(ZoneId.of("GMT-7"))
-                        .withLocale(Locale.US)
-                        .format(time);
-
-        out = out.replace("\"", "");
-        assert out.equals(expected);
+        // Assert response is correct
+        Assertions.assertEquals(cb, out.getCaseBasics());
     }
 
     @Test
     public void getCeisConnectInfoTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         courtController = new CourtController(restTemplate, objectMapper);
 
-        //    Init request object
-        var ci = new GetCeisConnectInfo();
+        // Init request object
+        var req = new GetCeisConnectInfo();
 
-        var cir = new GetCeisConnectInfoResponse();
-        cir.setConnectionInfo("A");
+        var resp = new GetCeisConnectInfoResponse();
+        resp.setConnectionInfo("A");
 
         ResponseEntity<GetCeisConnectInfoResponse> responseEntity =
-                new ResponseEntity<>(cir, HttpStatus.OK);
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -161,24 +139,24 @@ public class CourtControllerTests {
                         Mockito.<Class<GetCeisConnectInfoResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = courtController.getCeisConnectInfo(ci);
+        // Do request
+        var out = courtController.getCeisConnectInfo(req);
 
-        //     Assert response is correct
-        assert cir.equals(out);
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
     public void getPartiesTest() throws IOException {
-        //  Init service under test
+        // Init service under test
         courtController = new CourtController(restTemplate, objectMapper);
 
-        //    Init request object
-        var gp = new GetParties();
-        gp.setPhysicalFileId(BigDecimal.ONE);
+        // Init request object
+        var req = new GetParties();
+        req.setPhysicalFileId(BigDecimal.ONE);
 
-        //    Init response
-        var cb = new GetPartiesResponse();
+        // Init response
+        var resp = new GetPartiesResponse();
         CaseParty cp = new CaseParty();
         cp.setActive(true);
         cp.setFirstName("A");
@@ -197,11 +175,12 @@ public class CourtControllerTests {
         cp.setSurname("A");
         cp.setProvince("A");
         cp.setPhoneNumber("A");
+        resp.setParties(Collections.singletonList(cp));
 
-        cb.setParties(Collections.singletonList(cp));
-        ResponseEntity<GetPartiesResponse> responseEntity = new ResponseEntity<>(cb, HttpStatus.OK);
+        ResponseEntity<GetPartiesResponse> responseEntity =
+                new ResponseEntity<>(resp, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -209,20 +188,20 @@ public class CourtControllerTests {
                         Mockito.<Class<GetPartiesResponse>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = courtController.getParties(gp);
+        // Do request
+        var out = courtController.getParties(req);
 
-        //     Assert response is correct
-        assert (out.equals(cb));
+        // Assert response is correct
+        Assertions.assertEquals(resp, out);
     }
 
     @Test
-    public void partNameSearchTest() throws IOException {
-        //  Init service under test
+    public void partyNameSearchTest() throws IOException {
+        // Init service under test
         courtController = new CourtController(restTemplate, objectMapper);
 
-        //    Init request object
-        var pns = new PartyNameSearch();
+        // Init request object
+        var req = new PartyNameSearch();
         PartyNameSearchFilter pnf = new PartyNameSearchFilter();
         pnf.setCourtClass("A");
         pnf.setAgencyId(BigDecimal.ONE);
@@ -232,9 +211,9 @@ public class CourtControllerTests {
         pnf.setPage(BigDecimal.ONE);
         pnf.setName("A");
         pnf.setRoleType("A");
-        pns.setFilter(pnf);
+        req.setFilter(pnf);
 
-        //    Init response
+        // Init response
         SearchResults res = new SearchResults();
         res.setPage(BigDecimal.ONE);
         res.setRecordsPerPage(BigDecimal.ONE);
@@ -243,7 +222,7 @@ public class CourtControllerTests {
 
         ResponseEntity<SearchResults> responseEntity = new ResponseEntity<>(res, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -251,27 +230,31 @@ public class CourtControllerTests {
                         Mockito.<Class<SearchResults>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = courtController.partyNameSearch(pns);
+        // Do request
+        var out = courtController.partyNameSearch(req);
 
-        //     Assert response is correct
-        assert (out.getSearchResults().equals(res));
+        // Assert response is correct
+        Assertions.assertEquals(res, out.getSearchResults());
     }
 
     @Test
-    public void partNameSearchNullFilterTest() throws IOException {
-        //  Init service under test
+    public void partyNameSearchNullFilterTest() throws IOException {
+        // Init service under test
         courtController = new CourtController(restTemplate, objectMapper);
 
-        //    Init request object
-        var pns = new PartyNameSearch();
+        // Init request object
+        var req = new PartyNameSearch();
 
-        //    Init response
+        // Init response
         SearchResults res = new SearchResults();
+        res.setPage(BigDecimal.ONE);
+        res.setResults(Collections.singletonList(new CourtFile()));
+        res.setRecordsPerPage(BigDecimal.ONE);
+        res.setTotalRecords(BigDecimal.ONE);
 
         ResponseEntity<SearchResults> responseEntity = new ResponseEntity<>(res, HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -279,21 +262,19 @@ public class CourtControllerTests {
                         Mockito.<Class<SearchResults>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = courtController.partyNameSearch(pns);
+        // Do request
+        var out = courtController.partyNameSearch(req);
 
-        //     Assert response is correct
-        assert (out != null);
+        // Assert response is correct
+        Assertions.assertNotNull(out);
     }
 
     @Test
-    public void saveHearingResultTest() throws BadDateException, IOException {
-        //  Init service under test
+    public void saveHearingResultTest() throws IOException {
+        // Init service under test
         courtController = new CourtController(restTemplate, objectMapper);
 
-        ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
-
-        var hr = new SaveHearingResults();
+        var req = new SaveHearingResults();
         var res = new HearingResult();
         var res2 = new HearingResult2();
         var cd = new CaseDetails();
@@ -316,15 +297,18 @@ public class CourtControllerTests {
         tm.setMeasureEstimatedIndicator(true);
         tm.setMeasureUnitText("A");
 
+        // Wrap into the request
         ea.setTimeMeasureDetails(tm);
         ch.setCourtEventAppearance(ea);
         ca.setCaseHearing(ch);
         cd.setCaseAugmentation(ca);
         res2.setCaseDetails(cd);
         res.setHearingResult(res2);
-        hr.setHearingResult(res);
+        req.setHearingResult(res);
 
-        //     Set up to mock ords response
+        ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
@@ -332,22 +316,19 @@ public class CourtControllerTests {
                         Mockito.<Class<String>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        var out = courtController.saveHearingResults(hr);
+        // Do request
+        var out = courtController.saveHearingResults(req);
 
-        assert out != null;
+        // Assert response is correct
+        Assertions.assertNotNull(out);
     }
 
     @Test
-    public void saveHearingResultTestBadDate() {
-        //  Init service under test
-
-        ObjectMapper objectMapper = new ObjectMapper();
+    public void saveHearingResultTestBadDate() throws IOException {
+        // Init service under test
         courtController = new CourtController(restTemplate, objectMapper);
 
-        ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
-
-        var hr = new SaveHearingResults();
+        var req = new SaveHearingResults();
         var res = new HearingResult();
         var res2 = new HearingResult2();
         var cd = new CaseDetails();
@@ -361,7 +342,7 @@ public class CourtControllerTests {
         ea.setCourtAppearanceCourt("A");
         ea.setActivityStatus("A");
         ea.setCancellationStatus("A");
-        ea.setCourtAppearanceDate(null);
+        ea.setCourtAppearanceDate(Instant.now());
         ea.setCourtAppearanceCategoryText("A");
         ea.setCourtEventSequenceID("A");
 
@@ -370,15 +351,18 @@ public class CourtControllerTests {
         tm.setMeasureEstimatedIndicator(true);
         tm.setMeasureUnitText("A");
 
+        // Wrap into the request
         ea.setTimeMeasureDetails(tm);
         ch.setCourtEventAppearance(ea);
         ca.setCaseHearing(ch);
         cd.setCaseAugmentation(ca);
         res2.setCaseDetails(cd);
         res.setHearingResult(res2);
-        hr.setHearingResult(res);
+        req.setHearingResult(res);
 
-        //     Set up to mock ords response
+        ResponseEntity<String> responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
@@ -386,15 +370,33 @@ public class CourtControllerTests {
                         Mockito.<Class<String>>any()))
                 .thenReturn(responseEntity);
 
-        //     Do request
-        try {
-            var out = courtController.saveHearingResults(hr);
-        } catch (BadDateException | IOException ex) {
-            // Expect Failure of the request
-            assert true;
-            return;
-        }
+        // Do request
+        var out = courtController.saveHearingResults(req);
 
-        assert false;
+        // Assert response is correct
+        Assertions.assertNotNull(out);
+    }
+
+    @Test
+    public void testInstantSerializer() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        objectMapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Instant.class, new InstantDeserializer());
+        module.addSerializer(Instant.class, new InstantSerializer());
+        objectMapper.registerModule(module);
+
+        var time = Instant.now();
+        String out = objectMapper.writeValueAsString(time);
+
+        String expected =
+                DateTimeFormatter.ofPattern("dd-MMM-yyyy")
+                        .withZone(ZoneId.of("GMT-7"))
+                        .withLocale(Locale.US)
+                        .format(time);
+
+        out = out.replace("\"", "");
+        Assertions.assertEquals(expected, out);
     }
 }

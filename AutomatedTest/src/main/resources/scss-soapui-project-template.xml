@@ -1,0 +1,1365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="0f13fe1c-d801-4d7d-b03b-03839484be32" activeEnvironment="Default" name="scss" resourceRoot="${projectDir}" soapui-version="5.6.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="4d74440b-2275-409e-9f2f-2039f5043b2c" wsaVersion="NONE" name="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder" type="wsdl" bindingName="{http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss}SCSS_Source_CeisScss_ws_provider_CeisScss_Binder" soapVersion="1_1" anonymous="optional" definition="file:/C:/scssWsdl/scss.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\scssWsdl\scss.wsdl"><con:part><con:url>file:\C:\scssWsdl\scss.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="CeisScss" targetNamespace="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapjms="http://www.w3.org/2008/07/soap/bindings/JMS/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+      <xsd:complexType name="unlinkFile">
+        <xsd:sequence>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="caseActionNumber" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="unlinkFileResponse">
+        <xsd:sequence></xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getCourtFile">
+        <xsd:sequence>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getCourtFileResponse">
+        <xsd:sequence>
+          <xsd:element name="courtFile" nillable="true" type="tns:CourtFile"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CourtFile">
+        <xsd:sequence>
+          <xsd:element name="courtFileNumber" nillable="true" type="xsd:string"/>
+          <xsd:element name="courtLevelCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="courtClassCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="locationId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="styleOfCause" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="removeNotification">
+        <xsd:sequence>
+          <xsd:element name="notificationId" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="removeNotificationResponse">
+        <xsd:sequence></xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkFile">
+        <xsd:sequence>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="caseActionNumber" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkFileResponse">
+        <xsd:sequence>
+          <xsd:element name="linkId" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="partyNameSearch">
+        <xsd:sequence>
+          <xsd:element name="filter" nillable="true" type="tns:PartyNameSearchFilter"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PartyNameSearchFilter">
+        <xsd:sequence>
+          <xsd:element name="name" nillable="true" type="xsd:string"/>
+          <xsd:element name="firstName" nillable="true" type="xsd:string"/>
+          <xsd:element name="searchType" nillable="true" type="xsd:string"/>
+          <xsd:element name="agencyId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="courtLevel" nillable="true" type="xsd:string"/>
+          <xsd:element name="courtClass" nillable="true" type="xsd:string"/>
+          <xsd:element name="roleType" nillable="true" type="xsd:string"/>
+          <xsd:element name="page" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="partyNameSearchResponse">
+        <xsd:sequence>
+          <xsd:element name="searchResults" nillable="true" type="tns:SearchResults"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchResults">
+        <xsd:sequence>
+          <xsd:element name="page" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="recordsPerPage" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="totalRecords" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="results" nillable="true" type="tns:CourtFile" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getCeisConnectInfo">
+        <xsd:sequence></xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getCeisConnectInfoResponse">
+        <xsd:sequence>
+          <xsd:element name="connectionInfo" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="fileNumberSearch">
+        <xsd:sequence>
+          <xsd:element name="filter" nillable="true" type="tns:FileNumberSearchFilter"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FileNumberSearchFilter">
+        <xsd:sequence>
+          <xsd:element name="courtFileNumber" nillable="true" type="xsd:string"/>
+          <xsd:element name="locationId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="courtLevelCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="courtClassCode" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="fileNumberSearchResponse">
+        <xsd:sequence>
+          <xsd:element name="courtFiles" nillable="true" type="tns:CourtFile" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="hasNotification">
+        <xsd:sequence>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="hasNotificationResponse">
+        <xsd:sequence>
+          <xsd:element name="boolean" nillable="true" type="xsd:boolean"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getCourtBasics">
+        <xsd:sequence>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getCourtBasicsResponse">
+        <xsd:sequence>
+          <xsd:element name="caseBasics" nillable="true" type="tns:CaseBasics"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CaseBasics">
+        <xsd:sequence>
+          <xsd:element name="courtLevelCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="courtClassCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="locationId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="fileAccessLevelCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="issues" nillable="true" type="tns:Issue" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Issue">
+        <xsd:sequence>
+          <xsd:element name="issueTypeCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="issueDescription" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getNotifications">
+        <xsd:sequence>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getNotificationsResponse">
+        <xsd:sequence>
+          <xsd:element name="notifications" nillable="true" type="tns:Notification" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Notification">
+        <xsd:sequence>
+          <xsd:element name="notificationId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="category" nillable="true" type="xsd:string"/>
+          <xsd:element name="eventType" nillable="true" type="xsd:string"/>
+          <xsd:element name="eventDatetime" nillable="true" type="xsd:dateTime"/>
+          <xsd:element name="status" nillable="true" type="xsd:string"/>
+          <xsd:element name="statusDatetime" nillable="true" type="xsd:dateTime"/>
+          <xsd:element name="linkId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getAllNotifications">
+        <xsd:sequence></xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getAllNotificationsResponse">
+        <xsd:sequence>
+          <xsd:element name="notifications" nillable="true" type="tns:Notification" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getParties">
+        <xsd:sequence>
+          <xsd:element name="physicalFileId" nillable="true" type="xsd:decimal"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getPartiesResponse">
+        <xsd:sequence>
+          <xsd:element name="parties" nillable="true" type="tns:CaseParty" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CaseParty">
+        <xsd:sequence>
+          <xsd:element name="partyId" nillable="true" type="xsd:decimal"/>
+          <xsd:element name="firstName" nillable="true" type="xsd:string"/>
+          <xsd:element name="surname" nillable="true" type="xsd:string"/>
+          <xsd:element name="organizationName" nillable="true" type="xsd:string"/>
+          <xsd:element name="partyTypeCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="partyRoleCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="active" nillable="true" type="xsd:boolean"/>
+          <xsd:element name="selfRepresented" nillable="true" type="xsd:boolean"/>
+          <xsd:element name="addressFirstLine" nillable="true" type="xsd:string"/>
+          <xsd:element name="addressSecondLine" nillable="true" type="xsd:string"/>
+          <xsd:element name="city" nillable="true" type="xsd:string"/>
+          <xsd:element name="province" nillable="true" type="xsd:string"/>
+          <xsd:element name="postalCode" nillable="true" type="xsd:string"/>
+          <xsd:element name="phoneNumber" nillable="true" type="xsd:string"/>
+          <xsd:element name="extensionNumber" nillable="true" type="xsd:string"/>
+          <xsd:element name="counselName" nillable="true" type="xsd:string"/>
+          <xsd:element name="counselPhoneNumber" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="saveHearingResults">
+        <xsd:sequence>
+          <xsd:element name="hearingResult" nillable="true" type="tns:HearingResult"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="HearingResult">
+        <xsd:sequence>
+          <xsd:element name="HearingResult" type="tns:HearingResult2"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="HearingResult2">
+        <xsd:sequence>
+          <xsd:element name="CaseDetails" nillable="true" type="tns:CaseDetails"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CaseDetails">
+        <xsd:sequence>
+          <xsd:element name="CaseTrackingID" type="xsd:string"/>
+          <xsd:element name="CaseFiling" type="xsd:string"/>
+          <xsd:element name="CaseAugmentation" type="tns:CaseAugmentation"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CaseAugmentation">
+        <xsd:sequence>
+          <xsd:element name="CaseHearing" type="tns:CaseHearing"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CaseHearing">
+        <xsd:sequence>
+          <xsd:element name="CourtEventAppearance" type="tns:CourtEventAppearance"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CourtEventAppearance">
+        <xsd:sequence>
+          <xsd:element name="CourtAppearanceCourt" type="xsd:string"/>
+          <xsd:element name="CourtAppearanceDate" type="xsd:string"/>
+          <xsd:element name="CourtAppearanceCategoryText" type="xsd:string"/>
+          <xsd:element name="CourtEventSequenceID" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="ActivityStatus" type="xsd:string"/>
+          <xsd:element name="CancellationStatus" nillable="true" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="TimeMeasureDetails" type="tns:TimeMeasureDetails" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TimeMeasureDetails">
+        <xsd:sequence>
+          <xsd:element name="MeasureText" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="MeasureUnitText" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="MeasureEstimatedIndicator" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="saveHearingResultsResponse">
+        <xsd:sequence></xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="fileNumbeSearchPublicAccess">
+        <xsd:sequence>
+          <xsd:element name="filter" nillable="true" type="tns:FileNumberSearchFilter"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="fileNumbeSearchPublicAccessResponse">
+        <xsd:sequence>
+          <xsd:element name="courtFiles" nillable="true" type="tns:CourtFile" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="partyNameSearch" type="tns:partyNameSearch"/>
+      <xsd:element name="partyNameSearchResponse" type="tns:partyNameSearchResponse"/>
+      <xsd:element name="getAllNotifications" type="tns:getAllNotifications"/>
+      <xsd:element name="getAllNotificationsResponse" type="tns:getAllNotificationsResponse"/>
+      <xsd:element name="fileNumbeSearchPublicAccess" type="tns:fileNumbeSearchPublicAccess"/>
+      <xsd:element name="fileNumbeSearchPublicAccessResponse" type="tns:fileNumbeSearchPublicAccessResponse"/>
+      <xsd:element name="getNotifications" type="tns:getNotifications"/>
+      <xsd:element name="getNotificationsResponse" type="tns:getNotificationsResponse"/>
+      <xsd:element name="fileNumberSearch" type="tns:fileNumberSearch"/>
+      <xsd:element name="fileNumberSearchResponse" type="tns:fileNumberSearchResponse"/>
+      <xsd:element name="saveHearingResults" type="tns:saveHearingResults"/>
+      <xsd:element name="saveHearingResultsResponse" type="tns:saveHearingResultsResponse"/>
+      <xsd:element name="getCourtBasics" type="tns:getCourtBasics"/>
+      <xsd:element name="getCourtBasicsResponse" type="tns:getCourtBasicsResponse"/>
+      <xsd:element name="linkFile" type="tns:linkFile"/>
+      <xsd:element name="linkFileResponse" type="tns:linkFileResponse"/>
+      <xsd:element name="getParties" type="tns:getParties"/>
+      <xsd:element name="getPartiesResponse" type="tns:getPartiesResponse"/>
+      <xsd:element name="getCourtFile" type="tns:getCourtFile"/>
+      <xsd:element name="getCourtFileResponse" type="tns:getCourtFileResponse"/>
+      <xsd:element name="getCeisConnectInfo" type="tns:getCeisConnectInfo"/>
+      <xsd:element name="getCeisConnectInfoResponse" type="tns:getCeisConnectInfoResponse"/>
+      <xsd:element name="removeNotification" type="tns:removeNotification"/>
+      <xsd:element name="removeNotificationResponse" type="tns:removeNotificationResponse"/>
+      <xsd:element name="unlinkFile" type="tns:unlinkFile"/>
+      <xsd:element name="unlinkFileResponse" type="tns:unlinkFileResponse"/>
+      <xsd:element name="hasNotification" type="tns:hasNotification"/>
+      <xsd:element name="hasNotificationResponse" type="tns:hasNotificationResponse"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="CeisScss_PortType_saveHearingResultsResponse">
+    <wsdl:part name="parameters" element="tns:saveHearingResultsResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_fileNumberSearch">
+    <wsdl:part name="parameters" element="tns:fileNumberSearch"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getParties">
+    <wsdl:part name="parameters" element="tns:getParties"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getCourtFileResponse">
+    <wsdl:part name="parameters" element="tns:getCourtFileResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getPartiesResponse">
+    <wsdl:part name="parameters" element="tns:getPartiesResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_removeNotification">
+    <wsdl:part name="parameters" element="tns:removeNotification"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_linkFile">
+    <wsdl:part name="parameters" element="tns:linkFile"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getAllNotificationsResponse">
+    <wsdl:part name="parameters" element="tns:getAllNotificationsResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_partyNameSearch">
+    <wsdl:part name="parameters" element="tns:partyNameSearch"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getCourtFile">
+    <wsdl:part name="parameters" element="tns:getCourtFile"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_hasNotification">
+    <wsdl:part name="parameters" element="tns:hasNotification"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_fileNumberSearchResponse">
+    <wsdl:part name="parameters" element="tns:fileNumberSearchResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_unlinkFile">
+    <wsdl:part name="parameters" element="tns:unlinkFile"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getNotificationsResponse">
+    <wsdl:part name="parameters" element="tns:getNotificationsResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_saveHearingResults">
+    <wsdl:part name="parameters" element="tns:saveHearingResults"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_fileNumbeSearchPublicAccessResponse">
+    <wsdl:part name="parameters" element="tns:fileNumbeSearchPublicAccessResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_hasNotificationResponse">
+    <wsdl:part name="parameters" element="tns:hasNotificationResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getCeisConnectInfo">
+    <wsdl:part name="parameters" element="tns:getCeisConnectInfo"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getAllNotifications">
+    <wsdl:part name="parameters" element="tns:getAllNotifications"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_fileNumbeSearchPublicAccess">
+    <wsdl:part name="parameters" element="tns:fileNumbeSearchPublicAccess"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getCourtBasicsResponse">
+    <wsdl:part name="parameters" element="tns:getCourtBasicsResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_linkFileResponse">
+    <wsdl:part name="parameters" element="tns:linkFileResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_partyNameSearchResponse">
+    <wsdl:part name="parameters" element="tns:partyNameSearchResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_unlinkFileResponse">
+    <wsdl:part name="parameters" element="tns:unlinkFileResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_removeNotificationResponse">
+    <wsdl:part name="parameters" element="tns:removeNotificationResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getCourtBasics">
+    <wsdl:part name="parameters" element="tns:getCourtBasics"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getNotifications">
+    <wsdl:part name="parameters" element="tns:getNotifications"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CeisScss_PortType_getCeisConnectInfoResponse">
+    <wsdl:part name="parameters" element="tns:getCeisConnectInfoResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CeisScss_PortType">
+    <wsdl:operation name="partyNameSearch">
+      <wsdl:input message="tns:CeisScss_PortType_partyNameSearch"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_partyNameSearchResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllNotifications">
+      <wsdl:input message="tns:CeisScss_PortType_getAllNotifications"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_getAllNotificationsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fileNumbeSearchPublicAccess">
+      <wsdl:input message="tns:CeisScss_PortType_fileNumbeSearchPublicAccess"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_fileNumbeSearchPublicAccessResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNotifications">
+      <wsdl:input message="tns:CeisScss_PortType_getNotifications"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_getNotificationsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fileNumberSearch">
+      <wsdl:input message="tns:CeisScss_PortType_fileNumberSearch"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_fileNumberSearchResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveHearingResults">
+      <wsdl:input message="tns:CeisScss_PortType_saveHearingResults"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_saveHearingResultsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCourtBasics">
+      <wsdl:input message="tns:CeisScss_PortType_getCourtBasics"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_getCourtBasicsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="linkFile">
+      <wsdl:input message="tns:CeisScss_PortType_linkFile"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_linkFileResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getParties">
+      <wsdl:input message="tns:CeisScss_PortType_getParties"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_getPartiesResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCourtFile">
+      <wsdl:input message="tns:CeisScss_PortType_getCourtFile"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_getCourtFileResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCeisConnectInfo">
+      <wsdl:input message="tns:CeisScss_PortType_getCeisConnectInfo"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_getCeisConnectInfoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeNotification">
+      <wsdl:input message="tns:CeisScss_PortType_removeNotification"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_removeNotificationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unlinkFile">
+      <wsdl:input message="tns:CeisScss_PortType_unlinkFile"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_unlinkFileResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="hasNotification">
+      <wsdl:input message="tns:CeisScss_PortType_hasNotification"></wsdl:input>
+      <wsdl:output message="tns:CeisScss_PortType_hasNotificationResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder" type="tns:CeisScss_PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="partyNameSearch">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_partyNameSearch" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllNotifications">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getAllNotifications" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fileNumbeSearchPublicAccess">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_fileNumbeSearchPublicAccess" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNotifications">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getNotifications" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fileNumberSearch">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_fileNumberSearch" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="saveHearingResults">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_saveHearingResults" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCourtBasics">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCourtBasics" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="linkFile">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_linkFile" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getParties">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getParties" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCourtFile">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCourtFile" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCeisConnectInfo">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCeisConnectInfo" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeNotification">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_removeNotification" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unlinkFile">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_unlinkFile" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="hasNotification">
+      <soap:operation soapAction="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_hasNotification" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CeisScss">
+    <wsdl:port name="SCSS_Source_CeisScss_ws_provider_CeisScss_Port" binding="tns:SCSS_Source_CeisScss_ws_provider_CeisScss_Binder">
+      <soap:address location="http://reeks.bcgov:5555/ws/SCSS.Source.CeisScss.ws.provider:CeisScss/SCSS_Source_CeisScss_ws_provider_CeisScss_Port"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://reeks.bcgov:5555/ws/SCSS.Source.CeisScss.ws.provider:CeisScss/SCSS_Source_CeisScss_ws_provider_CeisScss_Port</con:endpoint></con:endpoints><con:operation id="80aa0653-fc80-425a-a7bd-0ae1fd3f3d7d" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_fileNumberSearch" name="fileNumberSearch" bindingOperationName="fileNumberSearch" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f9b7454d-9ce6-426f-b178-c0ab95917f60" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:fileNumberSearch>\r
+         <filter>\r
+            <courtFileNumber>32652</courtFileNumber>\r
+            <locationId>-1</locationId>\r
+            <courtLevelCode>P</courtLevelCode>\r
+            <courtClassCode></courtClassCode>\r
+         </filter>\r
+      </scss:fileNumberSearch>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_fileNumberSearch"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="a5f3f911-a57c-49c7-b328-8eccc913a5b9" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_fileNumbeSearchPublicAccess" name="fileNumbeSearchPublicAccess" bindingOperationName="fileNumbeSearchPublicAccess" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="333fdb34-0dfb-4942-a14a-42b3292b6d08" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:fileNumbeSearchPublicAccess>\r
+         <filter>\r
+            <courtFileNumber>?</courtFileNumber>\r
+            <locationId>?</locationId>\r
+            <courtLevelCode>?</courtLevelCode>\r
+            <courtClassCode>?</courtClassCode>\r
+         </filter>\r
+      </scss:fileNumbeSearchPublicAccess>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_fileNumbeSearchPublicAccess"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="efee0b11-f75e-4ad6-858c-fb2aa0c86a4a" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getAllNotifications" name="getAllNotifications" bindingOperationName="getAllNotifications" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="27d75a8f-2015-4aaa-849f-1f24bfa46d3c" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:getAllNotifications/>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getAllNotifications"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="afbcaada-8395-4ac0-854b-feb36f570c27" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCeisConnectInfo" name="getCeisConnectInfo" bindingOperationName="getCeisConnectInfo" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="b3ca65c4-c745-404c-a4e7-903b692aa6d9" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:getCeisConnectInfo/>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCeisConnectInfo"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="4d74343d-85e3-456e-97ac-4b9f4671b051" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCourtBasics" name="getCourtBasics" bindingOperationName="getCourtBasics" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="37eac97f-8cd8-4b56-8605-4a3b91f94cc8" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:getCourtBasics>\r
+         <physicalFileId>688</physicalFileId>\r
+      </scss:getCourtBasics>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCourtBasics"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="30c96a7d-76ad-4d49-87bb-2ecdcb441ad5" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCourtFile" name="getCourtFile" bindingOperationName="getCourtFile" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="4a8d4727-6a5f-47c8-a3dc-495f07122e19" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:getCourtFile>\r
+         <physicalFileId>1</physicalFileId>\r
+      </scss:getCourtFile>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getCourtFile"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="a0b91d26-e442-4233-a16c-ff15cea3cf95" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getNotifications" name="getNotifications" bindingOperationName="getNotifications" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="34ec2fa3-d3ac-4db5-bbdd-3498780441b9" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:getNotifications>\r
+         <physicalFileId>2222</physicalFileId>\r
+      </scss:getNotifications>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getNotifications"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="b37b09cc-ad55-4206-bcfc-0f41adcb236c" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getParties" name="getParties" bindingOperationName="getParties" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="11918d11-a657-4f11-ab5f-8adf922035bb" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:getParties>\r
+         <physicalFileId>777</physicalFileId>\r
+      </scss:getParties>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_getParties"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="2a6a4ed3-fae6-419d-8f37-72d21220e017" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_hasNotification" name="hasNotification" bindingOperationName="hasNotification" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="861db151-c109-4466-8c5f-53139d4b4a51" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://nginx-jag-scss-17b24e-dev.apps.silver.devops.gov.bc.ca/api/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:hasNotification>\r
+         <physicalFileId>2222</physicalFileId>\r
+      </scss:hasNotification>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_hasNotification"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="e2f59f7f-fde8-405e-9ca3-01472ec91852" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_linkFile" name="linkFile" bindingOperationName="linkFile" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="b211cc4d-449c-40db-b6fb-68f8e7bc4d95" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://nginx-jag-scss-17b24e-dev.apps.silver.devops.gov.bc.ca/api/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:linkFile>\r
+         <physicalFileId>688</physicalFileId>\r
+         <caseActionNumber>SC000185</caseActionNumber>\r
+      </scss:linkFile>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_linkFile"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="22d93938-7cf9-411d-a9fc-2440eaeac1ec" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_partyNameSearch" name="partyNameSearch" bindingOperationName="partyNameSearch" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="458080fb-f5ba-445b-ab8f-cea4a642809c" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://nginx-jag-scss-17b24e-dev.apps.silver.devops.gov.bc.ca/api/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:partyNameSearch>\r
+         <filter>\r
+            <name>James</name>\r
+            <firstName>Jim</firstName>\r
+            <searchType>BOTH</searchType>\r
+            <agencyId></agencyId>\r
+            <courtLevel>P</courtLevel>\r
+            <courtClass>M</courtClass>\r
+            <roleType></roleType>\r
+            <page>1</page>\r
+         </filter>\r
+      </scss:partyNameSearch>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_partyNameSearch"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="42e9b277-3e38-438d-a27c-f00b4bf0ce2a" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_removeNotification" name="removeNotification" bindingOperationName="removeNotification" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="207162db-c7e3-4bf2-8590-711636727d18" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://nginx-jag-scss-17b24e-dev.apps.silver.devops.gov.bc.ca/api/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:removeNotification>\r
+         <notificationId>89</notificationId>\r
+      </scss:removeNotification>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_removeNotification"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="6319cbff-fce4-4034-a74b-ad3ec34b02d5" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_saveHearingResults" name="saveHearingResults" bindingOperationName="saveHearingResults" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f8ad26ff-312f-404f-b411-8e7de6a8b91d" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:saveHearingResults>\r
+         <hearingResult>\r
+            <HearingResult>\r
+               <CaseDetails>\r
+                  <CaseTrackingID>11</CaseTrackingID>\r
+                  <CaseFiling>2222</CaseFiling>\r
+                  <CaseAugmentation>\r
+                     <CaseHearing>\r
+                        <CourtEventAppearance>\r
+                           <CourtAppearanceCourt>11</CourtAppearanceCourt>\r
+                           <CourtAppearanceDate>03-SEP-11</CourtAppearanceDate>\r
+                           <CourtAppearanceCategoryText>APN</CourtAppearanceCategoryText>\r
+                           <!--Optional:-->\r
+                           <CourtEventSequenceID></CourtEventSequenceID>\r
+                           <ActivityStatus>NOT PROCEDING</ActivityStatus>\r
+                           <!--Optional:-->\r
+                           <CancellationStatus>Abandoned</CancellationStatus>\r
+                           <!--Optional:-->\r
+                           <TimeMeasureDetails>\r
+                              <!--Optional:-->\r
+                              <MeasureText>1</MeasureText>\r
+                              <!--Optional:-->\r
+                              <MeasureUnitText>m</MeasureUnitText>\r
+                              <!--Optional:-->\r
+                              <MeasureEstimatedIndicator>true</MeasureEstimatedIndicator>\r
+                           </TimeMeasureDetails>\r
+                        </CourtEventAppearance>\r
+                     </CaseHearing>\r
+                  </CaseAugmentation>\r
+               </CaseDetails>\r
+            </HearingResult>\r
+         </hearingResult>\r
+      </scss:saveHearingResults>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_saveHearingResults"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="7a263010-3c20-4b1c-b15e-9c1ef88836a8" isOneWay="false" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_unlinkFile" name="unlinkFile" bindingOperationName="unlinkFile" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="1e4f3d18-dd30-47a9-913b-f2f6bbf137e8" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <scss:unlinkFile>\r
+         <physicalFileId>688</physicalFileId>\r
+         <caseActionNumber>SC000185</caseActionNumber>\r
+      </scss:unlinkFile>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="SCSS_Source_CeisScss_ws_provider_CeisScss_Binder_unlinkFile"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="ca90f8a8-0e5a-4df2-a28b-10ab891d52be" name="TestSuite SCSS"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="1feb8858-c0e4-4bfa-a3b0-a02e5f0e95c5" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="FileNumberSearch" searchProperties="true"><con:settings/><con:testStep type="request" name="fileNumberSearch" id="3cd51735-8939-400e-b84d-b615083fd4ad"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="fileNumberSearch" id="08693eae-a668-48a8-b02f-ad8dbc4b85ff"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:fileNumberSearch>
+         <filter>
+            <courtFileNumber>32652</courtFileNumber>
+            <locationId>-1</locationId>
+            <courtLevelCode>P</courtLevelCode>
+            <courtClassCode>M</courtClassCode>
+         </filter>
+      </scss:fileNumberSearch>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="ac7a0a3b-a465-4055-a9b9-08cceff238da"/><con:assertion type="Simple Contains" id="d87f672c-a555-472d-861c-762e3fb88a9a" name="Contains 1"><con:configuration><token>32652</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="c8d71924-e863-41c8-b9af-a68e24edbedf"><con:configuration/></con:assertion><con:assertion type="Simple Contains" id="7bce3126-39e4-4ae7-8360-1474f4e1b6c2" name="Contains 2"><con:configuration><token>P</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="1ea6c951-c482-4f12-a4bb-8135a791f6ac" name="Contains 3"><con:configuration><token>M</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="dc6401cf-541b-4405-bbd1-b4a5a0ef8f28" name="Contains 4"><con:configuration><token>83.0001</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="6325f17b-e272-4f3a-9eab-ff1322996a3f" name="Contains 5"><con:configuration><token>3159</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="f157a850-4c45-4981-8762-85a1bccc1191" name="Invalid HTTP Status Codes"><con:configuration><codes>500, 401, 404, 403</codes></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="a8f15242-8d18-40bd-b207-c22720c010d5" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="161bdce4-5603-4e65-9885-1cb417e6def1" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="01313967-fc34-48be-abf0-88fa50206b25" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>courtFileNumber</con:name><con:value>32652</con:value></con:property><con:property><con:name>locationId</con:name><con:value>-1</con:value></con:property><con:property><con:name>courtLevelCode</con:name><con:value>P</con:value></con:property><con:property><con:name>courtClassCode</con:name><con:value>M</con:value></con:property></con:properties></con:testCase><con:testCase id="c57662b3-3f3f-4831-b846-202da741fefc" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="FileNumbeSearchPublicAccess" searchProperties="true"><con:settings/><con:testStep type="request" name="fileNumbeSearchPublicAccess" id="c3c987b9-dc84-427f-92ed-7dd989da8091"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="fileNumbeSearchPublicAccess" id="713a76f2-59d6-4a2f-a41c-38a9be9d5b9e"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:fileNumberSearch>
+         <filter>
+            <courtFileNumber>1017</courtFileNumber>
+            <locationId>locationId</locationId>
+            <courtLevelCode>P</courtLevelCode>
+            <courtClassCode>C</courtClassCode>
+         </filter>
+      </scss:fileNumberSearch>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="f902f201-011f-41ff-8113-189b2645b771"/><con:assertion type="Simple Contains" id="2f809191-30c2-4b10-9b5d-2ce12c3cfb79" name="Contains 1"><con:configuration><token>1017</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="872aa8c9-05eb-4f7c-a09d-a941fe8bb290" name="Contains 2"><con:configuration><token>P</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="06843ecf-6d37-42d5-8ea1-54d33b96b50e" name="Contains 5"><con:configuration><token>Roundtree</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="77f0d7a1-a7b4-4d70-936b-b6778f325614"><con:configuration/></con:assertion><con:assertion type="Simple Contains" id="6719cab4-353e-4a84-946d-92bdf271879e" name="Contains 6"><con:configuration><token>16218.0026</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="e62f95f3-ad7d-440d-b403-86c5c390237c" name="Contains 7"><con:configuration><token>C</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="439d9eb3-9778-4bea-b4af-ba3c4adc046f" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="3341d02b-2bf1-4fdb-bf29-9894e7ded9e5" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="c16b49c7-58cd-466e-a105-a5a49d8db782" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="83b89715-9f9a-4e7c-b846-228fb63410b4" name="Invalid HTTP Status Codes"><con:configuration><codes>500, 401, 404, 403</codes></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>courtFileNumber</con:name><con:value>1017</con:value></con:property><con:property><con:name>locationId</con:name><con:value>locationId</con:value></con:property><con:property><con:name>courtLevelCode</con:name><con:value>P</con:value></con:property><con:property><con:name>courtClassCode</con:name><con:value>C</con:value></con:property></con:properties></con:testCase><con:testCase id="efe493ce-e6ac-4c91-919a-e5faa77ca653" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetAllNotifications" searchProperties="true"><con:settings/><con:testStep type="request" name="getAllNotifications" id="2f2972ec-9bdd-4894-962b-efa5d8c1e704"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="getAllNotifications" id="aa49769e-d38a-486e-a8a9-f3e4b30c6357"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:getAllNotifications>getAllNotifications</scss:getAllNotifications>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="2a4c28cb-f2d6-4329-bc4f-826d55714e79"/><con:assertion type="Valid HTTP Status Codes" id="e6f7692f-958a-40a0-a8a0-cb9f44a751f3" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="1741b240-5bab-4f29-91bb-db2331f7f90c" name="Invalid HTTP Status Codes"><con:configuration><codes>500, 401, 404, 403</codes></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="8c1146f6-a0d4-4d8a-aafa-1fd5ea23ff08" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Simple Contains" id="c77f5208-4bdf-4188-ba34-e06d7e4e97ff" name="Contains"><con:configuration><token>FILE</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="a4ce4126-655b-4a9f-b688-282afa9d2ba3" name="Contains 1"><con:configuration><token>QUE</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="bdb72667-92fc-446c-81bc-04eacc481cde" name="Contains 2"><con:configuration><token>UPD</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="458576bf-b055-4e79-ade5-e953d339fa63" name="Contains 3"><con:configuration><token>PART</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="872568fe-b8c5-41b2-94d4-b078cfead0c2" name="Contains 4"><con:configuration><token>DEL</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="b8b812fa-98c8-4225-aacc-33981ef74c16" name="Contains 5"><con:configuration><token>INS</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="f26c05c1-2517-48f8-ba9f-75b1baa9ac3e" name="Contains 6"><con:configuration><token>109</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="ffcfbfc2-54ab-4917-bd07-4adfe922e3f2" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:assertion type="Simple Contains" id="c5dc22a9-3681-4827-8081-ebbff54697ef" name="Contains 7"><con:configuration><token>129</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="2448fe90-c74e-4e56-ba81-bbcc47e09925" name="Contains 8"><con:configuration><token>2222</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="db99fad4-c904-4e68-890f-c25a9599aa94" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetCeisConnectInfo" searchProperties="true"><con:settings/><con:testStep type="request" name="getCeisConnectInfo" id="586db6e3-89df-4d86-9ea2-5f40e540498b"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="getCeisConnectInfo" id="8d410280-60f1-46d2-ba30-c984b6e22208"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:getCeisConnectInfo>getCeisConnectInfo</scss:getCeisConnectInfo>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="6f4476b6-c9b4-4438-9aaa-5ad9232073be"/><con:assertion type="Valid HTTP Status Codes" id="f1847fdb-82b1-4d90-9a5f-d1d6875c803e" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="63b34f6c-8331-4572-8041-2e4e62e155e2" name="Invalid HTTP Status Codes"><con:configuration><codes>500, 401, 404, 403</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="995008a7-ef39-45d7-8b3d-f4c85b2e5222" name="Contains"><con:configuration><token>SCSSORDS@malleus:devj</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="35733354-5e09-44e4-9cc6-b979fc9f2017"><con:configuration/></con:assertion><con:assertion type="Response SLA Assertion" id="185b876d-06ff-48c3-aa8d-53718290b3d3" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="0020709b-6b3a-431e-b9b0-08d6efd17300" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="1551c5d5-2042-4ca2-a240-ba0485b0a7f7" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetCourtBasics" searchProperties="true"><con:settings/><con:testStep type="request" name="getCourtBasics" id="764404ed-4ed7-44e0-aba9-c2fad3d15480"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="getCourtBasics" id="990915b2-5dd1-46ca-8b37-7332376152dd"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:getCourtBasics>
+         <physicalFileId>688</physicalFileId>
+      </scss:getCourtBasics>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="bf186cde-9ec5-4865-a272-dfe61447f326"/><con:assertion type="Response SLA Assertion" id="d130a0cc-f9be-4c95-8ce4-d85934d92c85" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="495aacb2-9805-450f-8c1b-10d524a2fc63" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="6036a99d-5e47-4bc7-85c3-9b85e65620c1" name="Contains"><con:configuration><token>P</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="f657f80a-c30e-4a5e-835f-173ec7a046c9" name="Contains 1"><con:configuration><token>F</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="9a7a2f5f-1707-4509-a6d1-68b21eeed485" name="Contains 2"><con:configuration><token>16218.0026</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="bc9eb276-f3ca-4ac7-b8e9-9c65af483c96" name="Contains 3"><con:configuration><token>688</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="5e4d1916-183d-4b1c-adda-df06d944cde7" name="Contains 4"><con:configuration><token>R</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>physicalFileId</con:name><con:value>688</con:value></con:property></con:properties></con:testCase><con:testCase id="9b5d0292-e719-4ec4-bf42-64d8dc8dce9a" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetCourtFile" searchProperties="true"><con:settings/><con:testStep type="request" name="getCourtFile" id="d7642a3d-5aae-435a-a52c-54afe298ce01"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="getCourtFile" id="2c2ba5be-00f0-4db8-8f34-6c21bafe424a"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:getCourtFile>
+         <physicalFileId>1</physicalFileId>
+      </scss:getCourtFile>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="f82f1c39-46aa-4f6f-951e-2a5c20cd18df" name="Valid HTTP Status Codes"><con:configuration><codes>202</codes></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="0ebea4fe-b140-422f-8833-f3c151600fe7" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="58dd1e01-27d8-4025-afa6-6ab0763ebe6e" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetNotifications" searchProperties="true"><con:settings/><con:testStep type="request" name="getNotifications" id="8f336906-e87a-4479-9c56-649b8d2fa582"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="getNotifications" id="d6fa05c1-5c2e-4c10-a85c-9251a30d58fb"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:getNotifications>
+         <physicalFileId>2222</physicalFileId>
+      </scss:getNotifications>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="b380c09a-a9d1-41d1-9d0d-8e6492311b7b"/><con:assertion type="Response SLA Assertion" id="674fb774-2b2e-4506-a22f-8c83c93496ae" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Simple Contains" id="7cc84b8f-a7c5-4396-8c8d-b42b83aea5c3" name="Contains"><con:configuration><token>FILE</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="952075d4-6d84-44e4-bbd9-00c7ef5a69a8" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="4d78f2ca-b644-4558-a3cc-206ecc35e602" name="Contains 1"><con:configuration><token>INS</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="0fefc291-d022-4bb8-8878-9cd630db83f1" name="Contains 2"><con:configuration><token>QUE</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="5f6d375a-84c2-4986-9b95-b152184dc144" name="Contains 3"><con:configuration><token>2222</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="34b08f63-3d76-447f-8e25-2f3394587215" name="Contains 4"><con:configuration><token>UPD</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="4ecfa572-3261-4660-9755-814fcd74a3f8" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>physicalFileId</con:name><con:value>2222</con:value></con:property></con:properties></con:testCase><con:testCase id="3802d155-43a9-4b54-8da3-762c56572ebc" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetParties" searchProperties="true"><con:settings/><con:testStep type="request" name="getParties" id="26240038-dc14-4a22-9ae3-ff56795819cd"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="getParties" id="83ef6837-6633-44d2-929d-22bb86587128"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:getParties>
+         <physicalFileId>777</physicalFileId>
+      </scss:getParties>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="fb246652-0f8a-4a2c-8b78-2a88fc99b3f8"/><con:assertion type="Valid HTTP Status Codes" id="83415141-64b1-485a-a2e3-d34610dc87fe" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="f3de0b49-ace6-4f8d-9cbf-eb3dfa2470c0" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="2742d4bc-0ec0-4441-a1da-f82ff3591f2e" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:assertion type="Simple Contains" id="86657f4d-dc94-4efb-bfa5-214a5dc7d1fa" name="Contains"><con:configuration><token>142</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="c76714d1-17e2-47e6-9b2b-a5ddff2d76ad" name="Contains 1"><con:configuration><token>Little</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="8b52cc12-e806-423d-99aa-45affbfa40f1" name="Contains 2"><con:configuration><token>Daigle</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="7cde43c4-ffe5-4774-82ed-7b24f3489abc" name="Contains 3"><con:configuration><token>IND</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="966a0993-e454-4087-b4ea-e018ac0ffa24" name="Contains 4"><con:configuration><token>DEC</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="b09bf882-98dc-47ea-911c-e97ef51d48df" name="Contains 5"><con:configuration><token>true</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="5d2ba7ec-dded-43b6-a64e-f65823c94e91" name="Contains 6"><con:configuration><token>false</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="9c52d9f9-33ac-42ca-b6cf-20320990d15b" name="Contains 7"><con:configuration><token>173</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="347b415c-e758-463d-9d3c-a2ab79929c52" name="Contains 8"><con:configuration><token>Hector</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="1c01488f-af69-466b-a17a-4d9f1b8555b1" name="Contains 9"><con:configuration><token>Li</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="b8877bc8-2dab-4cac-b9ce-a0bb48084715" name="Contains 10"><con:configuration><token>DEF</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>physicalFileId</con:name><con:value>777</con:value></con:property></con:properties></con:testCase><con:testCase id="8412fe80-e3e5-4f75-87c1-721555466215" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="HasNotification" searchProperties="true"><con:settings/><con:testStep type="request" name="hasNotification" id="a9bcc31b-716d-473c-ac13-8e91adb5e0f5"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="hasNotification" id="8af9554d-486b-4f4e-9c33-7c7a9949894d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://nginx-jag-scss-17b24e-dev.apps.silver.devops.gov.bc.ca/api/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:hasNotification>
+         <physicalFileId>2222</physicalFileId>
+      </scss:hasNotification>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="9daf8395-0c05-443c-8330-6ff6ac8faaf0"/><con:assertion type="Valid HTTP Status Codes" id="8d245b91-53c6-4523-9665-363b044f13ee" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="354aa34e-1a33-4a71-bf91-4b6e7430e150" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="LinkFile" searchProperties="true"><con:settings/><con:testStep type="request" name="linkFile" id="e181f4e6-fb04-4d26-b97b-448360a9f574"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="linkFile" id="c9f400af-1a1a-4d24-934f-ca7742bc32b6"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://nginx-jag-scss-17b24e-dev.apps.silver.devops.gov.bc.ca/api/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:linkFile>caseActionNumber<physicalFileId>688</physicalFileId>
+         <caseActionNumber>SC000185</caseActionNumber>
+      </scss:linkFile>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="8096b5be-fe7e-45a6-aed1-da7ef60033a6"/><con:assertion type="Response SLA Assertion" id="a79287c4-de38-4116-a4ab-ec938d660e8c" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="2b173a7f-a4a6-4331-921f-ab814b43a422" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="5c52cd98-b71a-481d-8aca-bead6a13cf13" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>physicalFileId</con:name><con:value>688</con:value></con:property><con:property><con:name>caseActionNumber</con:name><con:value>SC000185</con:value></con:property></con:properties></con:testCase><con:testCase id="3be0f87d-b125-4045-90b5-325d0280b0f1" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="PartyNameSearch" searchProperties="true"><con:settings/><con:testStep type="request" name="partyNameSearch" id="f908b5e4-52ab-4ac4-a2da-a83028806c6f"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="partyNameSearch" id="9ab4767d-137c-44bc-a513-8d6ef4f80cbb"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://nginx-jag-scss-17b24e-dev.apps.silver.devops.gov.bc.ca/api/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:partyNameSearch>
+         <filter>
+            <name>James</name>
+            <firstName>Jim</firstName>
+            <searchType>BOTH</searchType>
+            <agencyId/>
+            <courtLevel>P</courtLevel>
+            <courtClass>M</courtClass>
+            <roleType/>
+            <page>1</page>
+         </filter>
+      </scss:partyNameSearch>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="1971ac0c-94e2-4d71-8236-7478db421ffe"/><con:assertion type="Response SLA Assertion" id="b4feb808-42b9-4ee5-9c0b-85cd68009716" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="13d03003-805c-452e-b064-2e4990e52deb" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="cebdd73f-f16d-4124-8a91-9cee0cbb759a" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:assertion type="Simple Contains" id="0f27d1c1-03bd-4385-9708-3700c3b7ceb1" name="Contains"><con:configuration><token>1</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="213c541f-ed15-42ea-be6b-c05b648f4bc5" name="Contains 1"><con:configuration><token>30</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="f2668428-0367-4a54-b673-0cf72b4f06b1" name="Contains 2"><con:configuration><token>4</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="bdb2128c-2aa9-4fa0-a0ab-8b1de2ae9388" name="Contains 3"><con:configuration><token>09182015</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="1833c430-2784-461c-b8a0-1ba1a540dd9c" name="Contains 4"><con:configuration><token>P</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="7390207f-c467-466a-b31a-f8348c2d7731" name="Contains 5"><con:configuration><token>M</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="d8222394-441c-46c3-b945-b80d6b57654d" name="Contains 6"><con:configuration><token>83.0001</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="1c9e6147-e028-48b9-8cd4-1b3003bed119" name="Contains 7"><con:configuration><token>ROBERTS, Bob v JAMES, Jim</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="694cf651-123e-40c2-8e92-cdab01ea3153" name="Contains 8"><con:configuration><token>26102016</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="ced59a32-1acf-4935-9b60-144d94d7da4d" name="Contains 9"><con:configuration><token>170520161</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="697274eb-4933-4577-95b3-25fb27eb68a7" name="Contains 10"><con:configuration><token>09122019</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>name</con:name><con:value>James</con:value></con:property><con:property><con:name>firstName</con:name><con:value>Jim</con:value></con:property><con:property><con:name>searchType</con:name><con:value>BOTH</con:value></con:property><con:property><con:name>courtLevel</con:name><con:value>P</con:value></con:property><con:property><con:name>courtClass</con:name><con:value>M</con:value></con:property><con:property><con:name>page</con:name><con:value>1</con:value></con:property></con:properties></con:testCase><con:testCase id="e1d20656-d8e3-4d92-aa59-ce50c75e745c" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="RemoveNotification" searchProperties="true"><con:settings/><con:testStep type="request" name="removeNotification" id="108c4507-3cfd-4d13-8231-e9fe00161494"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="removeNotification" id="484affcb-894a-4f42-9fae-74e56f19fae4"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://nginx-jag-scss-17b24e-dev.apps.silver.devops.gov.bc.ca/api/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:removeNotification>
+         <notificationId>89</notificationId>
+      </scss:removeNotification>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="f9994d77-ad43-4a81-8211-b79bbd26604a"/><con:assertion type="Valid HTTP Status Codes" id="cf3a159b-771f-4b13-8564-fc574ebd0787" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="abc0fa51-44d4-4033-b67c-086dedd6627b" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="423e5e1d-a763-4c55-95c5-0583cd1aba60" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>notificationId</con:name><con:value>89</con:value></con:property></con:properties></con:testCase><con:testCase id="74833295-c34c-49f2-96bc-eb1dbec6d825" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="SaveHearingResults" searchProperties="true"><con:settings/><con:testStep type="request" name="saveHearingResults" id="256a9998-3b1b-47ac-87f7-519840c2dfea"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="saveHearingResults" id="04b2c008-7c83-4087-a2ef-04826dcbf939"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:saveHearingResults>
+         <hearingResult>
+            <HearingResult>
+               <CaseDetails>
+                  <CaseTrackingID>11</CaseTrackingID>
+                  <CaseFiling>2222</CaseFiling>
+                  <CaseAugmentation>
+                     <CaseHearing>
+                        <CourtEventAppearance>
+                           <CourtAppearanceCourt>11</CourtAppearanceCourt>
+                           <CourtAppearanceDate>2003-09-11</CourtAppearanceDate>
+                           <CourtAppearanceCategoryText>APN</CourtAppearanceCategoryText>
+                           <!--Optional:-->
+                           <CourtEventSequenceID/>
+                           <ActivityStatus>NOT PROCEDING</ActivityStatus>
+                           <!--Optional:-->
+                           <CancellationStatus>Abandoned</CancellationStatus>
+                           <!--Optional:-->
+                           <TimeMeasureDetails>
+                              <!--Optional:-->
+                              <MeasureText>1</MeasureText>
+                              <!--Optional:-->
+                              <MeasureUnitText>m</MeasureUnitText>
+                              <!--Optional:-->
+                              <MeasureEstimatedIndicator>true</MeasureEstimatedIndicator>
+                           </TimeMeasureDetails>
+                        </CourtEventAppearance>
+                     </CaseHearing>
+                  </CaseAugmentation>
+               </CaseDetails>
+            </HearingResult>
+         </hearingResult>
+      </scss:saveHearingResults>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="39f02594-a26f-40f0-a043-6fe1bb1786a3"/><con:assertion type="Valid HTTP Status Codes" id="fca24714-c5f8-4b6b-a91b-8013c458ca7a" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="7c093e42-b09e-49f0-8c8d-721c9cedf41d" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="e40e536e-2488-4b34-87bc-8064bc08701c" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>CaseTrackingID</con:name><con:value>11</con:value></con:property><con:property><con:name>CaseFiling</con:name><con:value>2222</con:value></con:property><con:property><con:name>CourtAppearanceCourt</con:name><con:value>11</con:value></con:property><con:property><con:name>CourtAppearanceDate</con:name><con:value>2003-09-11</con:value></con:property><con:property><con:name>CourtAppearanceCategoryText</con:name><con:value>APN</con:value></con:property><con:property><con:name>ActivityStatus</con:name><con:value>NOT PROCEDING</con:value></con:property><con:property><con:name>CancellationStatus</con:name><con:value>Abandoned</con:value></con:property><con:property><con:name>MeasureText</con:name><con:value>1</con:value></con:property><con:property><con:name>MeasureUnitText</con:name><con:value>m</con:value></con:property><con:property><con:name>MeasureEstimatedIndicator</con:name><con:value>true</con:value></con:property></con:properties></con:testCase><con:testCase id="0941c473-e181-47ef-8313-521d291e6786" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="UnlinkFile" searchProperties="true"><con:settings/><con:testStep type="request" name="unlinkFile" id="61c87bd1-b106-4aa5-b9a9-660ac9ceb5fd"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="unlinkFile" id="1aba5f87-aa6e-4c8d-889b-806683ae00d6"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:unlinkFile>
+         <physicalFileId>688</physicalFileId>
+         <caseActionNumber>SC000185</caseActionNumber>
+      </scss:unlinkFile>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="df1fdf35-2538-4163-9d60-b5f8d25f333a"/><con:assertion type="Response SLA Assertion" id="cffbeacb-ef0c-40c2-8502-ef758cfd3217" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Valid HTTP Status Codes" id="552c600f-d23c-400b-abb4-5eb27912c44c" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Sensitive Information Exposure" id="7acd8362-c765-416d-bd61-bc2cc023c4a7" name="Sensitive Information Exposure"><con:configuration><AssertionSpecificExposureList>random###imp value</AssertionSpecificExposureList><IncludeProjectSpecific>true</IncludeProjectSpecific><IncludeGlobal>true</IncludeGlobal></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>physicalFileId</con:name><con:value>688</con:value></con:property><con:property><con:name>caseActionNumber</con:name><con:value>SC000185</con:value></con:property></con:properties></con:testCase><con:testCase id="655d5afb-a2f9-4734-9f36-6b10e34d169f" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Automation" searchProperties="true"><con:settings/><con:testStep type="groovy" name="FileNumberSearch" id="1207caec-713f-4f4b-a54b-9007c0c5a713"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addFileNumberSearch = testRunner.testCase.testSuite.testCases["FileNumberSearch"].testSteps["fileNumberSearch"].getPropertyValue("Request")
+ 
+ def courtFileNumber=testRunner.testCase.testSuite.testCases["FileNumberSearch"].getPropertyValue("courtFileNumber")
+ def locationId=testRunner.testCase.testSuite.testCases["FileNumberSearch"].getPropertyValue("locationId")
+ def courtLevelCode=testRunner.testCase.testSuite.testCases["FileNumberSearch"].getPropertyValue("courtLevelCode")
+ def courtClassCode=testRunner.testCase.testSuite.testCases["FileNumberSearch"].getPropertyValue("courtClassCode")
+ 
+ def xmlAdd= new XmlHolder(addFileNumberSearch)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtFileNumber",courtFileNumber)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/locationId",locationId)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtLevelCode",courtLevelCode)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtClassCode",courtClassCode)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["FileNumberSearch"].testSteps["fileNumberSearch"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["FileNumberSearch"].testSteps["fileNumberSearch"]
+ def contextFileNumberSearch = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextFileNumberSearch)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["FileNumberSearch"].testSteps["fileNumberSearch"].getPropertyValue("Response")
+def FileNumberSearchRes= new XmlHolder(getRes)
+def GetResponse= FileNumberSearchRes.getNodeValue("//courtFileNumber")
+def GetResponse1= FileNumberSearchRes.getNodeValue("//locationId")
+def GetResponse2= FileNumberSearchRes.getNodeValue("//courtLevelCode")
+def GetResponse3= FileNumberSearchRes.getNodeValue("//courtClassCode")
+def GetResponse4= FileNumberSearchRes.getNodeValue("//physicalFileId")
+def GetResponse5= FileNumberSearchRes.getNodeValue("//styleOfCause")
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse4
+log.info GetResponse5
+assert GetResponse=="32652"
+assert GetResponse1=="83.0001"
+assert GetResponse2=="P"
+assert GetResponse3=="M"
+assert GetResponse4=="3159"
+assert GetResponse5=="HANRATTY, Matthew v THIS IS GOING TO BE A VERY LONG ORG NAME SO I CAN TEST THE TSS REPORT THAT IS DISPLAYING 2 PAGES FOR THE REPORT WHEN IT SHOULD ONLY BE SHOWING ONE PAG"
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="FileNumberSearchCourtClassCodeC" id="2b827f7b-2fd8-46f5-adc8-b7e02e8120b5"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addFileNumberSearchCourtClassCodeC = testRunner.testCase.testSuite.testCases["FileNumberSearchCourtClassCodeC"].testSteps["fileNumberSearch"].getPropertyValue("Request")
+ 
+ def courtFileNumber=testRunner.testCase.testSuite.testCases["FileNumberSearchCourtClassCodeC"].getPropertyValue("courtFileNumber")
+ def locationId=testRunner.testCase.testSuite.testCases["FileNumberSearchCourtClassCodeC"].getPropertyValue("locationId")
+ def courtLevelCode=testRunner.testCase.testSuite.testCases["FileNumberSearchCourtClassCodeC"].getPropertyValue("courtLevelCode")
+ def courtClassCode=testRunner.testCase.testSuite.testCases["FileNumberSearchCourtClassCodeC"].getPropertyValue("courtClassCode")
+ 
+ def xmlAdd= new XmlHolder(addFileNumberSearchCourtClassCodeC)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtFileNumber",courtFileNumber)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/locationId",locationId)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtLevelCode",courtLevelCode)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtClassCode",courtClassCode)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["FileNumberSearchCourtClassCodeC"].testSteps["fileNumberSearch"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["FileNumberSearchCourtClassCodeC"].testSteps["fileNumberSearch"]
+ def contextFileNumberSearchCourtClassCodeC = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextFileNumberSearchCourtClassCodeC)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["FileNumberSearchCourtClassCodeC"].testSteps["fileNumberSearch"].getPropertyValue("Response")
+def FileNumberSearchCourtClassCodeCRes= new XmlHolder(getRes)
+def GetResponse= FileNumberSearchCourtClassCodeCRes.getNodeValue("//courtFileNumber")
+def GetResponse1= FileNumberSearchCourtClassCodeCRes.getNodeValue("//locationId")
+def GetResponse2= FileNumberSearchCourtClassCodeCRes.getNodeValue("//courtLevelCode")
+def GetResponse3= FileNumberSearchCourtClassCodeCRes.getNodeValue("//courtClassCode")
+def GetResponse4= FileNumberSearchCourtClassCodeCRes.getNodeValue("//physicalFileId")
+def GetResponse5= FileNumberSearchCourtClassCodeCRes.getNodeValue("//styleOfCause")
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse4
+log.info GetResponse5
+assert GetResponse=="32652"
+assert GetResponse1=="83.0001"
+assert GetResponse2=="P"
+assert GetResponse3=="C"
+assert GetResponse4=="3158"
+assert GetResponse5=="GILMORE, Harriett v THIS IS GOING TO BE A VERY LONG ORG NAME SO I CAN TEST THE TSS REPORT THAT IS  DISPLAYING 2 PAGES FOR THE REPORT WHEN IT SHOULD ONLY BE SHOWING ONE PG"
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="FileNumbeSearchPublicAccess" id="03095d31-ba97-4b3c-8386-738149fef0f0"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addFileNumbeSearchPublicAccess = testRunner.testCase.testSuite.testCases["FileNumbeSearchPublicAccess"].testSteps["fileNumbeSearchPublicAccess"].getPropertyValue("Request")
+ 
+ def courtFileNumber=testRunner.testCase.testSuite.testCases["FileNumbeSearchPublicAccess"].getPropertyValue("courtFileNumber")
+ def locationId=testRunner.testCase.testSuite.testCases["FileNumbeSearchPublicAccess"].getPropertyValue("locationId")
+ def courtLevelCode=testRunner.testCase.testSuite.testCases["FileNumbeSearchPublicAccess"].getPropertyValue("courtLevelCode")
+ def courtClassCode=testRunner.testCase.testSuite.testCases["FileNumbeSearchPublicAccess"].getPropertyValue("courtClassCode")
+ 
+ def xmlAdd= new XmlHolder(addFileNumbeSearchPublicAccess)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtFileNumber",courtFileNumber)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/locationId",locationId)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtLevelCode",courtLevelCode)
+ xmlAdd.setNodeValue("//scss:fileNumberSearch/filter/courtClassCode",courtClassCode)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["FileNumbeSearchPublicAccess"].testSteps["fileNumbeSearchPublicAccess"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["FileNumbeSearchPublicAccess"].testSteps["fileNumbeSearchPublicAccess"]
+ def contextFileNumbeSearchPublicAccess = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextFileNumbeSearchPublicAccess)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["FileNumbeSearchPublicAccess"].testSteps["fileNumbeSearchPublicAccess"].getPropertyValue("Response")
+def FileNumbeSearchPublicAccessRes= new XmlHolder(getRes)
+def GetResponse= FileNumbeSearchPublicAccessRes.getNodeValue("//courtFileNumber")
+def GetResponse1= FileNumbeSearchPublicAccessRes.getNodeValue("//locationId")
+def GetResponse2= FileNumbeSearchPublicAccessRes.getNodeValue("//courtLevelCode")
+def GetResponse3= FileNumbeSearchPublicAccessRes.getNodeValue("//courtClassCode")
+def GetResponse4= FileNumbeSearchPublicAccessRes.getNodeValue("//physicalFileId")
+def GetResponse5= FileNumbeSearchPublicAccessRes.getNodeValue("//styleOfCause")
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse4
+log.info GetResponse5
+assert GetResponse=="1017"
+assert GetResponse1=="16218.0026"
+assert GetResponse2=="P"
+assert GetResponse3=="C"
+assert GetResponse4=="799"
+assert GetResponse5=="Roundtree, Robin v Courtney, Jane"
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="GetAllNotifications" id="0e1413a6-23dd-4e21-999e-1474e919b876"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addGetAllNotifications = testRunner.testCase.testSuite.testCases["GetAllNotifications"].testSteps["getAllNotifications"].getPropertyValue("Request")
+ 
+ def getAllNotifications=testRunner.testCase.testSuite.testCases["GetAllNotifications"].getPropertyValue("getAllNotifications")
+
+ def xmlAdd= new XmlHolder(addGetAllNotifications)
+ xmlAdd.setNodeValue("//scss:getAllNotifications", "getAllNotifications")
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["GetAllNotifications"].testSteps["getAllNotifications"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["GetAllNotifications"].testSteps["getAllNotifications"]
+ def contextGetAllNotifications = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextGetAllNotifications)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["GetAllNotifications"].testSteps["getAllNotifications"].getPropertyValue("Response")
+def GetAllNotificationsRes= new XmlHolder(getRes)
+def GetResponse= GetAllNotificationsRes.getNodeValue("//notificationId")
+def GetResponse1= GetAllNotificationsRes.getNodeValue("//category")
+def GetResponse2= GetAllNotificationsRes.getNodeValue("//eventType")
+def GetResponse3= GetAllNotificationsRes.getNodeValue("//eventDatetime")
+def GetResponse4= GetAllNotificationsRes.getNodeValue("//status")
+def GetResponse5= GetAllNotificationsRes.getNodeValue("//statusDatetime")
+def GetResponse6= GetAllNotificationsRes.getNodeValue("//linkId")
+def GetResponse7= GetAllNotificationsRes.getNodeValue("//physicalFileId")
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse4
+log.info GetResponse5
+log.info GetResponse6
+log.info GetResponse7
+assert GetResponse=="109"
+assert GetResponse1=="FILE"
+assert GetResponse2=="INS"
+assert GetResponse3=="2012-11-19T15:44:59"
+assert GetResponse4=="QUE"
+assert GetResponse5=="2012-11-19T15:44:59"
+assert GetResponse6=="1850"
+assert GetResponse7=="2222"
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="GetCeisConnectInfo" id="28e16094-a9e1-4876-9564-ea89d55c9240"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addGetCeisConnectInfo = testRunner.testCase.testSuite.testCases["GetCeisConnectInfo"].testSteps["getCeisConnectInfo"].getPropertyValue("Request")
+ 
+ def getGetCeisConnectInfo=testRunner.testCase.testSuite.testCases["GetCeisConnectInfo"].getPropertyValue("getCeisConnectInfo")
+
+ def xmlAdd= new XmlHolder(addGetCeisConnectInfo)
+ xmlAdd.setNodeValue("//scss:getCeisConnectInfo", "getCeisConnectInfo")
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["GetCeisConnectInfo"].testSteps["getCeisConnectInfo"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["GetCeisConnectInfo"].testSteps["getCeisConnectInfo"]
+ def contextGetCeisConnectInfo = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextGetCeisConnectInfo)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["GetCeisConnectInfo"].testSteps["getCeisConnectInfo"].getPropertyValue("Response")
+def GetCeisConnectInfoRes= new XmlHolder(getRes)
+def GetResponse= GetCeisConnectInfoRes.getNodeValue("//connectionInfo")
+log.info GetResponse
+assert GetResponse=="SCSSORDS@malleus:devj"
+
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="GetCourtBasics" id="8c79dbb7-1039-49ed-8574-b84eb2835edc"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addGetCourtBasics = testRunner.testCase.testSuite.testCases["GetCourtBasics"].testSteps["getCourtBasics"].getPropertyValue("Request")
+ def physicalFileId=testRunner.testCase.testSuite.testCases["GetCourtBasics"].getPropertyValue("physicalFileId")
+ def xmlAdd= new XmlHolder(addGetCourtBasics)
+ xmlAdd.setNodeValue("//scss:getCourtBasics/physicalFileId", physicalFileId)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["GetCourtBasics"].testSteps["getCourtBasics"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["GetCourtBasics"].testSteps["getCourtBasics"]
+ def contextGetCourtBasics = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextGetCourtBasics)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["GetCourtBasics"].testSteps["getCourtBasics"].getPropertyValue("Response")
+def GetCourtBasicsRes= new XmlHolder(getRes)
+def GetResponse= GetCourtBasicsRes.getNodeValue("//courtLevelCode")
+def GetResponse1= GetCourtBasicsRes.getNodeValue("//courtClassCode")
+def GetResponse2= GetCourtBasicsRes.getNodeValue("//locationId")
+def GetResponse3= GetCourtBasicsRes.getNodeValue("//physicalFileId")
+def GetResponse4= GetCourtBasicsRes.getNodeValue("//fileAccessLevelCode")
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse3
+log.info GetResponse4
+assert GetResponse=="P"
+assert GetResponse1=="F"
+assert GetResponse2=="16218.0026"
+assert GetResponse3=="688"
+assert GetResponse4=="R"
+
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="GetNotifications" id="1c4983f4-8732-447f-a244-b7b5644a08b2"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addGetNotifications = testRunner.testCase.testSuite.testCases["GetNotifications"].testSteps["getNotifications"].getPropertyValue("Request")
+ def physicalFileId=testRunner.testCase.testSuite.testCases["GetNotifications"].getPropertyValue("physicalFileId")
+ def xmlAdd= new XmlHolder(addGetNotifications)
+ xmlAdd.setNodeValue("//scss:getNotifications/physicalFileId", physicalFileId)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["GetNotifications"].testSteps["getNotifications"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["GetNotifications"].testSteps["getNotifications"]
+ def contextGetNotifications = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextGetNotifications)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["GetNotifications"].testSteps["getNotifications"].getPropertyValue("Response")
+def GetNotificationsRes= new XmlHolder(getRes)
+def GetResponse= GetNotificationsRes.getNodeValue("//notificationId")
+def GetResponse1= GetNotificationsRes.getNodeValue("//category")
+def GetResponse2= GetNotificationsRes.getNodeValue("//eventType")
+def GetResponse3= GetNotificationsRes.getNodeValue("//eventDatetime")
+def GetResponse4= GetNotificationsRes.getNodeValue("//status")
+def GetResponse5= GetNotificationsRes.getNodeValue("//statusDatetime")
+def GetResponse6= GetNotificationsRes.getNodeValue("//linkId")
+def GetResponse7= GetNotificationsRes.getNodeValue("//physicalFileId")
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse3
+log.info GetResponse4
+log.info GetResponse5
+log.info GetResponse6
+log.info GetResponse7
+assert GetResponse=="109"
+assert GetResponse1=="FILE"
+assert GetResponse2=="INS"
+assert GetResponse3=="2012-11-19T15:44:59"
+assert GetResponse4=="QUE"
+assert GetResponse5=="2012-11-19T15:44:59"
+assert GetResponse6=="1850"
+assert GetResponse7=="2222"
+
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="GetParties" id="f4706c53-f536-4af8-98fd-24dec626317d"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addGetParties = testRunner.testCase.testSuite.testCases["GetParties"].testSteps["getParties"].getPropertyValue("Request")
+ def physicalFileId=testRunner.testCase.testSuite.testCases["GetParties"].getPropertyValue("physicalFileId")
+ def xmlAdd= new XmlHolder(addGetParties)
+ xmlAdd.setNodeValue("//scss:getParties/physicalFileId", physicalFileId)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["GetParties"].testSteps["getParties"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["GetParties"].testSteps["getParties"]
+ def contextGetNotifications = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextGetNotifications)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["GetParties"].testSteps["getParties"].getPropertyValue("Response")
+def GetNotificationsRes= new XmlHolder(getRes)
+def GetResponse= GetNotificationsRes.getNodeValue("//partyId")
+def GetResponse1= GetNotificationsRes.getNodeValue("//firstName")
+def GetResponse2= GetNotificationsRes.getNodeValue("//surname")
+def GetResponse3= GetNotificationsRes.getNodeValue("//partyTypeCode")
+def GetResponse4= GetNotificationsRes.getNodeValue("//partyRoleCode")
+def GetResponse5= GetNotificationsRes.getNodeValue("//active")
+def GetResponse6= GetNotificationsRes.getNodeValue("//selfRepresented")
+//def GetResponse7= GetNotificationsRes.getNodeValue("//physicalFileId")
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse3
+log.info GetResponse4
+log.info GetResponse5
+log.info GetResponse6
+assert GetResponse=="142"
+assert GetResponse1=="Little"
+assert GetResponse2=="Daigle"
+assert GetResponse3=="IND"
+assert GetResponse4=="DEC"
+assert GetResponse5=="true"
+assert GetResponse6=="false"
+
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="LinkFile" id="d44c289b-16ff-47e0-a00f-a6fa96265ff4"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addLinkFile = testRunner.testCase.testSuite.testCases["LinkFile"].testSteps["linkFile"].getPropertyValue("Request")
+ 
+ def physicalFileId=testRunner.testCase.testSuite.testCases["LinkFile"].getPropertyValue("physicalFileId")
+ def caseActionNumber=testRunner.testCase.testSuite.testCases["LinkFile"].getPropertyValue("caseActionNumber")
+ 
+
+ def xmlAdd= new XmlHolder(addLinkFile)
+ xmlAdd.setNodeValue("//scss:linkFile", "physicalFileId")
+  xmlAdd.setNodeValue("//scss:linkFile", "caseActionNumber")
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["LinkFile"].testSteps["linkFile"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["LinkFile"].testSteps["linkFile"]
+ def contextLinkFile = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextLinkFile)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["LinkFile"].testSteps["linkFile"].getPropertyValue("Response")
+def LinkFileRes= new XmlHolder(getRes)
+def GetResponse= LinkFileRes.getNodeValue("//linkId")
+log.info GetResponse
+assert GetResponse.isNumber()
+
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="PartyNameSearch" id="96ee2368-058b-403f-bbfc-b666d7fe93e2"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addPartyNameSearch = testRunner.testCase.testSuite.testCases["PartyNameSearch"].testSteps["partyNameSearch"].getPropertyValue("Request")
+ def name=testRunner.testCase.testSuite.testCases["PartyNameSearch"].getPropertyValue("name")
+ def firstName=testRunner.testCase.testSuite.testCases["PartyNameSearch"].getPropertyValue("firstName")
+ def searchType=testRunner.testCase.testSuite.testCases["PartyNameSearch"].getPropertyValue("searchType")
+ //def agencyId=testRunner.testCase.testSuite.testCases["PartyNameSearch"].getPropertyValue("agencyId")
+ def courtLevel=testRunner.testCase.testSuite.testCases["PartyNameSearch"].getPropertyValue("courtLevel")
+ def courtClass=testRunner.testCase.testSuite.testCases["PartyNameSearch"].getPropertyValue("courtClass")
+ //def roleType=testRunner.testCase.testSuite.testCases["PartyNameSearch"].getPropertyValue("roleType")
+ def page=testRunner.testCase.testSuite.testCases["PartyNameSearch"].getPropertyValue("page")
+ 
+ def xmlAdd= new XmlHolder(addPartyNameSearch)
+ xmlAdd.setNodeValue("//scss:partyNameSearch/filter/name",name)
+ xmlAdd.setNodeValue("//scss:partyNameSearch/filter/firstName",firstName)
+ xmlAdd.setNodeValue("//scss:partyNameSearch/filter/searchType",searchType)
+ //xmlAdd.setNodeValue("//scss:partyNameSearch/filter/agencyId",agencyId)
+ xmlAdd.setNodeValue("//scss:partyNameSearch/filter/courtLevel",courtLevel)
+ xmlAdd.setNodeValue("//scss:partyNameSearch/filter/courtClass",courtClass)
+ //xmlAdd.setNodeValue("//scss:partyNameSearch/filter/roleType",roleType)
+ xmlAdd.setNodeValue("//scss:partyNameSearch/filter/page",page)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["PartyNameSearch"].testSteps["partyNameSearch"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["PartyNameSearch"].testSteps["partyNameSearch"]
+ def contextPartyNameSearch = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextPartyNameSearch)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["PartyNameSearch"].testSteps["partyNameSearch"].getPropertyValue("Response")
+def PartyNameSearchRes= new XmlHolder(getRes)
+def GetResponse= PartyNameSearchRes.getNodeValue("//page")
+def GetResponse1= PartyNameSearchRes.getNodeValue("//recordsPerPage")
+def GetResponse2= PartyNameSearchRes.getNodeValue("//totalRecords")
+def GetResponse3= PartyNameSearchRes.getNodeValue("//courtFileNumber")
+def GetResponse4= PartyNameSearchRes.getNodeValue("//courtLevelCode")
+def GetResponse5= PartyNameSearchRes.getNodeValue("//courtClassCode")
+def GetResponse6= PartyNameSearchRes.getNodeValue("//locationId")
+def GetResponse7= PartyNameSearchRes.getNodeValue("//physicalFileId")
+def GetResponse8= PartyNameSearchRes.getNodeValue("//styleOfCause")
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse4
+log.info GetResponse5
+log.info GetResponse6
+log.info GetResponse7
+log.info GetResponse8
+assert GetResponse=="1"
+assert GetResponse1=="30"
+assert GetResponse2=="4"
+assert GetResponse3=="09182015"
+assert GetResponse4=="P"
+assert GetResponse5=="M"
+assert GetResponse6=="83.0001"
+assert GetResponse7=="3732"
+assert GetResponse8=="ROBERTS, Bob v JAMES, Jim"
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="RemoveNotification" id="b82fcde4-937a-4be3-9446-4e6f2fd50c34"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addRemoveNotification = testRunner.testCase.testSuite.testCases["RemoveNotification"].testSteps["removeNotification"].getPropertyValue("Request")
+ def notificationId=testRunner.testCase.testSuite.testCases["RemoveNotification"].getPropertyValue("notificationId")
+
+ def xmlAdd= new XmlHolder(addRemoveNotification)
+ xmlAdd.setNodeValue("//scss:removeNotification/notificationId", notificationId)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["RemoveNotification"].testSteps["removeNotification"].setPropertyValue("Request",newxmlGet)
+ def getTestStep=testRunner.testCase.testSuite.testCases["RemoveNotification"].testSteps["removeNotification"]
+ def contextRemoveNotification = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextRemoveNotification)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["RemoveNotification"].testSteps["removeNotification"].getPropertyValue("Response")
+def RemoveNotification= new XmlHolder(getRes)
+def GetResponse= RemoveNotification.getNodeValue("//SOAP-ENV:Body")
+log.info GetResponse
+assert GetResponse.isBlank()
+
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="SaveHearingResults" id="3014225d-8b88-41e7-b916-5436c1fb9105"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addSaveHearingResults = testRunner.testCase.testSuite.testCases["SaveHearingResults"].testSteps["saveHearingResults"].getPropertyValue("Request")
+ 
+ def CaseTrackingID=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("CaseTrackingID")
+ def CaseFiling=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("CaseFiling")
+ def CourtAppearanceCourt=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("CourtAppearanceCourt")
+ def CourtAppearanceDate=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("CourtAppearanceDate")
+ def CourtAppearanceCategoryText=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("CourtAppearanceCategoryText")
+ def ActivityStatus=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("ActivityStatus")
+ def CancellationStatus=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("CancellationStatus")
+ def MeasureText=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("MeasureText")
+ def MeasureUnitText=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("MeasureUnitText")
+ def MeasureEstimatedIndicator=testRunner.testCase.testSuite.testCases["SaveHearingResults"].getPropertyValue("MeasureEstimatedIndicator")
+ 
+ def xmlAdd= new XmlHolder(addSaveHearingResults)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseTrackingID",CaseTrackingID)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseFiling",CaseFiling)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseAugmentation/CaseHearing/CourtEventAppearance/CourtAppearanceCourt",CourtAppearanceCourt)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseAugmentation/CaseHearing/CourtEventAppearance/CourtAppearanceDate",CourtAppearanceDate)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseAugmentation/CaseHearing/CourtEventAppearance/CourtAppearanceCategoryText",CourtAppearanceCategoryText)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseAugmentation/CaseHearing/CourtEventAppearance/ActivityStatus",ActivityStatus)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseAugmentation/CaseHearing/CourtEventAppearance/CancellationStatus",CancellationStatus)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseAugmentation/CaseHearing/CourtEventAppearance/TimeMeasureDetails/MeasureText",MeasureText)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseAugmentation/CaseHearing/CourtEventAppearance/TimeMeasureDetails/MeasureUnitText",MeasureUnitText)
+xmlAdd.setNodeValue("//scss:saveHearingResults/hearingResult/HearingResult/CaseDetails/CaseAugmentation/CaseHearing/CourtEventAppearance/TimeMeasureDetails/MeasureEstimatedIndicator",MeasureEstimatedIndicator)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["SaveHearingResults"].testSteps["saveHearingResults"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["PartyNameSearch"].testSteps["partyNameSearch"]
+ def contextSaveHearingResults = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextSaveHearingResults)
+ //Validation -
+def getRes=testRunner.testCase.testSuite.testCases["SaveHearingResults"].testSteps["saveHearingResults"].getPropertyValue("Response")
+def PartyNameSearchRes= new XmlHolder(getRes)
+def GetResponse= PartyNameSearchRes.getNodeValue("//SOAP-ENV:Body")
+
+log.info GetResponse
+assert GetResponse.isBlank()
+
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="UnlinkFile" id="549f0a81-3fcd-41dc-b704-c607f15a7113"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def addUnlinkFile = testRunner.testCase.testSuite.testCases["UnlinkFile"].testSteps["unlinkFile"].getPropertyValue("Request")
+ def physicalFileId=testRunner.testCase.testSuite.testCases["UnlinkFile"].getPropertyValue("physicalFileId")
+ def caseActionNumber=testRunner.testCase.testSuite.testCases["UnlinkFile"].getPropertyValue("caseActionNumber")
+
+ def xmlAdd= new XmlHolder(addUnlinkFile)
+ xmlAdd.setNodeValue("//scss:unlinkFile/physicalFileId", physicalFileId)
+ xmlAdd.setNodeValue("//scss:unlinkFile/caseActionNumber", caseActionNumber)
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["UnlinkFile"].testSteps["unlinkFile"].setPropertyValue("Request",newxmlGet)
+ def getTestStep=testRunner.testCase.testSuite.testCases["UnlinkFile"].testSteps["unlinkFile"]
+ def contextUnlinkFile = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextUnlinkFile)
+ //Validation -
+def getRes=testRunner.testCase.testSuite.testCases["UnlinkFile"].testSteps["unlinkFile"].getPropertyValue("Response")
+def GetUnlinkFile= new XmlHolder(getRes)
+def GetResponse= GetUnlinkFile.getNodeValue("//SOAP-ENV:Body")
+log.info GetResponse
+assert GetResponse.isBlank()
+
+
+</script></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="9dc998fd-cac2-487e-9125-fc3aea05530a" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="FileNumberSearchCourtClassCodeC" searchProperties="true"><con:settings/><con:testStep type="request" name="fileNumberSearch" id="0e58f33e-20b4-4171-9bef-34ccaa4ce68c"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SCSS_Source_CeisScss_ws_provider_CeisScss_Binder</con:interface><con:operation>fileNumberSearch</con:operation><con:request name="fileNumberSearch" id="7e4467c7-05b8-4a84-b3b0-cec14eee1264"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scss="http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <scss:fileNumberSearch>
+         <filter>
+            <courtFileNumber>32652</courtFileNumber>
+            <locationId>-1</locationId>
+            <courtLevelCode>P</courtLevelCode>
+            <courtClassCode>C</courtClassCode>
+         </filter>
+      </scss:fileNumberSearch>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="5b47b522-f641-4705-addd-02d6b2f56575"/><con:assertion type="Valid HTTP Status Codes" id="e2a34abc-7e49-4e50-95a2-71f1d16d19d1" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="bab903dd-41dd-4b2e-974f-1a6f919c61e0" name="Contains"><con:configuration><token>GILMORE</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="caa440fa-21fa-4af3-a460-7ee974eaeee5" name="Contains 1"><con:configuration><token>32652</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="5068bcd1-8cce-4500-8f0c-7b54cd3bf588" name="Contains 2"><con:configuration><token>3158</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>courtFileNumber</con:name><con:value>32652</con:value></con:property><con:property><con:name>locationId</con:name><con:value>-1</con:value></con:property><con:property><con:name>courtLevelCode</con:name><con:value>P</con:value></con:property><con:property><con:name>courtClassCode</con:name><con:value>C</con:value></con:property></con:properties></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
