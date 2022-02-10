@@ -120,16 +120,13 @@ jobs:
         run: |
           oc rollout status -n ${openshiftEnvNamespace} dc/${appName} --watch
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
       - name: Run Integration Tests
         env:
           TEST_STARTER_URL: ${{secrets.TEST_STARTER_URL}}
+          BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+          BASIC_AUTH_PASS: ${{ secrets.BASIC_AUTH_PASS }}
         run: |
-          curl ${TEST_STARTER_URL}
+          curl --user ${BASIC_AUTH_USER}:${BASIC_AUTH_PASS} ${TEST_STARTER_URL}
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2

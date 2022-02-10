@@ -17,6 +17,11 @@ parameters:
   required: false
   value: jag-scss
 
+- name: AUTH_TOKEN
+  description: The application name that each component is part of
+  required: false
+  value: jag-scss
+
 - name: COMPONENT_NAME
   description: The application name that each component is part of
   required: false
@@ -106,6 +111,9 @@ objects:
                 path: "/actuator/health"
                 port: 8080
                 scheme: HTTP
+                httpHeaders:
+                  - name: Authorization
+                    value: ${AUTH_TOKEN}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
@@ -116,6 +124,9 @@ objects:
                 path: "/actuator/health"
                 port: 8080
                 scheme: HTTP
+                httpHeaders:
+                  - name: Authorization
+                    value: ${AUTH_TOKEN}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
