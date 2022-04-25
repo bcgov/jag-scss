@@ -131,11 +131,11 @@ jobs:
             echo "Status: Failed Integration Test(s) found!"
             exit 1
           fi
-          if [ "$RET" = "application/json" ]; then
+          if [[ "$RET" == *"json"* ]]; then
             echo "Status: All Tests Passed"
           fi
-          if [ "$RET" != "application/zip" ] && [ "$RET" != "application/json" ]; then
-            echo "Received content_type is $RET, was expecting application/json or application/zip"
+          if [ "$RET" != "application/zip" ] && [[ "$RET" != *"json"* ]]; then
+            echo "Received content_type is $RET, was expecting json or zip"
             exit 1
           fi
 

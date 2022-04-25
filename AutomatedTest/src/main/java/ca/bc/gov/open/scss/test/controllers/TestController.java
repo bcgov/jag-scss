@@ -34,18 +34,17 @@ public class TestController {
       //      This is not great streaming would be better but small files should be ok
       byte[] out = org.apache.commons.io.IOUtils.toByteArray(inputStream);
 
-      HttpHeaders responseHeaders = new HttpHeaders();
-      responseHeaders.add("content-disposition", "attachment; filename=" + f.getName());
-      responseHeaders.add("Content-Type", "application/zip");
-      f.delete();
-      return new ResponseEntity<byte[]>(out, responseHeaders, HttpStatus.OK);
-    } else {
-      HttpHeaders responseHeaders = new HttpHeaders();
-      responseHeaders.add("Content-Type", "application/json");
-      return new ResponseEntity<String>(
-          "{\"status\": \"All tests passed\"}", responseHeaders, HttpStatus.OK);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.add("content-disposition", "attachment; filename=" + f.getName());
+            responseHeaders.add("Content-Type", "application/zip");
+            f.delete();
+            return new ResponseEntity<byte[]>(out, responseHeaders, HttpStatus.OK);
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.add("Content-Type", "application/json");
+            return new ResponseEntity<String>("{\"status\": \"All tests passed\"}", responseHeaders, HttpStatus.OK);
+        }
     }
-  }
 
   @GetMapping("/ping")
   public String ping() {
