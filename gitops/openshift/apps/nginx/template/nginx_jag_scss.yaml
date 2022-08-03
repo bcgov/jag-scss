@@ -105,8 +105,6 @@ objects:
     nginx-upstream.conf: |-
       upstream splitter {
         server jag-scss;
-        # Tured off for now
-        # server nginx-jag-scss-oldwm;
       }
 
 - kind: ImageStream
