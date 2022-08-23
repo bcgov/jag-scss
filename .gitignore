@@ -42,3 +42,5 @@ set_env.sh
 /scss-soapui-project.xml
 **/TestSuite_SCSS*
 /TestErrors.zip
+
+.java-version
