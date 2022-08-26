@@ -1,4 +1,4 @@
-FROM amazoncorretto:11-alpine
+FROM eclipse-temurin:11-alpine
 
 WORKDIR /app
 RUN chgrp -R 0 /app && \
