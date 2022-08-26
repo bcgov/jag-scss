@@ -16,23 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/tests")
 public class TestController {
-    private TestService testService;
+  private TestService testService;
 
-    @Autowired
-    public TestController(TestService testService) throws IOException {
+  @Autowired
+  public TestController(TestService testService) throws IOException {
 
-        this.testService = testService;
-        this.testService.setAuthentication();
-    }
+    this.testService = testService;
+    this.testService.setAuthentication();
+  }
 
-    @GetMapping(value = "/all")
-    public ResponseEntity runAllTests() throws IOException {
+  @GetMapping(value = "/all")
+  public ResponseEntity runAllTests() throws IOException {
 
-        File f = testService.runAllTests();
-        if (f != null && f.exists()) {
-            InputStream inputStream = new FileInputStream(f.getAbsolutePath());
-            //      This is not great streaming would be better but small files should be ok
-            byte[] out = org.apache.commons.io.IOUtils.toByteArray(inputStream);
+    File f = testService.runAllTests();
+    if (f != null && f.exists()) {
+      InputStream inputStream = new FileInputStream(f.getAbsolutePath());
+      //      This is not great streaming would be better but small files should be ok
+      byte[] out = org.apache.commons.io.IOUtils.toByteArray(inputStream);
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add("content-disposition", "attachment; filename=" + f.getName());
@@ -42,12 +42,12 @@ public class TestController {
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add("Content-Type", "application/json");
-            return new ResponseEntity<String>("{\"status\": \"All tests passed\"}", HttpStatus.OK);
+            return new ResponseEntity<String>("{\"status\": \"All tests passed\"}", responseHeaders, HttpStatus.OK);
         }
     }
 
-    @GetMapping("/ping")
-    public String ping() {
-        return "ping";
-    }
+  @GetMapping("/ping")
+  public String ping() {
+    return "ping";
+  }
 }
