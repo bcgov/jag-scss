@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim
+FROM amazoncorretto:11-alpine
 
 WORKDIR /app
 RUN chgrp -R 0 /app && \
