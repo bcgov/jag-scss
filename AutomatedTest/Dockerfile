@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11-jre-alpine
+FROM eclipse-temurin:11-jre-jammy
 
 WORKDIR /app
 RUN chgrp -R 0 /app && \
