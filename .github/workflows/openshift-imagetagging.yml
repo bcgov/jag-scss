@@ -3,19 +3,30 @@
 name: Trigger deployment to test and prod Openshift environnment by Image stream re-tagging and labelling pod
 
 on:        
-    workflow_dispatch:
-        inputs:
-            app:
-                description: 'App Name (jag-scss/jag-scss-tests)'
-                required: true
-                default: 'jag-scss'
-            imageSourceEnv:
-                description: 'Image Source Env'     
-                required: true
-                default: 'dev'
-            imageTargetEnv:
-                description: 'Target Release Env'
-                required: true
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'App Name (jag-scss/jag-scss-tests)'
+        required: true
+        default: 'jag-scss'
+      imageSourceEnv:
+        type: choice
+        description: Image Source environment
+        options:
+        - - Select a Source Env Image to deploy -
+        - dev
+        - test   
+        required: true
+        default: '- Select a Source Env Image to deploy -'
+      imageTargetEnv:
+        type: choice
+        description: Target Release Environment
+        options:
+        - - Select a Target Env to deploy the Source Image - 
+        - test
+        - prod    
+        required: true
+        default: '- Select a Target Env to deploy the Source Image -'
 jobs:
   oc-image-tagging:
     runs-on: ubuntu-20.04
