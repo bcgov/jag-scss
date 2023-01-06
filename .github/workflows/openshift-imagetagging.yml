@@ -13,20 +13,20 @@ on:
         type: choice
         description: Image Source environment
         options:
-        - - Select a Source Env Image to deploy -
+        - Select a Source Env Image to deploy
         - dev
         - test   
         required: true
-        default: '- Select a Source Env Image to deploy -'
+        default: 'Select a Source Env Image to deploy'
       imageTargetEnv:
         type: choice
         description: Target Release Environment
         options:
-        - - Select a Target Env to deploy the Source Image - 
+        - Select a Target Env to deploy the Source Image
         - test
         - prod    
         required: true
-        default: '- Select a Target Env to deploy the Source Image -'
+        default: 'Select a Target Env to deploy the Source Image'
 jobs:
   oc-image-tagging:
     runs-on: ubuntu-20.04
