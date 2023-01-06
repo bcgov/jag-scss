@@ -33,11 +33,14 @@ public class NotificationController {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final HttpHeaders ordsHeader;
 
     @Autowired
-    public NotificationController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public NotificationController(
+            RestTemplate restTemplate, ObjectMapper objectMapper, HttpHeaders ordsHeader) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.ordsHeader = ordsHeader;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getAllNotifications")
@@ -52,7 +55,7 @@ public class NotificationController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             GetAllNotificationsResponse.class);
 
             log.info(
@@ -84,7 +87,7 @@ public class NotificationController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             GetNotificationsResponse.class);
 
             log.info(
@@ -117,7 +120,7 @@ public class NotificationController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             HasNotificationResponse.class);
 
             log.info(
@@ -151,7 +154,7 @@ public class NotificationController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.DELETE,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             HashMap.class);
         } catch (Exception ex) {
             log.error(

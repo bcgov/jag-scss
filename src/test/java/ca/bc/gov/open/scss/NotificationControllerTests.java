@@ -27,10 +27,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
@@ -43,11 +40,12 @@ public class NotificationControllerTests {
     @Autowired private ObjectMapper objectMapper;
 
     @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private HttpHeaders ordsHeader;
 
     @Test
     public void getAllNotificationsTest() throws IOException {
         // Init service under test
-        notificationController = new NotificationController(restTemplate, objectMapper);
+        notificationController = new NotificationController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new GetAllNotifications();
@@ -87,7 +85,7 @@ public class NotificationControllerTests {
     @Test
     public void getNotificationTest() throws IOException {
         // Init service under test
-        notificationController = new NotificationController(restTemplate, objectMapper);
+        notificationController = new NotificationController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new GetNotifications();
@@ -127,7 +125,7 @@ public class NotificationControllerTests {
     @Test
     public void hasNotificationTest() throws IOException {
         // Init service under test
-        notificationController = new NotificationController(restTemplate, objectMapper);
+        notificationController = new NotificationController(restTemplate, objectMapper, ordsHeader);
         // Init request object
         var req = new HasNotification();
         req.setPhysicalFileId(BigDecimal.ONE);
@@ -157,7 +155,7 @@ public class NotificationControllerTests {
     @Test
     public void removeNotificationTest() throws IOException {
         // Init service under test
-        notificationController = new NotificationController(restTemplate, objectMapper);
+        notificationController = new NotificationController(restTemplate, objectMapper, ordsHeader);
         // Init request object
         var req = new RemoveNotification();
         req.setNotificationId(BigDecimal.ONE);

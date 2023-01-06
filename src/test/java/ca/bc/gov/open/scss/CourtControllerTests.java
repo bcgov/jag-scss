@@ -23,10 +23,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,11 +36,12 @@ public class CourtControllerTests {
     @Autowired private ObjectMapper objectMapper;
 
     @Mock private RestTemplate restTemplate;
+    @Mock private HttpHeaders ordsHeader;
 
     @Test
     public void getCourtFileTest() throws IOException {
         // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
+        courtController = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new GetCourtFile();
@@ -82,7 +80,7 @@ public class CourtControllerTests {
     @Test
     public void getCourtBasicsTest() throws IOException {
         // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
+        courtController = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new GetCourtBasics();
@@ -120,7 +118,7 @@ public class CourtControllerTests {
     @Test
     public void getCeisConnectInfoTest() throws IOException {
         // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
+        courtController = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new GetCeisConnectInfo();
@@ -149,7 +147,7 @@ public class CourtControllerTests {
     @Test
     public void getPartiesTest() throws IOException {
         // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
+        courtController = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new GetParties();
@@ -198,7 +196,7 @@ public class CourtControllerTests {
     @Test
     public void partyNameSearchTest() throws IOException {
         // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
+        courtController = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new PartyNameSearch();
@@ -240,7 +238,7 @@ public class CourtControllerTests {
     @Test
     public void partyNameSearchNullFilterTest() throws IOException {
         // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
+        courtController = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new PartyNameSearch();
@@ -272,7 +270,7 @@ public class CourtControllerTests {
     @Test
     public void saveHearingResultTest() throws IOException {
         // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
+        courtController = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         var req = new SaveHearingResults();
         var res = new HearingResult();
@@ -326,7 +324,7 @@ public class CourtControllerTests {
     @Test
     public void saveHearingResultTestBadDate() throws IOException {
         // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
+        courtController = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         var req = new SaveHearingResults();
         var res = new HearingResult();

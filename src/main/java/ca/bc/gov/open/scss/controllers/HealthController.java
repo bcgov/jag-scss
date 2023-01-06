@@ -35,10 +35,14 @@ public class HealthController {
 
     private final ObjectMapper objectMapper;
 
+    private final HttpHeaders ordsHeader;
+
     @Autowired
-    public HealthController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public HealthController(
+            RestTemplate restTemplate, ObjectMapper objectMapper, HttpHeaders ordsHeader) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.ordsHeader = ordsHeader;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getHealth")
@@ -51,7 +55,7 @@ public class HealthController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             GetHealthResponse.class);
 
             log.info(
@@ -78,11 +82,12 @@ public class HealthController {
         addEndpointHeader("getPing");
 
         try {
+
             HttpEntity<GetPingResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             GetPingResponse.class);
 
             log.info(

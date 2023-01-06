@@ -32,13 +32,16 @@ public class FileController {
     @Value("${scss.host}")
     private String host = "https://127.0.0.1/";
 
-    private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+    private final HttpHeaders ordsHeader;
 
     @Autowired
-    public FileController(RestTemplate restTemplate, ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public FileController(
+            RestTemplate restTemplate, ObjectMapper objectMapper, HttpHeaders ordsHeader) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
+        this.ordsHeader = ordsHeader;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "fileNumberSearch")
@@ -84,7 +87,7 @@ public class FileController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             FileNumberSearchResponse.class);
             if (resp.getBody().getCourtFiles().isEmpty()) {
                 resp.getBody().setCourtFiles(null);
@@ -118,7 +121,7 @@ public class FileController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.POST,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             LinkFileResponse.class);
             log.info(
                     objectMapper.writeValueAsString(
@@ -149,7 +152,7 @@ public class FileController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.PUT,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             HashMap.class);
         } catch (Exception ex) {
             log.error(
@@ -204,7 +207,7 @@ public class FileController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             FileNumbeSearchPublicAccessResponse.class);
 
             if (resp.getBody() != null

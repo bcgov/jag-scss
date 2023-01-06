@@ -35,17 +35,20 @@ public class OrdsErrorTests {
     @Autowired private ObjectMapper objectMapper;
 
     @Mock private RestTemplate restTemplate;
+    @Mock private HttpHeaders ordsHeader;
 
     @Test
     public void testPingOrdsFail() {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
+        HealthController healthController =
+                new HealthController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(ORDSException.class, () -> healthController.getPing(new GetPing()));
     }
 
     @Test
     public void testHealthOrdsFail() {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
+        HealthController healthController =
+                new HealthController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> healthController.getHealth(new GetHealth()));
@@ -53,7 +56,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testCourtGetCourtFileOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
+        CourtController controller = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> controller.getCourtFile(new GetCourtFile()));
@@ -61,7 +64,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testCourtGetCourtBasicsOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
+        CourtController controller = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> controller.getCourtBasics(new GetCourtBasics()));
@@ -69,7 +72,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testCourtGetCeisConnectInfoOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
+        CourtController controller = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> controller.getCeisConnectInfo(new GetCeisConnectInfo()));
@@ -77,14 +80,14 @@ public class OrdsErrorTests {
 
     @Test
     public void testCourtGetPartiesOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
+        CourtController controller = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(ORDSException.class, () -> controller.getParties(new GetParties()));
     }
 
     @Test
     public void testCourtPartyNameSearchNullFilter() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
+        CourtController controller = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         when(restTemplate.exchange(
                         Mockito.any(String.class),
@@ -99,7 +102,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testCourtPartyNameSearchOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
+        CourtController controller = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         var search = new PartyNameSearch();
         search.setFilter(new PartyNameSearchFilter());
@@ -109,7 +112,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testCourtSaveHearingResultsOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
+        CourtController controller = new CourtController(restTemplate, objectMapper, ordsHeader);
         var req = new SaveHearingResults();
         HearingResult hr = new HearingResult();
         HearingResult2 hr2 = new HearingResult2();
@@ -140,7 +143,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testCourtSaveHearingResultsEmptyReqFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
+        CourtController controller = new CourtController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> controller.saveHearingResults(new SaveHearingResults()));
@@ -148,7 +151,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testFileFileNumberSearchOrdsFail() {
-        FileController controller = new FileController(restTemplate, objectMapper);
+        FileController controller = new FileController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> controller.fileNumberSearch(new FileNumberSearch()));
@@ -156,14 +159,14 @@ public class OrdsErrorTests {
 
     @Test
     public void testFileLinkFileOrdsFail() {
-        FileController controller = new FileController(restTemplate, objectMapper);
+        FileController controller = new FileController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(ORDSException.class, () -> controller.linkFile(new LinkFile()));
     }
 
     @Test
     public void testFileUnlinkFileOrdsFail() {
-        FileController controller = new FileController(restTemplate, objectMapper);
+        FileController controller = new FileController(restTemplate, objectMapper, ordsHeader);
 
         when(restTemplate.exchange(
                         Mockito.any(String.class),
@@ -177,7 +180,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testFileFileNumberSearchPublicAccessOrdsFail() {
-        FileController controller = new FileController(restTemplate, objectMapper);
+        FileController controller = new FileController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class,
@@ -186,7 +189,8 @@ public class OrdsErrorTests {
 
     @Test
     public void testNotificationGetAllNotificationsOrdsFail() {
-        NotificationController controller = new NotificationController(restTemplate, objectMapper);
+        NotificationController controller =
+                new NotificationController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class,
@@ -195,7 +199,8 @@ public class OrdsErrorTests {
 
     @Test
     public void testNotificationGetNotificationOrdsFail() {
-        NotificationController controller = new NotificationController(restTemplate, objectMapper);
+        NotificationController controller =
+                new NotificationController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> controller.getNotification(new GetNotifications()));
@@ -203,7 +208,8 @@ public class OrdsErrorTests {
 
     @Test
     public void testNotificationHasNotificationsOrdsFail() {
-        NotificationController controller = new NotificationController(restTemplate, objectMapper);
+        NotificationController controller =
+                new NotificationController(restTemplate, objectMapper, ordsHeader);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> controller.hasNotifications(new HasNotification()));
@@ -211,7 +217,8 @@ public class OrdsErrorTests {
 
     @Test
     public void testNotificationRemoveNotificationOrdsFail() {
-        NotificationController controller = new NotificationController(restTemplate, objectMapper);
+        NotificationController controller =
+                new NotificationController(restTemplate, objectMapper, ordsHeader);
 
         when(restTemplate.exchange(
                         Mockito.any(String.class),

@@ -11,10 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,10 +21,12 @@ public class HealthControllerTests {
 
     @Mock private RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
+    @Mock private HttpHeaders ordsHeader;
 
     @Test
     public void getHealthTest() throws IOException {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
+        HealthController healthController =
+                new HealthController(restTemplate, objectMapper, ordsHeader);
 
         var resp = new GetHealthResponse();
         resp.setAppid("A");
@@ -57,7 +56,8 @@ public class HealthControllerTests {
     @Test
     public void getPingTest() {
         // Only needed for log test otherwise required refactor
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
+        HealthController healthController =
+                new HealthController(restTemplate, objectMapper, ordsHeader);
 
         var resp = new GetPingResponse();
         resp.setStatus("A");

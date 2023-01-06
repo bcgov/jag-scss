@@ -33,11 +33,14 @@ public class CourtController {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final HttpHeaders ordsHeader;
 
     @Autowired
-    public CourtController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public CourtController(
+            RestTemplate restTemplate, ObjectMapper objectMapper, HttpHeaders ordsHeader) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.ordsHeader = ordsHeader;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCourtFile")
@@ -53,7 +56,7 @@ public class CourtController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             GetCourtFileResponse.class);
 
             log.info(
@@ -88,7 +91,7 @@ public class CourtController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             CaseBasics.class);
             GetCourtBasicsResponse cbr = new GetCourtBasicsResponse();
             cbr.setCaseBasics(resp.getBody());
@@ -120,7 +123,7 @@ public class CourtController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             GetCeisConnectInfoResponse.class);
             log.info(
                     objectMapper.writeValueAsString(
@@ -150,7 +153,7 @@ public class CourtController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             GetPartiesResponse.class);
             log.info(
                     objectMapper.writeValueAsString(
@@ -220,7 +223,7 @@ public class CourtController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            new HttpEntity<>(new HttpHeaders(ordsHeader)),
                             SearchResults.class);
             PartyNameSearchResponse pns = new PartyNameSearchResponse();
             pns.setSearchResults(
@@ -273,7 +276,7 @@ public class CourtController {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "SaveHearingResult");
 
-        HttpEntity<CaseDetails> payload = new HttpEntity<>(inner, new HttpHeaders());
+        HttpEntity<CaseDetails> payload = new HttpEntity<>(inner, new HttpHeaders(ordsHeader));
 
         try {
             HttpEntity<String> resp =

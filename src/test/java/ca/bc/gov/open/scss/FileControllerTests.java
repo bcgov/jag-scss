@@ -27,11 +27,12 @@ public class FileControllerTests {
     @Autowired private ObjectMapper objectMapper;
 
     @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private HttpHeaders ordsHeader;
 
     @Test
     public void fileNumberSearchTest() throws IOException {
         // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
+        fileController = new FileController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new FileNumberSearch();
@@ -73,7 +74,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchNullFilterTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
+        fileController = new FileController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new FileNumberSearch();
@@ -110,7 +111,7 @@ public class FileControllerTests {
     @Test
     public void linkFileTest() throws IOException {
         // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
+        fileController = new FileController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new LinkFile();
@@ -141,7 +142,7 @@ public class FileControllerTests {
     @Test
     public void unlinkFileTest() throws IOException {
         // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
+        fileController = new FileController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new UnlinkFile();
@@ -172,7 +173,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchPublicAccessTest() throws IOException {
         // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
+        fileController = new FileController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new FileNumbeSearchPublicAccess();
@@ -215,7 +216,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchPublicAccessNullFilterTest() throws IOException {
         //  Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
+        fileController = new FileController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new FileNumbeSearchPublicAccess();
@@ -252,7 +253,7 @@ public class FileControllerTests {
     @Test
     public void fileNumberSearchPublicAccessSealedTest() throws IOException {
         // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
+        fileController = new FileController(restTemplate, objectMapper, ordsHeader);
 
         // Init request object
         var req = new FileNumbeSearchPublicAccess();

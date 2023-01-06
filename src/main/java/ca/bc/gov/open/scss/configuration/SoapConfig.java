@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.soap.SOAPMessage;
 import org.apache.catalina.webresources.StandardRoot;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
@@ -36,6 +39,12 @@ public class SoapConfig extends WsConfigurerAdapter {
 
     public static final String SOAP_NAMESPACE =
             "http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss";
+
+    @Value("${scss.username}")
+    private String username;
+
+    @Value("${scss.password}")
+    private String password;
 
     @Bean
     public WebServerFactoryCustomizer prodTomcatCustomizer() {
@@ -64,6 +73,19 @@ public class SoapConfig extends WsConfigurerAdapter {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
         return restTemplate;
+    }
+
+    @Bean
+    HttpHeaders ordsHeader() {
+        return new HttpHeaders() {
+            {
+                String auth = username + ":" + password;
+                byte[] authBytes = auth.getBytes();
+                byte[] encodedAuth = Base64.encodeBase64(authBytes);
+                String authHeader = "Basic " + new String(encodedAuth);
+                set("Authorization", authHeader);
+            }
+        };
     }
 
     private MappingJackson2HttpMessageConverter createMappingJacksonHttpMessageConverter() {
