@@ -23,7 +23,9 @@ BASIC_AUTH_PASS: The password for the basic authentication. This can be any valu
 
 BASIC_AUTH_USER: The username for the basic authentication. This can be any value for local.
 
-ORDS_HOST: The url for ords rest package.
+ORDS_HOST: The url for requesting ords and rest package.
+ORDS_USERNAME: ORDS_HOST authentication
+ORDS_PASSWORD: ORDS_HOST authentication
 
 ### Optional Enviromental Variables
 SPLUNK_HTTP_URL: The url for the splunk hec.
