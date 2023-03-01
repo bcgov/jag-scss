@@ -32,7 +32,6 @@ jobs:
     runs-on: ubuntu-20.04
     environment: ${{ github.event.inputs.imageTargetEnv }}
     steps:
-    
       - name: Check deployment source and target values
         if: |
           (github.event.inputs.imageSourceEnv == 'dev' &&  github.event.inputs.imageTargetEnv == 'prod') ||
