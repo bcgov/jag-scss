@@ -1,4 +1,4 @@
-FROM amazoncorretto:11.0.18-alpine
+FROM eclipse-temurin:11-jre-alpine
 
 COPY ./target/scss-application.jar scss-application.jar
 
