@@ -26,6 +26,7 @@ BASIC_AUTH_USER: The username for the basic authentication. This can be any valu
 ORDS_HOST: The url for requesting ords and rest package.
 ORDS_USERNAME: ORDS_HOST authentication
 ORDS_PASSWORD: ORDS_HOST authentication
+ORDS_READ_TIMEOUT: Timeout in seconds which expects the response/result from ORDS.
 
 ### Optional Enviromental Variables
 SPLUNK_HTTP_URL: The url for the splunk hec.
