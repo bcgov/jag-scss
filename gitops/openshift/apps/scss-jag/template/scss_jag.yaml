@@ -127,6 +127,11 @@ objects:
                 secretKeyRef:
                   name: scss-application-secrets
                   key: ORDS_PASSWORD
+            - name: ORDS_READ_TIMEOUT
+              valueFrom:
+                secretKeyRef:
+                  name: scss-application-secrets
+                  key: ORDS_READ_TIMEOUT
             resources:
               limits:
                 cpu: 500m
