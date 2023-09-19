@@ -96,7 +96,7 @@ public class CourtControllerTests {
         Issue is = new Issue();
         is.setIssueDescription("A");
         is.setIssueTypeCode("A");
-        cb.setIssues(Collections.singletonList(is));
+        cb.getIssues().add(is);
         cb.setFileAccessLevelCode("A");
         cb.setLocationId(BigDecimal.ONE);
 
@@ -175,7 +175,7 @@ public class CourtControllerTests {
         cp.setSurname("A");
         cp.setProvince("A");
         cp.setPhoneNumber("A");
-        resp.setParties(Collections.singletonList(cp));
+        resp.getParties().add(cp);
 
         ResponseEntity<GetPartiesResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
@@ -218,7 +218,7 @@ public class CourtControllerTests {
         res.setPage(BigDecimal.ONE);
         res.setRecordsPerPage(BigDecimal.ONE);
         res.setTotalRecords(BigDecimal.ONE);
-        res.setResults(Collections.singletonList(new CourtFile()));
+        res.getResults().add(new CourtFile());
 
         ResponseEntity<SearchResults> responseEntity = new ResponseEntity<>(res, HttpStatus.OK);
 
@@ -248,7 +248,7 @@ public class CourtControllerTests {
         // Init response
         SearchResults res = new SearchResults();
         res.setPage(BigDecimal.ONE);
-        res.setResults(Collections.singletonList(new CourtFile()));
+        res.getResults().add(new CourtFile());
         res.setRecordsPerPage(BigDecimal.ONE);
         res.setTotalRecords(BigDecimal.ONE);
 

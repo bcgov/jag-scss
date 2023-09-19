@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim
+FROM openjdk:17-jre-slim
 RUN apt-get update && apt-get install -y curl
 RUN curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.3.tgz
 RUN tar -xvf apache-jmeter-5.3.tgz

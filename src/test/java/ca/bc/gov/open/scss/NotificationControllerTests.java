@@ -17,10 +17,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -64,7 +64,7 @@ public class NotificationControllerTests {
         Instant now = Instant.now();
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
-        resp.setNotifications(Collections.singletonList(not));
+        resp.getNotifications().add(not);
 
         ResponseEntity<GetAllNotificationsResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
@@ -104,7 +104,7 @@ public class NotificationControllerTests {
         Instant now = Instant.now();
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
-        resp.setNotifications(Collections.singletonList(not));
+        resp.getNotifications().add(not);
 
         ResponseEntity<GetNotificationsResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
@@ -221,7 +221,7 @@ public class NotificationControllerTests {
         not.setStatus("A");
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
-        nr.setNotifications(Collections.singletonList(not));
+        nr.getNotifications().add(not);
         String out;
         var baos = new ByteArrayOutputStream();
         jaxbMarshaller.marshal(nr, baos);

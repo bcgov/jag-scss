@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 
 RUN apk upgrade libssl3 libcrypto3 # Fix for CVE-2023-2650
 

@@ -87,7 +87,7 @@ public class FileController {
                             new HttpEntity<>(new HttpHeaders()),
                             FileNumberSearchResponse.class);
             if (resp.getBody().getCourtFiles().isEmpty()) {
-                resp.getBody().setCourtFiles(null);
+                resp.getBody().getCourtFiles().clear();
             }
             log.info(
                     objectMapper.writeValueAsString(
@@ -210,7 +210,7 @@ public class FileController {
             if (resp.getBody() != null
                     && (resp.getBody().getCourtFiles() == null
                             || resp.getBody().getCourtFiles().size() == 0)) {
-                resp.getBody().setCourtFiles(null);
+                resp.getBody().getCourtFiles().clear();
             }
             log.info(
                     objectMapper.writeValueAsString(

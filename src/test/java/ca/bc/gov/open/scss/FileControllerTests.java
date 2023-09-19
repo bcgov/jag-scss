@@ -50,7 +50,7 @@ public class FileControllerTests {
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
-        resp.setCourtFiles(Collections.singletonList(cf));
+        resp.getCourtFiles().add(cf);
 
         ResponseEntity<FileNumberSearchResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
@@ -87,7 +87,7 @@ public class FileControllerTests {
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
-        resp.setCourtFiles(Collections.singletonList(cf));
+        resp.getCourtFiles().add(cf);
 
         ResponseEntity<FileNumberSearchResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
@@ -192,7 +192,7 @@ public class FileControllerTests {
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
-        resp.setCourtFiles(Collections.singletonList(cf));
+        resp.getCourtFiles().add(cf);
 
         ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
@@ -229,7 +229,7 @@ public class FileControllerTests {
         cf.setLocationId(BigDecimal.ONE);
         cf.setPhysicalFileId(BigDecimal.ONE);
         cf.setStyleOfCause("A");
-        resp.setCourtFiles(Collections.singletonList(cf));
+        resp.getCourtFiles().add(cf);
 
         ResponseEntity<FileNumbeSearchPublicAccessResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
