@@ -18,9 +18,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Locale;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -30,21 +33,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CourtControllerTests {
 
-    private CourtController courtController;
-
-    @Autowired private ObjectMapper objectMapper;
-
+    @Mock CourtController courtController;
+    @Mock private ObjectMapper objectMapper;
     @Mock private RestTemplate restTemplate;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        courtController = Mockito.spy(new CourtController(restTemplate, objectMapper));
+    }
 
     @Test
     public void getCourtFileTest() throws IOException {
-        // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
-
         // Init request object
         var req = new GetCourtFile();
         req.setPhysicalFileId(BigDecimal.ONE);
@@ -81,9 +84,6 @@ public class CourtControllerTests {
 
     @Test
     public void getCourtBasicsTest() throws IOException {
-        // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
-
         // Init request object
         var req = new GetCourtBasics();
         req.setPhysicalFileId(BigDecimal.ONE);
@@ -119,9 +119,6 @@ public class CourtControllerTests {
 
     @Test
     public void getCeisConnectInfoTest() throws IOException {
-        // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
-
         // Init request object
         var req = new GetCeisConnectInfo();
 
@@ -148,9 +145,6 @@ public class CourtControllerTests {
 
     @Test
     public void getPartiesTest() throws IOException {
-        // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
-
         // Init request object
         var req = new GetParties();
         req.setPhysicalFileId(BigDecimal.ONE);
@@ -197,9 +191,6 @@ public class CourtControllerTests {
 
     @Test
     public void partyNameSearchTest() throws IOException {
-        // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
-
         // Init request object
         var req = new PartyNameSearch();
         PartyNameSearchFilter pnf = new PartyNameSearchFilter();
@@ -239,9 +230,6 @@ public class CourtControllerTests {
 
     @Test
     public void partyNameSearchNullFilterTest() throws IOException {
-        // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
-
         // Init request object
         var req = new PartyNameSearch();
 
@@ -271,9 +259,6 @@ public class CourtControllerTests {
 
     @Test
     public void saveHearingResultTest() throws IOException {
-        // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
-
         var req = new SaveHearingResults();
         var res = new HearingResult();
         var res2 = new HearingResult2();
@@ -325,9 +310,6 @@ public class CourtControllerTests {
 
     @Test
     public void saveHearingResultTestBadDate() throws IOException {
-        // Init service under test
-        courtController = new CourtController(restTemplate, objectMapper);
-
         var req = new SaveHearingResults();
         var res = new HearingResult();
         var res2 = new HearingResult2();

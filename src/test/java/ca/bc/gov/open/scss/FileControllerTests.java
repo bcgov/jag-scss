@@ -9,30 +9,33 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FileControllerTests {
 
-    private FileController fileController;
-
-    @Autowired private ObjectMapper objectMapper;
-
+    @Mock FileController fileController;
+    @Mock private ObjectMapper objectMapper;
     @Mock private RestTemplate restTemplate = new RestTemplate();
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        fileController = Mockito.spy(new FileController(restTemplate, objectMapper));
+    }
 
     @Test
     public void fileNumberSearchTest() throws IOException {
-        // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
-
         // Init request object
         var req = new FileNumberSearch();
         req.setFilter(new FileNumberSearchFilter());
@@ -72,9 +75,6 @@ public class FileControllerTests {
 
     @Test
     public void fileNumberSearchNullFilterTest() throws IOException {
-        //  Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
-
         // Init request object
         var req = new FileNumberSearch();
 
@@ -109,9 +109,6 @@ public class FileControllerTests {
 
     @Test
     public void linkFileTest() throws IOException {
-        // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
-
         // Init request object
         var req = new LinkFile();
         req.setPhysicalFileId(BigDecimal.ONE);
@@ -140,9 +137,6 @@ public class FileControllerTests {
 
     @Test
     public void unlinkFileTest() throws IOException {
-        // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
-
         // Init request object
         var req = new UnlinkFile();
         req.setPhysicalFileId(BigDecimal.ONE);
@@ -171,9 +165,6 @@ public class FileControllerTests {
 
     @Test
     public void fileNumberSearchPublicAccessTest() throws IOException {
-        // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
-
         // Init request object
         var req = new FileNumbeSearchPublicAccess();
         var fil = new FileNumberSearchFilter();
@@ -214,9 +205,6 @@ public class FileControllerTests {
 
     @Test
     public void fileNumberSearchPublicAccessNullFilterTest() throws IOException {
-        //  Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
-
         // Init request object
         var req = new FileNumbeSearchPublicAccess();
 
@@ -251,9 +239,6 @@ public class FileControllerTests {
 
     @Test
     public void fileNumberSearchPublicAccessSealedTest() throws IOException {
-        // Init service under test
-        fileController = new FileController(restTemplate, objectMapper);
-
         // Init request object
         var req = new FileNumbeSearchPublicAccess();
 
