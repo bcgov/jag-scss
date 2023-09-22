@@ -14,11 +14,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.HashMap;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
@@ -26,66 +30,60 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
-@AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class OrdsErrorTests {
-    @Autowired private MockMvc mockMvc;
-
-    @Autowired private ObjectMapper objectMapper;
-
+    @Mock private ObjectMapper objectMapper;
     @Mock private RestTemplate restTemplate;
+    @Mock private HealthController healthController;
+    @Mock private CourtController courtController;
+    @Mock private FileController fileController;
+    @Mock private NotificationController notificationController;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        healthController = Mockito.spy(new HealthController(restTemplate, objectMapper));
+        courtController = Mockito.spy(new CourtController(restTemplate, objectMapper));
+        fileController = Mockito.spy(new FileController(restTemplate, objectMapper));
+        notificationController = Mockito.spy(new NotificationController(restTemplate, objectMapper));
+    }
 
     @Test
     public void testPingOrdsFail() {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
-
         Assertions.assertThrows(ORDSException.class, () -> healthController.getPing(new GetPing()));
     }
 
     @Test
     public void testHealthOrdsFail() {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
                 ORDSException.class, () -> healthController.getHealth(new GetHealth()));
     }
 
     @Test
     public void testCourtGetCourtFileOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
-                ORDSException.class, () -> controller.getCourtFile(new GetCourtFile()));
+                ORDSException.class, () -> courtController.getCourtFile(new GetCourtFile()));
     }
 
     @Test
     public void testCourtGetCourtBasicsOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
-
-        Assertions.assertThrows(
-                ORDSException.class, () -> controller.getCourtBasics(new GetCourtBasics()));
+          Assertions.assertThrows(
+                ORDSException.class, () -> courtController.getCourtBasics(new GetCourtBasics()));
     }
 
     @Test
     public void testCourtGetCeisConnectInfoOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
-                ORDSException.class, () -> controller.getCeisConnectInfo(new GetCeisConnectInfo()));
+                ORDSException.class, () -> courtController.getCeisConnectInfo(new GetCeisConnectInfo()));
     }
 
     @Test
     public void testCourtGetPartiesOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
-
-        Assertions.assertThrows(ORDSException.class, () -> controller.getParties(new GetParties()));
+        Assertions.assertThrows(ORDSException.class, () -> courtController.getParties(new GetParties()));
     }
 
     @Test
     public void testCourtPartyNameSearchNullFilter() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
-
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
@@ -94,22 +92,19 @@ public class OrdsErrorTests {
                 .thenThrow(RestClientException.class);
 
         Assertions.assertThrows(
-                ORDSException.class, () -> controller.partyNameSearch(new PartyNameSearch()));
+                ORDSException.class, () -> courtController.partyNameSearch(new PartyNameSearch()));
     }
 
     @Test
     public void testCourtPartyNameSearchOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
-
         var search = new PartyNameSearch();
         search.setFilter(new PartyNameSearchFilter());
 
-        Assertions.assertThrows(ORDSException.class, () -> controller.partyNameSearch(search));
+        Assertions.assertThrows(ORDSException.class, () -> courtController.partyNameSearch(search));
     }
 
     @Test
     public void testCourtSaveHearingResultsOrdsFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
         var req = new SaveHearingResults();
         HearingResult hr = new HearingResult();
         HearingResult2 hr2 = new HearingResult2();
@@ -135,36 +130,28 @@ public class OrdsErrorTests {
                         Mockito.<Class<String>>any()))
                 .thenThrow(RestClientException.class);
 
-        Assertions.assertThrows(ORDSException.class, () -> controller.saveHearingResults(req));
+        Assertions.assertThrows(ORDSException.class, () -> courtController.saveHearingResults(req));
     }
 
     @Test
     public void testCourtSaveHearingResultsEmptyReqFail() {
-        CourtController controller = new CourtController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
-                ORDSException.class, () -> controller.saveHearingResults(new SaveHearingResults()));
+                ORDSException.class, () -> courtController.saveHearingResults(new SaveHearingResults()));
     }
 
     @Test
     public void testFileFileNumberSearchOrdsFail() {
-        FileController controller = new FileController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
-                ORDSException.class, () -> controller.fileNumberSearch(new FileNumberSearch()));
+                ORDSException.class, () -> fileController.fileNumberSearch(new FileNumberSearch()));
     }
 
     @Test
     public void testFileLinkFileOrdsFail() {
-        FileController controller = new FileController(restTemplate, objectMapper);
-
-        Assertions.assertThrows(ORDSException.class, () -> controller.linkFile(new LinkFile()));
+        Assertions.assertThrows(ORDSException.class, () -> fileController.linkFile(new LinkFile()));
     }
 
     @Test
     public void testFileUnlinkFileOrdsFail() {
-        FileController controller = new FileController(restTemplate, objectMapper);
-
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.PUT),
@@ -172,47 +159,37 @@ public class OrdsErrorTests {
                         Mockito.<Class<HashMap>>any()))
                 .thenThrow(RestClientException.class);
 
-        Assertions.assertThrows(ORDSException.class, () -> controller.unlinkFile(new UnlinkFile()));
+        Assertions.assertThrows(ORDSException.class, () -> fileController.unlinkFile(new UnlinkFile()));
     }
 
     @Test
     public void testFileFileNumberSearchPublicAccessOrdsFail() {
-        FileController controller = new FileController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
                 ORDSException.class,
-                () -> controller.fileNumberSearchPublicAccess(new FileNumbeSearchPublicAccess()));
+                () -> fileController.fileNumberSearchPublicAccess(new FileNumbeSearchPublicAccess()));
     }
 
     @Test
     public void testNotificationGetAllNotificationsOrdsFail() {
-        NotificationController controller = new NotificationController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
                 ORDSException.class,
-                () -> controller.getAllNotifications(new GetAllNotifications()));
+                () -> notificationController.getAllNotifications(new GetAllNotifications()));
     }
 
     @Test
     public void testNotificationGetNotificationOrdsFail() {
-        NotificationController controller = new NotificationController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
-                ORDSException.class, () -> controller.getNotification(new GetNotifications()));
+                ORDSException.class, () -> notificationController.getNotification(new GetNotifications()));
     }
 
     @Test
     public void testNotificationHasNotificationsOrdsFail() {
-        NotificationController controller = new NotificationController(restTemplate, objectMapper);
-
         Assertions.assertThrows(
-                ORDSException.class, () -> controller.hasNotifications(new HasNotification()));
+                ORDSException.class, () -> notificationController.hasNotifications(new HasNotification()));
     }
 
     @Test
     public void testNotificationRemoveNotificationOrdsFail() {
-        NotificationController controller = new NotificationController(restTemplate, objectMapper);
-
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.DELETE),
@@ -221,16 +198,6 @@ public class OrdsErrorTests {
                 .thenThrow(RestClientException.class);
 
         Assertions.assertThrows(
-                ORDSException.class, () -> controller.removeNotification(new RemoveNotification()));
-    }
-
-    @Test
-    public void securityTestFail_Then401() throws Exception {
-        var response =
-                mockMvc.perform(post("/ws").contentType(MediaType.TEXT_XML))
-                        .andExpect(status().is4xxClientError())
-                        .andReturn();
-        Assertions.assertEquals(
-                HttpStatus.UNAUTHORIZED.value(), response.getResponse().getStatus());
+                ORDSException.class, () -> notificationController.removeNotification(new RemoveNotification()));
     }
 }

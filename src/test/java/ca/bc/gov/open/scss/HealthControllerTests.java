@@ -7,9 +7,11 @@ import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -23,12 +25,17 @@ import org.springframework.web.client.RestTemplate;
 public class HealthControllerTests {
 
     @Mock private RestTemplate restTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    @Mock private ObjectMapper objectMapper;
+    @Mock private HealthController healthController;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        healthController = Mockito.spy(new HealthController(restTemplate, objectMapper));
+    }
 
     @Test
     public void getHealthTest() throws IOException {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
-
         var resp = new GetHealthResponse();
         resp.setAppid("A");
         resp.setCompatibility("A");
@@ -56,9 +63,6 @@ public class HealthControllerTests {
 
     @Test
     public void getPingTest() {
-        // Only needed for log test otherwise required refactor
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
-
         var resp = new GetPingResponse();
         resp.setStatus("A");
 
