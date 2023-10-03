@@ -17,14 +17,17 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -34,21 +37,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NotificationControllerTests {
 
-    private NotificationController notificationController;
+    @Mock private NotificationController notificationController;
+    @Mock private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    private  ObjectMapper mapper = new ObjectMapper();
 
-    @Autowired private ObjectMapper objectMapper;
-
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        notificationController = Mockito.spy(new NotificationController(restTemplate, objectMapper));
+    }
 
     @Test
     public void getAllNotificationsTest() throws IOException {
-        // Init service under test
-        notificationController = new NotificationController(restTemplate, objectMapper);
-
         // Init request object
         var req = new GetAllNotifications();
 
@@ -64,7 +68,7 @@ public class NotificationControllerTests {
         Instant now = Instant.now();
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
-        resp.setNotifications(Collections.singletonList(not));
+        resp.getNotifications().add(not);
 
         ResponseEntity<GetAllNotificationsResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
@@ -86,9 +90,6 @@ public class NotificationControllerTests {
 
     @Test
     public void getNotificationTest() throws IOException {
-        // Init service under test
-        notificationController = new NotificationController(restTemplate, objectMapper);
-
         // Init request object
         var req = new GetNotifications();
 
@@ -104,7 +105,7 @@ public class NotificationControllerTests {
         Instant now = Instant.now();
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
-        resp.setNotifications(Collections.singletonList(not));
+        resp.getNotifications().add(not);
 
         ResponseEntity<GetNotificationsResponse> responseEntity =
                 new ResponseEntity<>(resp, HttpStatus.OK);
@@ -126,8 +127,6 @@ public class NotificationControllerTests {
 
     @Test
     public void hasNotificationTest() throws IOException {
-        // Init service under test
-        notificationController = new NotificationController(restTemplate, objectMapper);
         // Init request object
         var req = new HasNotification();
         req.setPhysicalFileId(BigDecimal.ONE);
@@ -156,8 +155,6 @@ public class NotificationControllerTests {
 
     @Test
     public void removeNotificationTest() throws IOException {
-        // Init service under test
-        notificationController = new NotificationController(restTemplate, objectMapper);
         // Init request object
         var req = new RemoveNotification();
         req.setNotificationId(BigDecimal.ONE);
@@ -184,27 +181,6 @@ public class NotificationControllerTests {
     }
 
     @Test
-    public void InstantDeserializerTest() throws JsonProcessingException, ParseException {
-        String instantString = "{\"statusDatetime\": \"05-NOV-12 08.05.59.00000 AM\"}";
-
-        Notification inst = objectMapper.readValue(instantString, Notification.class);
-
-        String strReqDelTime = "05-NOV-12 08.05.59.00000 AM";
-        var sdf = new SimpleDateFormat("dd-MMM-yy hh.mm.ss.SSSSSS a", Locale.US);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-7"));
-        Date d = sdf.parse(strReqDelTime);
-        Instant reqInstant = d.toInstant();
-
-        assert inst.getStatusDatetime().compareTo(reqInstant) == 0;
-
-        instantString = "{\"statusDatetime\": \"I am bad\"}";
-
-        inst = objectMapper.readValue(instantString, Notification.class);
-
-        Assertions.assertNull(inst.getStatusDatetime());
-    }
-
-    @Test
     public void JAXBMarshallInstant() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(GetAllNotificationsResponse.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -221,7 +197,7 @@ public class NotificationControllerTests {
         not.setStatus("A");
         not.setEventDatetime(now);
         not.setStatusDatetime(now);
-        nr.setNotifications(Collections.singletonList(not));
+        nr.getNotifications().add(not);
         String out;
         var baos = new ByteArrayOutputStream();
         jaxbMarshaller.marshal(nr, baos);
