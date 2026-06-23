@@ -9,6 +9,7 @@ import ca.bc.gov.open.scss.controllers.FileController;
 import ca.bc.gov.open.scss.controllers.HealthController;
 import ca.bc.gov.open.scss.controllers.NotificationController;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
@@ -32,18 +33,27 @@ import org.springframework.web.client.RestTemplate;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class OrdsErrorTests {
-    @Mock private ObjectMapper objectMapper;
-    @Mock private RestTemplate restTemplate;
-    @Mock private HealthController healthController;
-    @Mock private CourtController courtController;
-    @Mock private FileController fileController;
-    @Mock private NotificationController notificationController;
+
+    @Mock
+    private ObjectMapper objectMapper;
+    @Mock
+    private RestTemplate restTemplate;
+    @Mock
+    private HealthController healthController;
+    @Mock
+    private CourtController courtController;
+    @Mock
+    private FileController fileController;
+    @Mock
+    private NotificationController notificationController;
+    @Mock
+    SCSSProperties scssProperties;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         healthController = Mockito.spy(new HealthController(restTemplate, objectMapper));
-        courtController = Mockito.spy(new CourtController(restTemplate, objectMapper));
+        courtController = Mockito.spy(new CourtController(restTemplate, objectMapper, scssProperties));
         fileController = Mockito.spy(new FileController(restTemplate, objectMapper));
         notificationController = Mockito.spy(new NotificationController(restTemplate, objectMapper));
     }

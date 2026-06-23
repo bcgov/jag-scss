@@ -2,6 +2,7 @@ package ca.bc.gov.open.scss.configuration;
 
 import ca.bc.gov.open.scss.models.serializers.InstantDeserializer;
 import ca.bc.gov.open.scss.models.serializers.InstantSerializer;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import jakarta.xml.soap.SOAPMessage;
 import org.apache.catalina.webresources.StandardRoot;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -35,19 +36,17 @@ import org.springframework.xml.xsd.XsdSchema;
 
 @EnableWs
 @Configuration
+@EnableConfigurationProperties(SCSSProperties.class)
 public class SoapConfig extends WsConfigurerAdapter {
 
     public static final String SOAP_NAMESPACE =
             "http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss";
 
-    @Value("${scss.username}")
-    private String username;
+    private final SCSSProperties SCSSProperties;
 
-    @Value("${scss.password}")
-    private String password;
-
-    @Value("${scss.ords-read-timeout}")
-    private String ordsReadTimeout;
+    public SoapConfig(SCSSProperties SCSSProperties) {
+        this.SCSSProperties = SCSSProperties;
+    }
 
     @Bean
     public WebServerFactoryCustomizer prodTomcatCustomizer() {
@@ -75,8 +74,8 @@ public class SoapConfig extends WsConfigurerAdapter {
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         var restTemplate =
                 restTemplateBuilder
-                        .basicAuthentication(username, password)
-                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeout)))
+                        .basicAuthentication(SCSSProperties.getUsername(), SCSSProperties.getPassword())
+                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(SCSSProperties.getOrdsReadTimeout())))
                         .build();
         restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
         return restTemplate;

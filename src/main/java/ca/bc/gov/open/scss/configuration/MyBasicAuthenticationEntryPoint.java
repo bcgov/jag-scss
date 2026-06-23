@@ -1,5 +1,6 @@
 package ca.bc.gov.open.scss.configuration;
 
+import ca.bc.gov.open.scss.properties.AuthProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,18 +9,25 @@ import java.util.HashMap;
 import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
-@Slf4j
+@EnableConfigurationProperties(AuthProperties.class)
 public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 
-    @Autowired private ObjectMapper objectMapper;
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
+
+    private final ObjectMapper objectMapper;
+
+    public MyBasicAuthenticationEntryPoint() {
+        this.objectMapper = new  ObjectMapper();
+    }
 
     @Override
     public void commence(
@@ -46,4 +54,5 @@ public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoi
         setRealmName("SCSS");
         super.afterPropertiesSet();
     }
+
 }

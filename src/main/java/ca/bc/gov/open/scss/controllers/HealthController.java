@@ -7,8 +7,8 @@ import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -25,8 +25,9 @@ import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
-@Slf4j
 public class HealthController {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     @Value("${scss.host}")
     private String host = "https://127.0.0.1/";
@@ -70,7 +71,6 @@ public class HealthController {
         }
     }
 
-    @SneakyThrows
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getPing")
     @ResponsePayload
     public GetPingResponse getPing(@RequestPayload GetPing empty) {
@@ -90,13 +90,11 @@ public class HealthController {
                             new RequestSuccessLog("Request Success", "getPing")));
             return resp.getBody();
         } catch (Exception ex) {
-            log.error(
-                    objectMapper.writeValueAsString(
-                            new OrdsErrorLog(
+            log.error("{}", new OrdsErrorLog(
                                     "Error retrieving data from ords",
                                     "getPing",
                                     ex.getMessage(),
-                                    empty)));
+                                    empty));
             throw new ORDSException();
         }
     }
