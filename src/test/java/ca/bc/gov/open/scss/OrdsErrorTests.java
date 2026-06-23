@@ -52,10 +52,10 @@ public class OrdsErrorTests {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        healthController = Mockito.spy(new HealthController(restTemplate, objectMapper));
+        healthController = Mockito.spy(new HealthController(restTemplate, objectMapper, scssProperties));
         courtController = Mockito.spy(new CourtController(restTemplate, objectMapper, scssProperties));
-        fileController = Mockito.spy(new FileController(restTemplate, objectMapper));
-        notificationController = Mockito.spy(new NotificationController(restTemplate, objectMapper));
+        fileController = Mockito.spy(new FileController(restTemplate, objectMapper, scssProperties));
+        notificationController = Mockito.spy(new NotificationController(restTemplate, objectMapper, scssProperties));
     }
 
     @Test

@@ -4,13 +4,17 @@ import ca.bc.gov.open.scss.configuration.SoapConfig;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.models.RequestSuccessLog;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,27 +29,25 @@ import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
+@EnableConfigurationProperties(SCSSProperties.class)
 public class HealthController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
-    @Value("${scss.host}")
-    private String host = "https://127.0.0.1/";
-
     private final RestTemplate restTemplate;
-
     private final ObjectMapper objectMapper;
+    private final SCSSProperties scssProperties;
 
-    @Autowired
-    public HealthController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public HealthController(RestTemplate restTemplate, ObjectMapper objectMapper, SCSSProperties scssProperties) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.scssProperties = scssProperties;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getHealth")
     @ResponsePayload
     public GetHealthResponse getHealth(@RequestPayload GetHealth empty) throws IOException {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "health");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "health"));
         addEndpointHeader("getHealth");
         try {
             HttpEntity<GetHealthResponse> resp =
@@ -74,7 +76,7 @@ public class HealthController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getPing")
     @ResponsePayload
     public GetPingResponse getPing(@RequestPayload GetPing empty) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "ping");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "ping"));
         addEndpointHeader("getPing");
 
         try {

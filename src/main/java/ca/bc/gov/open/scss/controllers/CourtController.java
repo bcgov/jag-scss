@@ -39,7 +39,6 @@ public class CourtController {
     private final ObjectMapper objectMapper;
     private final SCSSProperties scssProperties;
 
-    @Autowired
     public CourtController(RestTemplate restTemplate, ObjectMapper objectMapper, SCSSProperties scssProperties) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;

@@ -3,6 +3,7 @@ package ca.bc.gov.open.scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.scss.controllers.NotificationController;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,15 +41,19 @@ import org.springframework.web.client.RestTemplate;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NotificationControllerTests {
 
-    @Mock private NotificationController notificationController;
-    @Mock private ObjectMapper objectMapper;
-    @Mock private RestTemplate restTemplate;
-    private  ObjectMapper mapper = new ObjectMapper();
+
+    private NotificationController notificationController;
+    @Mock
+    private ObjectMapper objectMapper;
+    @Mock
+    private RestTemplate restTemplate;
+    @Mock
+    SCSSProperties scssProperties;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        notificationController = Mockito.spy(new NotificationController(restTemplate, objectMapper));
+        notificationController = Mockito.spy(new NotificationController(restTemplate, objectMapper, scssProperties));
     }
 
     @Test

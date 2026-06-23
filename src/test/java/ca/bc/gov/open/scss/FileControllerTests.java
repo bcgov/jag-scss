@@ -3,6 +3,7 @@ package ca.bc.gov.open.scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.scss.controllers.FileController;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -24,14 +25,19 @@ import org.springframework.web.client.RestTemplate;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FileControllerTests {
 
-    @Mock FileController fileController;
-    @Mock private ObjectMapper objectMapper;
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+
+    FileController fileController;
+    @Mock
+    private ObjectMapper objectMapper;
+    @Mock
+    private RestTemplate restTemplate = new RestTemplate();
+    @Mock
+    SCSSProperties scssProperties;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        fileController = Mockito.spy(new FileController(restTemplate, objectMapper));
+        fileController = Mockito.spy(new FileController(restTemplate, objectMapper, scssProperties));
     }
 
     @Test
