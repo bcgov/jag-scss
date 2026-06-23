@@ -4,20 +4,14 @@ name: Build & Vulnerability Scan using Trivy Scanner
 
 on:
   push:
-    branches: [ main, release/*]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ main, release/*]
+    branches: [ main ]
   workflow_dispatch:
-    branches: [ main, release/*]
+    branches: [ main ]
 
 jobs:
   build-scan-image:
     name: Build & Scan Image
     runs-on: ubuntu-latest
-    env:
-      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
-      BASIC_AUTH_PASS: ${{ secrets.BASIC_AUTH_PASS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
