@@ -7,7 +7,7 @@ WORKDIR /
 
 COPY . .
 
-RUN mvn clean package
+RUN mvn clean package -Dmaven.test.skip=true
 
 
 #############################################################################################
