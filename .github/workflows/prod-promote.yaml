@@ -1,0 +1,85 @@
+name: Promote Prod SCSS API to Artifactory
+permissions:
+  contents: write
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: jag-scss
+  WORKING_DIRECTORY: ./src
+  IMAGE_TAG: prod
+  BRANCH_NAME: main
+  ARTIFACTORY_URL: 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to Artifactory
+        uses: docker/login-action@v1
+        with:
+          registry: artifacts.developer.gov.bc.ca
+          username: ${{ secrets.SCSS_ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.SCSS_ARTIFACTORY_PASSWORD }}
+
+      # Get SHORT_SHA to tag images
+      - name: Get short SHA
+        id: short_sha
+        run: |
+          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
+          echo "Short SHA: $SHORT_SHA"
+
+      - name: Pull Test Image
+        run: |
+          docker pull artifacts.developer.gov.bc.ca/${{ env.ARTIFACTORY_URL }}/${{env.IMAGE_NAME}}:test
+ 
+      - name: Retag Test Image to Prod Image
+        run: |
+          docker tag artifacts.developer.gov.bc.ca/${{ env.ARTIFACTORY_URL }}/${{env.IMAGE_NAME}}:test artifacts.developer.gov.bc.ca/${{ env.ARTIFACTORY_URL }}/${{env.IMAGE_NAME}}:${{env.BRANCH_NAME}}
+
+      - name: Docker Push Prod Image to Artifactory
+        run: |
+          docker push artifacts.developer.gov.bc.ca/${{ env.ARTIFACTORY_URL }}/${{env.IMAGE_NAME}}:${{env.BRANCH_NAME}}
+      
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSHKEY }}
+
+      - name: Update Helm Prod Values and Commit
+        id: helm
+        run: |
+          
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "SCSS GitHub Actions"
+          git clone -b ${{ env.BRANCH_NAME }} --single-branch git@github.com:bcgov-c/tenant-gitops-17b24e.git
+          
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test, prod -> PROD
+          cd tenant-gitops-17b24e/charts
+
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+
+          sed -i "s/tag: .*/tag: ${{ env.IMAGE_TAG }} # Image Updated on $DATETIME/" ../deploy/prod_values.yaml
+          sed -i "s/version: .*/version: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/prod_values.yaml
+          
+          git add .
+          
+          git add ../deploy/prod_values.yaml
+          
+          # Repackage Helm Chart      
+
+          cd gitops
+
+          helm dependency build
+          
+          cd charts
+
+          git add .
+          
+          git commit -m "Update Prod SCSS API image tag"
+          git push origin ${{ env.BRANCH_NAME }} # Update the branch name as needed
