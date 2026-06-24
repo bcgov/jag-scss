@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import ca.bc.gov.open.scss.controllers.CourtController;
 import ca.bc.gov.open.scss.models.serializers.InstantDeserializer;
 import ca.bc.gov.open.scss.models.serializers.InstantSerializer;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,14 +37,20 @@ import org.springframework.web.client.RestTemplate;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CourtControllerTests {
 
-    @Mock CourtController courtController;
-    @Mock private ObjectMapper objectMapper;
-    @Mock private RestTemplate restTemplate;
+
+    CourtController courtController;
+    @Mock
+    private ObjectMapper objectMapper;
+    @Mock
+    private RestTemplate restTemplate;
+    @Mock
+    SCSSProperties scssProperties;
+
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        courtController = Mockito.spy(new CourtController(restTemplate, objectMapper));
+        courtController = Mockito.spy(new CourtController(restTemplate, objectMapper, scssProperties));
     }
 
     @Test

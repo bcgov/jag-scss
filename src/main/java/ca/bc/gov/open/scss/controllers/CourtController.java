@@ -4,13 +4,18 @@ import ca.bc.gov.open.scss.configuration.SoapConfig;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.models.RequestSuccessLog;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
-import lombok.extern.slf4j.Slf4j;
+import java.text.MessageFormat;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,19 +30,19 @@ import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
-@Slf4j
+@EnableConfigurationProperties(SCSSProperties.class)
 public class CourtController {
 
-    @Value("${scss.host}")
-    private String host = "http://127.0.0.1/";
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final SCSSProperties scssProperties;
 
-    @Autowired
-    public CourtController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public CourtController(RestTemplate restTemplate, ObjectMapper objectMapper, SCSSProperties scssProperties) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.scssProperties = scssProperties;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCourtFile")
@@ -45,7 +50,7 @@ public class CourtController {
     public GetCourtFileResponse getCourtFile(@RequestPayload GetCourtFile search)
             throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "GetCourtFile")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCourtFile"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("GetCourtFile");
         try {
@@ -80,7 +85,7 @@ public class CourtController {
     public GetCourtBasicsResponse getCourtBasics(@RequestPayload GetCourtBasics search)
             throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "GetCourtBasics")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCourtBasics"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("GetCourtBasics");
         try {
@@ -113,7 +118,7 @@ public class CourtController {
     public GetCeisConnectInfoResponse getCeisConnectInfo(@RequestPayload GetCeisConnectInfo search)
             throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "GetCeisConnectInfo");
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCeisConnectInfo"));
         addEndpointHeader("getCeisConnectInfo");
         try {
             HttpEntity<GetCeisConnectInfoResponse> resp =
@@ -142,7 +147,7 @@ public class CourtController {
     @ResponsePayload
     public GetPartiesResponse getParties(@RequestPayload GetParties search) throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "GetParties")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetParties"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("GetParties");
         try {
@@ -173,7 +178,7 @@ public class CourtController {
     public PartyNameSearchResponse partyNameSearch(@RequestPayload PartyNameSearch search)
             throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "PartyNameSearch")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "PartyNameSearch"))
                         .queryParam(
                                 "courtClass",
                                 search.getFilter() != null
@@ -271,7 +276,7 @@ public class CourtController {
             throw new ORDSException();
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "SaveHearingResult");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "SaveHearingResult"));
 
         HttpEntity<CaseDetails> payload = new HttpEntity<>(inner, new HttpHeaders());
 

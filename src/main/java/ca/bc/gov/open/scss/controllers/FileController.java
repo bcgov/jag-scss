@@ -4,14 +4,18 @@ import ca.bc.gov.open.scss.configuration.SoapConfig;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.models.RequestSuccessLog;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.HashMap;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,19 +30,19 @@ import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
-@Slf4j
+@EnableConfigurationProperties(SCSSProperties.class)
 public class FileController {
 
-    @Value("${scss.host}")
-    private String host = "https://127.0.0.1/";
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
+    private final SCSSProperties scssProperties;
 
-    @Autowired
-    public FileController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public FileController(RestTemplate restTemplate, ObjectMapper objectMapper, SCSSProperties scssProperties) {
         this.objectMapper = objectMapper;
         this.restTemplate = restTemplate;
+        this.scssProperties = scssProperties;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "fileNumberSearch")
@@ -47,7 +51,7 @@ public class FileController {
             throws IOException {
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "FileNumberSearch")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "FileNumberSearch"))
                         .queryParam(
                                 "courtFileNumber",
                                 search.getFilter() != null
@@ -109,7 +113,7 @@ public class FileController {
     @ResponsePayload
     public LinkFileResponse linkFile(@RequestPayload LinkFile search) throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "LinkFiles")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "LinkFiles"))
                         .queryParam("caseActionNumber", search.getCaseActionNumber())
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("linkFile");
@@ -140,7 +144,7 @@ public class FileController {
     @ResponsePayload
     public UnlinkFileResponse unlinkFile(@RequestPayload UnlinkFile search) throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "UnlinkFiles")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "UnlinkFiles"))
                         .queryParam("caseActionNumber", search.getCaseActionNumber())
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("UnlinkFiles");
@@ -173,7 +177,7 @@ public class FileController {
             @RequestPayload FileNumbeSearchPublicAccess search) throws IOException {
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "FileNumberSearchPublic")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "FileNumberSearchPublic"))
                         .queryParam(
                                 "courtFileNumber",
                                 search.getFilter() != null

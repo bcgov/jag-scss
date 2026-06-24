@@ -4,13 +4,17 @@ import ca.bc.gov.open.scss.configuration.SoapConfig;
 import ca.bc.gov.open.scss.exceptions.ORDSException;
 import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.models.RequestSuccessLog;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.HashMap;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,19 +29,19 @@ import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
 
 @Endpoint
-@Slf4j
+@EnableConfigurationProperties(SCSSProperties.class)
 public class NotificationController {
 
-    @Value("${scss.host}")
-    private String host = "http://127.0.0.1/";
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final SCSSProperties scssProperties;
 
-    @Autowired
-    public NotificationController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public NotificationController(RestTemplate restTemplate, ObjectMapper objectMapper, SCSSProperties scssProperties) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.scssProperties = scssProperties;
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getAllNotifications")
@@ -45,7 +49,7 @@ public class NotificationController {
     public GetAllNotificationsResponse getAllNotifications(
             @RequestPayload GetAllNotifications search) throws ORDSException, IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "GetAllNotifications");
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetAllNotifications"));
         addEndpointHeader("GetAllNotifications");
         try {
             HttpEntity<GetAllNotificationsResponse> resp =
@@ -76,7 +80,7 @@ public class NotificationController {
     public GetNotificationsResponse getNotification(@RequestPayload GetNotifications search)
             throws ORDSException, IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "GetNotifications")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetNotifications"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("GetNotifications");
         try {
@@ -108,7 +112,7 @@ public class NotificationController {
     public HasNotificationResponse hasNotifications(@RequestPayload HasNotification search)
             throws ORDSException, IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "HasNotification")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "HasNotification"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("hasNotification");
 
@@ -142,7 +146,7 @@ public class NotificationController {
             throws IOException {
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "RemoveNotification")
+                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "RemoveNotification"))
                         .queryParam("NotificationId", search.getNotificationId());
         addEndpointHeader("removeNotification");
 

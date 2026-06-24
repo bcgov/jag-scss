@@ -1,7 +1,9 @@
 package ca.bc.gov.open.scss.configuration;
 
+import ca.bc.gov.open.scss.properties.AuthProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,21 +17,25 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @Configuration
+@EnableConfigurationProperties(AuthProperties.class)
 public class SecurityConfig {
 
-    @Value("${security.basic-auth.username}")
-    private String userName;
+    private final AuthProperties authProperties;
 
-    @Value("${security.basic-auth.password}")
-    private String password;
+    private final MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
-    @Autowired private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+    public SecurityConfig(AuthProperties authProperties, MyBasicAuthenticationEntryPoint authenticationEntryPoint) {
+        this.authProperties = authProperties;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                 authorizeRequests -> {
-                    authorizeRequests.anyRequest().authenticated();
+                    authorizeRequests
+                            .requestMatchers("/actuator/**").permitAll()
+                            .anyRequest().authenticated();
                 });
 
         http.sessionManagement(
@@ -56,8 +62,8 @@ public class SecurityConfig {
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user =
                 User.builder()
-                        .username(userName)
-                        .password(passwordEncoder().encode(password))
+                        .username(authProperties.getUsername())
+                        .password(passwordEncoder().encode(authProperties.getPassword()))
                         .build();
         return new InMemoryUserDetailsManager(user);
     }

@@ -3,6 +3,7 @@ package ca.bc.gov.open.scss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.scss.controllers.HealthController;
+import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -24,14 +25,19 @@ import org.springframework.web.client.RestTemplate;
 @ActiveProfiles("test")
 public class HealthControllerTests {
 
-    @Mock private RestTemplate restTemplate;
-    @Mock private ObjectMapper objectMapper;
-    @Mock private HealthController healthController;
+    @Mock
+    private RestTemplate restTemplate;
+    @Mock
+    private ObjectMapper objectMapper;
+    @Mock
+    SCSSProperties scssProperties;
+    private HealthController healthController;
+
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        healthController = Mockito.spy(new HealthController(restTemplate, objectMapper));
+        healthController = Mockito.spy(new HealthController(restTemplate, objectMapper, scssProperties));
     }
 
     @Test
