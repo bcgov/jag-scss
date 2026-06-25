@@ -15,6 +15,10 @@ RUN mvn clean package -Dmaven.test.skip=true
 #############################################################################################
 FROM eclipse-temurin:17-jre-alpine
 
+#CVE Fixes
+RUN apk -U upgrade
+RUN apk update && apk add --upgrade --no-cache sqlite # CVE fixes
+
 COPY --from=build /target/scss-application.jar ./scss-application.jar
 
 ENTRYPOINT ["java","-jar","/scss-application.jar"]
