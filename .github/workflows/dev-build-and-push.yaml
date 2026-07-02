@@ -27,8 +27,8 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: artifacts.developer.gov.bc.ca
-          username: ${{ secrets.SCSS_ARTIFACTORY_USERNAME }}
-          password: ${{ secrets.SCSS_ARTIFACTORY_PASSWORD }}
+          username: ${{ secrets.ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
       # Get SHORT_SHA to tag images
       - name: Get short SHA
