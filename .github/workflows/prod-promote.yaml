@@ -9,7 +9,7 @@ env:
   WORKING_DIRECTORY: ./src
   IMAGE_TAG: prod
   BRANCH_NAME: main
-  ARTIFACTORY_URL: 
+  ARTIFACTORY_URL: s17b-jag-scss
 
 jobs:
   build:

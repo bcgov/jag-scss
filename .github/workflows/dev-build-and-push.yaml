@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'develop'
+    branches: 'devops'
     paths:
       - "src/**"
       - ".github/workflows/dev-build-and-push-scss.yaml"
@@ -14,7 +14,7 @@ env:
   WORKING_DIRECTORY: ./src
   IMAGE_TAG: dev
   BRANCH_NAME: develop
-  ARTIFACTORY_URL: 
+  ARTIFACTORY_URL: s17b-jag-scss
 
 jobs:
   build:
