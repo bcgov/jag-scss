@@ -6,7 +6,7 @@ on:
     branches: 'devops'
     paths:
       - "src/**"
-      - ".github/workflows/dev-build-and-push-scss.yaml"
+      - ".github/workflows/dev-build-and-push.yaml"
   workflow_dispatch:
 
 env:
