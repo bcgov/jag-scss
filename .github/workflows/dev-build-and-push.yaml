@@ -11,7 +11,7 @@ on:
 
 env:
   IMAGE_NAME: jag-scss
-  WORKING_DIRECTORY: ./src
+  WORKING_DIRECTORY: .
   IMAGE_TAG: dev
   BRANCH_NAME: develop
   ARTIFACTORY_URL: s17b-jag-scss
