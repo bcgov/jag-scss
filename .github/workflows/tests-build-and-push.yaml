@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'devops'
+    branches: 'main'
     paths:
       - "src/**"
       - ".github/workflows/tests-build-and-push.yaml"
