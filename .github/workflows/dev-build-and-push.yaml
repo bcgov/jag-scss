@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'develop'
+    branches: 'main'
     paths:
       - "src/**"
       - ".github/workflows/dev-build-and-push.yaml"
