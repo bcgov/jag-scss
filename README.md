@@ -56,6 +56,9 @@ Via Docker
 2) Run ```docker build -t scss-api .``` from root folder
 3) Run ```docker run -p 8080:8080 scss-api```
 
+### Set project version using maven
+1) Run ```mvn versions:set -DartifactId=*  -DgroupId=*```
+
 ### JaCoCo Coverage Report
 1) Run ```mvn test```
 2) Run ```mvn jacoco:report```
