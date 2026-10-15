@@ -3,10 +3,6 @@ package ca.bc.gov.open.scss.configuration;
 import ca.bc.gov.open.scss.models.serializers.InstantDeserializer;
 import ca.bc.gov.open.scss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.scss.properties.SCSSProperties;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
@@ -14,8 +10,8 @@ import java.util.Map;
 import jakarta.xml.soap.SOAPMessage;
 import org.apache.catalina.webresources.StandardRoot;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.restclient.RestTemplateBuilder;
+import org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -23,21 +19,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
-import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.config.annotation.WsConfigurer;
 import org.springframework.ws.soap.SoapVersion;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
 @EnableWs
 @Configuration
 @EnableConfigurationProperties(SCSSProperties.class)
-public class SoapConfig extends WsConfigurerAdapter {
+public class SoapConfig implements WsConfigurer {
 
     public static final String SOAP_NAMESPACE =
             "http://brooks/SCSS.Source.CeisScss.ws.provider:CeisScss";
@@ -75,29 +74,27 @@ public class SoapConfig extends WsConfigurerAdapter {
         var restTemplate =
                 restTemplateBuilder
                         .basicAuthentication(SCSSProperties.getUsername(), SCSSProperties.getPassword())
-                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(SCSSProperties.getOrdsReadTimeout())))
+                        .readTimeout(Duration.ofSeconds(Integer.parseInt(SCSSProperties.getOrdsReadTimeout())))
                         .build();
         restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
         return restTemplate;
     }
 
-    private MappingJackson2HttpMessageConverter createMappingJacksonHttpMessageConverter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(objectMapper());
-        return converter;
+    private JacksonJsonHttpMessageConverter createMappingJacksonHttpMessageConverter() {
+        return new JacksonJsonHttpMessageConverter(objectMapper());
     }
 
     @Bean
     @Primary
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
+    public JsonMapper objectMapper() {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Instant.class, new InstantDeserializer());
         module.addSerializer(Instant.class, new InstantSerializer());
-        objectMapper.registerModule(module);
-        return objectMapper;
+        return JsonMapper.builderWithJackson2Defaults()
+                .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .disable(DateTimeFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+                .addModule(module)
+                .build();
     }
 
     @Bean

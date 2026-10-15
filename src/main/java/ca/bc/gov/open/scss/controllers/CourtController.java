@@ -6,7 +6,6 @@ import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -28,6 +27,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.transport.context.TransportContext;
 import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
+import tools.jackson.databind.ObjectMapper;
 
 @Endpoint
 @EnableConfigurationProperties(SCSSProperties.class)
@@ -50,7 +50,7 @@ public class CourtController {
     public GetCourtFileResponse getCourtFile(@RequestPayload GetCourtFile search)
             throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCourtFile"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCourtFile"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("GetCourtFile");
         try {
@@ -85,7 +85,7 @@ public class CourtController {
     public GetCourtBasicsResponse getCourtBasics(@RequestPayload GetCourtBasics search)
             throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCourtBasics"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCourtBasics"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("GetCourtBasics");
         try {
@@ -118,7 +118,7 @@ public class CourtController {
     public GetCeisConnectInfoResponse getCeisConnectInfo(@RequestPayload GetCeisConnectInfo search)
             throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCeisConnectInfo"));
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetCeisConnectInfo"));
         addEndpointHeader("getCeisConnectInfo");
         try {
             HttpEntity<GetCeisConnectInfoResponse> resp =
@@ -147,7 +147,7 @@ public class CourtController {
     @ResponsePayload
     public GetPartiesResponse getParties(@RequestPayload GetParties search) throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetParties"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetParties"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("GetParties");
         try {
@@ -178,7 +178,7 @@ public class CourtController {
     public PartyNameSearchResponse partyNameSearch(@RequestPayload PartyNameSearch search)
             throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "PartyNameSearch"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "PartyNameSearch"))
                         .queryParam(
                                 "courtClass",
                                 search.getFilter() != null
@@ -276,7 +276,7 @@ public class CourtController {
             throw new ORDSException();
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "SaveHearingResult"));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "SaveHearingResult"));
 
         HttpEntity<CaseDetails> payload = new HttpEntity<>(inner, new HttpHeaders());
 

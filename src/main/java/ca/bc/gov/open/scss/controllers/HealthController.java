@@ -6,7 +6,6 @@ import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -27,6 +26,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.transport.context.TransportContext;
 import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
+import tools.jackson.databind.ObjectMapper;
 
 @Endpoint
 @EnableConfigurationProperties(SCSSProperties.class)
@@ -47,7 +47,7 @@ public class HealthController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getHealth")
     @ResponsePayload
     public GetHealthResponse getHealth(@RequestPayload GetHealth empty) throws IOException {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "health"));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "health"));
         addEndpointHeader("getHealth");
         try {
             HttpEntity<GetHealthResponse> resp =
@@ -76,7 +76,7 @@ public class HealthController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getPing")
     @ResponsePayload
     public GetPingResponse getPing(@RequestPayload GetPing empty) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "ping"));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "ping"));
         addEndpointHeader("getPing");
 
         try {

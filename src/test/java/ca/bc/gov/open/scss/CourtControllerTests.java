@@ -7,10 +7,6 @@ import ca.bc.gov.open.scss.models.serializers.InstantDeserializer;
 import ca.bc.gov.open.scss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -33,6 +29,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CourtControllerTests {
@@ -368,13 +368,15 @@ public class CourtControllerTests {
 
     @Test
     public void testInstantSerializer() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Instant.class, new InstantDeserializer());
         module.addSerializer(Instant.class, new InstantSerializer());
-        objectMapper.registerModule(module);
+        ObjectMapper objectMapper =
+                JsonMapper.builderWithJackson2Defaults()
+                        .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                        .disable(DateTimeFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+                        .addModule(module)
+                        .build();
 
         var time = Instant.now();
         String out = objectMapper.writeValueAsString(time);
