@@ -5,7 +5,6 @@ import static org.mockito.Mockito.when;
 import ca.bc.gov.open.scss.controllers.FileController;
 import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -21,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
+import tools.jackson.databind.ObjectMapper;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FileControllerTests {

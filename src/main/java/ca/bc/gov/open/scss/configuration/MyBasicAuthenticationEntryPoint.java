@@ -1,7 +1,6 @@
 package ca.bc.gov.open.scss.configuration;
 
 import ca.bc.gov.open.scss.properties.AuthProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
@@ -16,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 @Component
 @EnableConfigurationProperties(AuthProperties.class)
@@ -26,7 +27,7 @@ public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoi
     private final ObjectMapper objectMapper;
 
     public MyBasicAuthenticationEntryPoint() {
-        this.objectMapper = new  ObjectMapper();
+        this.objectMapper = JsonMapper.builderWithJackson2Defaults().build();
     }
 
     @Override

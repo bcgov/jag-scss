@@ -5,8 +5,6 @@ import static org.mockito.Mockito.when;
 import ca.bc.gov.open.scss.controllers.NotificationController;
 import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -37,6 +35,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
+import tools.jackson.databind.ObjectMapper;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NotificationControllerTests {

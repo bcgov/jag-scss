@@ -6,7 +6,6 @@ import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -28,6 +27,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.transport.context.TransportContext;
 import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
+import tools.jackson.databind.ObjectMapper;
 
 @Endpoint
 @EnableConfigurationProperties(SCSSProperties.class)
@@ -51,7 +51,7 @@ public class FileController {
             throws IOException {
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "FileNumberSearch"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "FileNumberSearch"))
                         .queryParam(
                                 "courtFileNumber",
                                 search.getFilter() != null
@@ -113,7 +113,7 @@ public class FileController {
     @ResponsePayload
     public LinkFileResponse linkFile(@RequestPayload LinkFile search) throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "LinkFiles"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "LinkFiles"))
                         .queryParam("caseActionNumber", search.getCaseActionNumber())
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("linkFile");
@@ -144,7 +144,7 @@ public class FileController {
     @ResponsePayload
     public UnlinkFileResponse unlinkFile(@RequestPayload UnlinkFile search) throws IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "UnlinkFiles"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "UnlinkFiles"))
                         .queryParam("caseActionNumber", search.getCaseActionNumber())
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("UnlinkFiles");
@@ -177,7 +177,7 @@ public class FileController {
             @RequestPayload FileNumbeSearchPublicAccess search) throws IOException {
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "FileNumberSearchPublic"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "FileNumberSearchPublic"))
                         .queryParam(
                                 "courtFileNumber",
                                 search.getFilter() != null

@@ -1,17 +1,16 @@
 package ca.bc.gov.open.scss;
 
 import ca.bc.gov.open.scss.wsdl.Notification;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +31,7 @@ public class CommonTests {
     @Autowired private ObjectMapper objectMapper;
 
     @Test
-    public void InstantDeserializerTest() throws JsonProcessingException, ParseException {
+    public void InstantDeserializerTest() throws ParseException {
         String instantString = "{\"statusDatetime\": \"05-NOV-12 08.05.59.00000 AM\"}";
 
         Notification inst = objectMapper.readValue(instantString, Notification.class);

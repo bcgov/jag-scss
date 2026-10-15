@@ -6,7 +6,6 @@ import ca.bc.gov.open.scss.models.OrdsErrorLog;
 import ca.bc.gov.open.scss.models.RequestSuccessLog;
 import ca.bc.gov.open.scss.properties.SCSSProperties;
 import ca.bc.gov.open.scss.wsdl.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -27,6 +26,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.transport.context.TransportContext;
 import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpServletConnection;
+import tools.jackson.databind.ObjectMapper;
 
 @Endpoint
 @EnableConfigurationProperties(SCSSProperties.class)
@@ -49,7 +49,7 @@ public class NotificationController {
     public GetAllNotificationsResponse getAllNotifications(
             @RequestPayload GetAllNotifications search) throws ORDSException, IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetAllNotifications"));
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetAllNotifications"));
         addEndpointHeader("GetAllNotifications");
         try {
             HttpEntity<GetAllNotificationsResponse> resp =
@@ -80,7 +80,7 @@ public class NotificationController {
     public GetNotificationsResponse getNotification(@RequestPayload GetNotifications search)
             throws ORDSException, IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetNotifications"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "GetNotifications"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("GetNotifications");
         try {
@@ -112,7 +112,7 @@ public class NotificationController {
     public HasNotificationResponse hasNotifications(@RequestPayload HasNotification search)
             throws ORDSException, IOException {
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "HasNotification"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "HasNotification"))
                         .queryParam("physicalFileId", search.getPhysicalFileId());
         addEndpointHeader("hasNotification");
 
@@ -146,7 +146,7 @@ public class NotificationController {
             throws IOException {
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(MessageFormat.format("{0}{1}", scssProperties.getHost(), "RemoveNotification"))
+                UriComponentsBuilder.fromUriString(MessageFormat.format("{0}{1}", scssProperties.getHost(), "RemoveNotification"))
                         .queryParam("NotificationId", search.getNotificationId());
         addEndpointHeader("removeNotification");
 
